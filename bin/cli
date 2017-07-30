@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd backend
+docker-compose run --rm --service-ports app /bin/bash

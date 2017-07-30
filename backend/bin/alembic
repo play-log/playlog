@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import sys
+
+from alembic import command
+from alembic.config import Config
+
+from playlog.config import SA_URL
+
+
+MIGRATIONS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../migrations'))
+
+alembic_config = Config()
+alembic_config.set_main_option('script_location', MIGRATIONS_PATH)
+alembic_config.set_main_option('sqlalchemy.url', SA_URL)
+
+
+COMMAND_NEW = 'new'
+COMMAND_MIGRATE = 'migrate'
+COMMAND_CURRENT = 'current'
+COMMAND_HISTORY = 'history'
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+
+    subparsers = parser.add_subparsers()
+
+    new_parser = subparsers.add_parser(COMMAND_NEW, help='create a revision')
+    new_parser.add_argument('name', help="revision name")
+    new_parser.add_argument('--autogenerate', action='store_true')
+    new_parser.set_defaults(command=COMMAND_NEW)
+
+    migrate_parser = subparsers.add_parser(COMMAND_MIGRATE, help="run migrations")
+    migrate_parser.add_argument('revision', help="revision number", default='+1')
+    migrate_parser.set_defaults(command=COMMAND_MIGRATE)
+
+    current_parser = subparsers.add_parser(COMMAND_CURRENT, help="show current revision")
+    current_parser.add_argument('-v', '--verbose', action='store_true', help='Verbose')
+    current_parser.set_defaults(command=COMMAND_CURRENT)
+
+    history_parser = subparsers.add_parser(COMMAND_HISTORY, help="show history")
+    history_parser.add_argument('-v', '--verbose', action='store_true', help='Verbose')
+    history_parser.set_defaults(command=COMMAND_HISTORY)
+
+    args = parser.parse_args()
+
+    if not hasattr(args, 'command'):
+        parser.print_usage()
+        sys.exit(1)
+
+    return args
+
+
+def run_command(cli_args):
+    command_args = {'config': alembic_config}
+
+    if cli_args.command == COMMAND_NEW:
+        command_name = 'revision'
+        command_args['message'] = cli_args.name
+        command_args['autogenerate'] = cli_args.autogenerate
+    elif cli_args.command == COMMAND_MIGRATE:
+        if cli_args.revision == 'head':
+            command_name = 'upgrade'
+        elif cli_args.revision == 'base':
+            command_name = 'downgrade'
+        else:
+            direction = cli_args.revision[0]
+            if direction == '-':
+                command_name = 'downgrade'
+            elif direction == '+':
+                command_name = 'upgrade'
+            else:
+                raise ValueError('Bad revision: {}'.format(cli_args.revision))
+        command_args['revision'] = cli_args.revision
+    elif cli_args.command == COMMAND_CURRENT:
+        command_name = 'current'
+        command_args['verbose'] = cli_args.verbose
+    elif cli_args.command == COMMAND_HISTORY:
+        command_name = 'history'
+        command_args['verbose'] = cli_args.verbose
+
+    getattr(command, command_name)(**command_args)
+
+
+if __name__ == '__main__':
+    try:
+        run_command(parse_args())
+    except KeyboardInterrupt:
+        pass
