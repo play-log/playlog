@@ -2,7 +2,7 @@
 
 ## Frontend
 
-- [ ] Setup environment
+- [x] Setup environment
 - [ ] Homepage
 - [ ] Artists index
 - [ ] Albums index

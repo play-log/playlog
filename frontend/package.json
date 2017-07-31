@@ -1,0 +1,21 @@
+{
+  "name": "playlog",
+  "private": true,
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.10"
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:5000",
+       "pathRewrite": {
+         "^/api": "/"
+       }
+    }
+  },
+  "scripts": {
+    "start": "BROWSER=none react-scripts start",
+    "build": "react-scripts build"
+  }
+}

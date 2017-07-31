@@ -8,6 +8,7 @@ services:
     ports:
       - '5000:8080'
     environment:
+      PLAYLOG_ENVIRONMENT: development
       PLAYLOG_SA_URL: postgresql://postgres:1234@postgres/postgres
       PLAYLOG_HOST: 0.0.0.0
       PLAYLOG_PORT: 8080

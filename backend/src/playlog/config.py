@@ -9,6 +9,9 @@ def getenv(key):
     return value
 
 
+ENVIRONMENT = getenv('ENVIRONMENT')
+
 SA_URL = getenv('SA_URL')
+
 HOST = getenv('HOST')
 PORT = int(getenv('PORT'))
