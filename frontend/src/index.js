@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+
+import App from './app';
+import {store} from './redux';
 
 import './index.css';
 
-fetch('/api/').then(
-    rep => {
-        console.log('fetch api success', rep);
-    },
-    err => {
-        console.log('fetch api failed', err);
-    }
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 );
-
-ReactDOM.render(<div>Hello world</div>, document.getElementById('root'));
