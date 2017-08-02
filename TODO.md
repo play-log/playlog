@@ -3,7 +3,12 @@
 ## Frontend
 
 - [x] Setup environment
-- [ ] Homepage
+- [x] Homepage
+
+- [ ] fetch polyfill
+- [ ] moment.js
+- [ ] redux selectors
+
 - [ ] Artists index
 - [ ] Albums index
 - [ ] Tracks index
@@ -14,4 +19,11 @@
 
 ## Backend
 
+- [ ] Livereload
 - [ ] Implement necessary resources for frontend
+
+## Misc
+
+- [ ] Startup development script (cd backend && docker-compose up -d; cd ../frontend && npm start)
+- [ ] Change ports (range 5050-5060)
+
