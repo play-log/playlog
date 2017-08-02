@@ -1,0 +1,91 @@
+.overview-nowplay-header {
+    font-weight: 500;
+}
+
+.overview-nowplay-body {
+    align-items: center;
+    display: flex;
+}
+
+.overview-nowplay-body-icon {
+    flex-basis: 50px;
+    margin: 0 5px 0 0;
+}
+
+.overview-nowplay-body-track {
+    flex: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.overview-nowplay-footer {
+    border-top: 1px solid #f0f0f0;
+    color: #2d2d2d;
+    font-size: 12px;
+    overflow: hidden;
+    padding: 4px 0 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.overview-nowplay-bar {
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    vertical-align: middle;
+    width: 50px;
+}
+
+.overview-nowplay-bar-item {
+    animation: overview-nowplay-bar-item 0ms -1000ms linear infinite alternate running;
+    background-color: #ff4400;
+    display: block;
+    height: 10px;
+    position: absolute;
+    top: 5px;
+    width: 5px;
+}
+
+.overview-nowplay-bar-item:nth-child(1) {
+    animation-duration: 337ms;
+    left: 7px;
+}
+
+.overview-nowplay-bar-item:nth-child(2) {
+    animation-duration: 321ms;
+    left: 16px;
+}
+
+.overview-nowplay-bar-item:nth-child(3) {
+    animation-duration: 353ms;
+    left: 25px;
+}
+
+.overview-nowplay-bar-item:nth-child(4) {
+    animation-duration: 341ms;
+    left: 34px;
+}
+
+.overview-nowplay-bar-item:nth-child(5) {
+    animation-duration: 327ms;
+    left: 42px;
+}
+
+@keyframes overview-nowplay-bar-item {
+    0% {
+        transform: scale(1, 0.25);
+    }
+    25% {
+        transform: scale(1, 0.5);
+    }
+    50% {
+        transform: scale(1, 0.75);
+    }
+    75% {
+        transform: scale(1, 1);
+    }
+    100% {
+        transform: scale(1, 1.25);
+    }
+}

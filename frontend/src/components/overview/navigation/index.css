@@ -1,0 +1,32 @@
+.overview-navigation-item {
+    display: flex;
+    margin: 16px 0;
+}
+
+.overview-navigation-item:first-child, .overview-navigation-item:last-child {
+    margin: 0;
+}
+
+.overview-navigation-item-icon {
+    flex-basis: 24px;
+}
+
+.overview-navigation-item-data {
+    flex: auto;
+    padding: 0 14px;
+}
+
+.overview-navigation-item-data-label {
+    color: #ff4400;
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: 700;
+    line-height: 16px;
+    outline: none;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+.overview-navigation-item-data-counter {
+    font-weight: 500;
+}

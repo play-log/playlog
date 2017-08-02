@@ -1,0 +1,17 @@
+.shared-heart {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.shared-heart:after {
+    content: '\2764';
+}
+
+.shared-heart.shared-heart__on {
+    color: #ff0000;
+}
+
+.shared-heart.shared-heart__off {
+    color: #bebebe;
+}

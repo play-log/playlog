@@ -1,0 +1,35 @@
+.overview-counters-header {
+    font-weight: 500;
+}
+
+.overview-counters-item {
+    display: flex;
+    margin: 6px 0;
+}
+
+.overview-counters-item-icon {
+    flex-basis: 24px;
+}
+
+.overview-counters-item-data {
+    flex: auto;
+    margin: 0 0 0 7px;
+}
+
+.overview-counters-item-data-label {
+    font-size: 16px;
+    line-height: 18px;
+    font-variant: small-caps;
+    font-weight: 300;
+    text-transform: lowercase;
+}
+
+.overview-counters-item-data-value {
+    font-weight: 500;
+}
+
+.overview-counters-footer {
+    border-top: 1px dotted #e0e0e0;
+    font-size: 12px;
+    padding: 4px 0 0 0;
+}

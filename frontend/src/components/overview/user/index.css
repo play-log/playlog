@@ -1,0 +1,27 @@
+.overview-user {
+    align-items: center;
+    display: flex;
+}
+
+.overview-user-avatar {
+    border: 2px solid #ff4400;
+    border-radius: 50%;
+    flex-basis: 64px;
+}
+
+.overview-user-info {
+    flex: auto;
+    padding: 0 5px;
+}
+
+.overview-user-info-name {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.overview-user-info-date {
+    border-top: 1px solid #e0e0e0;
+    font-size: 12px;
+    margin: 2px 0 0 0;
+    padding: 4px 0 0 0;
+}

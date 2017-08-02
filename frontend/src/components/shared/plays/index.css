@@ -1,0 +1,37 @@
+.shared-plays-empty {
+    color: #2d2d2d;
+    font-size: 18px;
+    font-variant: small-caps;
+    text-transform: lowercase;
+}
+
+.shared-plays-group {
+    margin: 0 0 5px 0;
+}
+
+.shared-plays-group-title {
+    margin: 7px 0;
+}
+
+.shared-plays-group-list {
+    margin: 7px 0;
+}
+
+.shared-plays-group-list-item {
+    align-items: center;
+    display: flex;
+    padding: 5px 0;
+}
+
+.shared-plays-group-list-item-heart {
+    flex-basis: 16px;
+    font-size: 16px;
+}
+
+.shared-plays-group-list-item-data {
+    flex: auto;
+    margin: 0 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
