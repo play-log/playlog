@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
+import {createSelector} from 'reselect';
 
 import {actions} from '../../redux';
+import {formatDate, groupTracks} from '../../utils';
 
 import AlbumIcon from '../../icons/album.svg';
 import ArtistIcon from '../../icons/artist.svg';
@@ -59,7 +61,7 @@ const Overview = ({
                             value: currentStreak.plays
                         }
                     ],
-                    footer: `${currentStreak.startDate} — ${currentStreak.endDate}`
+                    footer: currentStreak.period
                 }} />
             </div>
             <div className="overview-sidebar-item">
@@ -77,7 +79,7 @@ const Overview = ({
                             value: longestStreak.plays
                         }
                     ],
-                    footer: `${longestStreak.startDate} — ${longestStreak.endDate}`
+                    footer: longestStreak.period
                 }} />
             </div>
             <div className="overview-sidebar-item">
@@ -113,7 +115,7 @@ const Overview = ({
                             value: recentlyAdded.tracks
                         }
                     ],
-                    footer: `${recentlyAdded.startDate} — ${recentlyAdded.endDate}`
+                    footer: recentlyAdded.period
                 }} />
             </div>
         </div>
@@ -137,7 +139,6 @@ const Overview = ({
 Overview.propTypes = {
     data: PropTypes.object.isRequired // TODO: shape
 };
-
 
 class OverviewContainer extends React.Component {
     componentDidMount() {
@@ -167,7 +168,33 @@ OverviewContainer.propTypes = {
     loadData: PropTypes.func.isRequired
 };
 
+const dataSelector = createSelector(
+    state => state.overview,
+    data => {
+        if (data.loaded && data.success) {
+            let {
+                biggestDay,
+                currentStreak,
+                longestStreak,
+                recentTracks,
+                recentlyAdded
+            } = data.payload;
+
+            [currentStreak, longestStreak, recentlyAdded].forEach(item => {
+                const startDate = formatDate(item.startDate);
+                const endDate = formatDate(item.endDate);
+                item.period = `${startDate} — ${endDate}`;
+            });
+
+            biggestDay.date = formatDate(biggestDay.date);
+
+            data.payload.recentTracks = groupTracks(recentTracks);
+        }
+        return data;
+    }
+);
+
 export default connect(
-    state => ({data: state.overview}),
+    state => ({data: dataSelector(state)}),
     dispatch => ({loadData: bindActionCreators(actions.overviewRequest, dispatch)})
 )(OverviewContainer);

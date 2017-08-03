@@ -20,7 +20,7 @@ const Plays = ({data}) => {
                                 <Heart enabled={item.isFavorite} />
                             </span>
                             <span className="shared-plays-group-list-item-data">
-                                {item.data}
+                                {item.artist} &mdash; {item.album} &mdash; {item.track}
                             </span>
                             <span className="shared-plays-group-list-item-time">
                                 {item.time}
@@ -39,7 +39,9 @@ Plays.propTypes = {
         date: PropTypes.string.isRequired,
         items: PropTypes.arrayOf(PropTypes.shape({
             isFavorite: PropTypes.bool.isRequired,
-            data: PropTypes.string.isRequired,
+            artist: PropTypes.string.isRequired,
+            album: PropTypes.string.isRequired,
+            track: PropTypes.string.isRequired,
             time: PropTypes.string.isRequired
         }))
     })).isRequired

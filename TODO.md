@@ -6,8 +6,8 @@
 - [x] Homepage
 
 - [ ] fetch polyfill
-- [ ] moment.js
-- [ ] redux selectors
+- [x] moment.js
+- [x] redux selectors
 
 - [ ] Artists index
 - [ ] Albums index
