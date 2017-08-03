@@ -5,7 +5,7 @@
 - [x] Setup environment
 - [x] Homepage
 
-- [ ] fetch polyfill
+- [x] fetch polyfill
 - [x] moment.js
 - [x] redux selectors
 
