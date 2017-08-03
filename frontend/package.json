@@ -18,14 +18,14 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://localhost:5000",
+      "target": "http://localhost:5051",
       "pathRewrite": {
         "^/api": "/"
       }
     }
   },
   "scripts": {
-    "start": "BROWSER=none react-scripts start",
+    "start": "BROWSER=none PORT=5050 react-scripts start",
     "build": "react-scripts build"
   }
 }

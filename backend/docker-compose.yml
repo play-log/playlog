@@ -6,7 +6,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - '5000:8080'
+      - '5051:8080'
     environment:
       PLAYLOG_ENVIRONMENT: development
       PLAYLOG_HOST: 0.0.0.0
@@ -20,7 +20,7 @@ services:
   postgres:
     image: postgres:9.5
     ports:
-      - '5010:5432'
+      - '5052:5432'
     environment:
       POSTGRES_PASSWORD: 1234
     volumes:

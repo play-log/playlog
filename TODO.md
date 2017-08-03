@@ -25,5 +25,4 @@
 ## Misc
 
 - [ ] Startup development script (cd backend && docker-compose up -d; cd ../frontend && npm start)
-- [ ] Change ports (range 5050-5060)
-
+- [x] Change ports (range 5050-5060)
