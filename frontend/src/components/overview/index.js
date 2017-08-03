@@ -26,17 +26,15 @@ import User from './user';
 import './index.css';
 
 const Overview = ({
-    data: {
-        biggestDay,
-        counters,
-        currentStreak,
-        longestStreak,
-        nowplay,
-        recentTracks,
-        recentlyAdded,
-        user,
-        years
-    }
+    biggestDay,
+    counters,
+    currentStreak,
+    longestStreak,
+    nowplay,
+    recentTracks,
+    recentlyAdded,
+    user,
+    years
 }) => (
     <div className="overview">
         <div className="overview-sidebar">
@@ -140,7 +138,15 @@ const Overview = ({
 );
 
 Overview.propTypes = {
-    data: PropTypes.object.isRequired // TODO: shape
+    biggestDay: PropTypes.object.isRequired,
+    counters: PropTypes.object.isRequired,
+    currentStreak: PropTypes.object.isRequired,
+    longestStreak: PropTypes.object.isRequired,
+    nowplay: PropTypes.object.isRequired,
+    recentTracks: PropTypes.array.isRequired,
+    recentlyAdded: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    years: PropTypes.array.isRequired
 };
 
 class OverviewContainer extends React.Component {
@@ -154,7 +160,7 @@ class OverviewContainer extends React.Component {
             result = <Spinner fullscreen={true} />;
         } else {
             if (data.success) {
-                result = <Overview data={data.payload} />;
+                result = <Overview {...data.payload} />;
             } else {
                 result = <Error />;
             }
