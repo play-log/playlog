@@ -1,6 +1,7 @@
 from aiohttp.web import View, json_response as json
 
 from .decorators import route
+from .utils import get_gravatar
 
 
 @route('/')
@@ -37,7 +38,7 @@ class Overview(View):
                 'end_date': '2017-06-25T00:00:00'
             },
             'user': {
-                'avatar_src': 'https://gravatar.com/avatar/4e3d9780ddadc53333ae1541ea48eaf4?s=64',
+                'avatar_src': get_gravatar('rossnomann@protonmail.com', size=64),
                 'name': 'Ross Nomann',
                 'listening_since': '2012'
             },
