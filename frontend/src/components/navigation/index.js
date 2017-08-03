@@ -53,7 +53,9 @@ Navigation.propTypes = {
 
 class NavigationContainer extends React.Component {
     componentDidMount() {
-        this.props.loadData();
+        if (!this.props.data.loaded) {
+            this.props.loadData();
+        }
     }
     render() {
         const data = this.props.data;
