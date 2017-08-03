@@ -1,0 +1,9 @@
+.shared-error {
+    color: #ff4400;
+    font-size: 18px;
+    font-variant: small-caps;
+    font-weight: 500;
+    margin: 40px;
+    text-align: center;
+    text-transform: lowercase;
+}

@@ -13,6 +13,7 @@ import CalendarIcon from '../../icons/calendar.svg';
 import PlayIcon from '../../icons/play.svg';
 import TrackIcon from '../../icons/track.svg';
 
+import Error from '../shared/error';
 import Spinner from '../shared/spinner';
 
 import Counters from './counters';
@@ -155,9 +156,7 @@ class OverviewContainer extends React.Component {
             if (data.success) {
                 result = <Overview data={data.payload} />;
             } else {
-                // TODO: styles
-                console.log('FAILED', data.payload);
-                result = <div>FAILED</div>;
+                result = <Error />;
             }
         }
         return result;
