@@ -13,6 +13,8 @@ import CalendarIcon from '../../icons/calendar.svg';
 import PlayIcon from '../../icons/play.svg';
 import TrackIcon from '../../icons/track.svg';
 
+import Spinner from '../shared/spinner';
+
 import Counters from './counters';
 import DateChart from './date-chart';
 import Navigation from './navigation';
@@ -148,8 +150,7 @@ class OverviewContainer extends React.Component {
         let data = this.props.data,
             result = null;
         if (!data.loaded) {
-            // TODO: styles
-            result = <div>LOADING...</div>;
+            result = <Spinner fullscreen={true} />;
         } else {
             if (data.success) {
                 result = <Overview data={data.payload} />;
