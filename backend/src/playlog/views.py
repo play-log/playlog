@@ -1,5 +1,6 @@
 from aiohttp.web import View, json_response as json
 
+from .config import USER_EMAIL, USER_NAME
 from .decorators import route
 from .utils import get_gravatar
 
@@ -38,8 +39,8 @@ class Overview(View):
                 'end_date': '2017-06-25T00:00:00'
             },
             'user': {
-                'avatar_src': get_gravatar('rossnomann@protonmail.com', size=64),
-                'name': 'Ross Nomann',
+                'avatar_src': get_gravatar(USER_EMAIL, size=64),
+                'name': USER_NAME,
                 'listening_since': '2012'
             },
             'nowplay': {
