@@ -151,7 +151,9 @@ Overview.propTypes = {
 
 class OverviewContainer extends React.Component {
     componentDidMount() {
-        this.props.loadData();
+        if (!this.props.data.loaded) {
+            this.props.loadData();
+        }
     }
     render() {
         let data = this.props.data,
