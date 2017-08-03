@@ -73,6 +73,7 @@ function generate(config) {
 }
 
 const {actions, reducers} = generate({
+    counters: '/api/counters',
     overview: '/api/overview'
 });
 

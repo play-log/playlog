@@ -5,10 +5,25 @@ from .decorators import route
 from .utils import get_gravatar
 
 
+COUNTERS = {
+    'artists': 23,
+    'albums': 75,
+    'tracks': 823,
+    'plays': 4506,
+    'favorites': 200
+}
+
+
 @route('/')
 class Index(View):
     async def get(self):
         return json({'hello': 'world'})
+
+
+@route('/counters')
+class Counters(View):
+    async def get(self):
+        return json(COUNTERS)
 
 
 @route('/overview')
@@ -48,13 +63,7 @@ class Overview(View):
                 'album': 'Faces Of Insanity',
                 'title': 'Epikrisis I - Altered State Of Consciousness'
             },
-            'counters': {
-                'artists': 23,
-                'albums': 75,
-                'tracks': 823,
-                'plays': 4506,
-                'favorites': 200
-            },
+            'counters': COUNTERS,
             'years': [
                 {'label': '2012', 'value': 13250},
                 {'label': '2013', 'value': 14232},
