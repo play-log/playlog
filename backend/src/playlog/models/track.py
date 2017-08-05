@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Table
+from sqlalchemy.sql import func, select, true
 
 from playlog.models import metadata
 
@@ -13,3 +14,11 @@ track = Table(
     Column('last_play', DateTime(), nullable=False),
     Column('is_favorite', Boolean(), nullable=False, default=False)
 )
+
+
+async def count_total(conn):
+    return await conn.scalar(track.count())
+
+
+async def count_favorite(conn):
+    return await conn.scalar(select([func.count()]).where(track.c.is_favorite == true()))

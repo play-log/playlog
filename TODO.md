@@ -21,7 +21,7 @@
 
 - [ ] Livereload
 - [ ] Implement necessary resources for frontend
-    - [ ] `/api/counters`
+    - [x] `/api/counters`
     - [ ] `/api/overview`
 
 ## Misc

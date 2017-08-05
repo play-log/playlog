@@ -12,3 +12,7 @@ album = Table(
     Column('first_play', DateTime(), nullable=False),
     Column('last_play', DateTime(), nullable=False)
 )
+
+
+async def count_total(conn):
+    return await conn.scalar(album.count())
