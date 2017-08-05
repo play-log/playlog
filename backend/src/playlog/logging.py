@@ -1,10 +1,10 @@
 import logging
 import sys
 
-from .config import ENVIRONMENT
+from playlog.config import ENVIRONMENT
 
 
-def setup_logging():
+def setup():
     debug = ENVIRONMENT == 'development'
     level = logging.NOTSET if debug else logging.WARN
 

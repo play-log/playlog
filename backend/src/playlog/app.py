@@ -5,10 +5,10 @@ from aiopg import sa
 
 import playlog
 
-from . import config, logging
+from playlog import config, logging
 
 
-logging.setup_logging()
+logging.setup()
 
 
 async def on_startup(app):

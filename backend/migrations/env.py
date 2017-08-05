@@ -1,10 +1,14 @@
 from alembic import context
 from sqlalchemy import engine_from_config, pool
+from venusian import Scanner
 
-from playlog.models import metadata
+from playlog import models
+
+scanner = Scanner()
+scanner.scan(models)
 
 config = context.config
-target_metadata = metadata
+target_metadata = models.metadata
 
 
 def run_migrations_offline():

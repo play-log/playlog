@@ -1,35 +1,13 @@
-from aiohttp.web import View, json_response as json
-
-from .config import USER_EMAIL, USER_NAME
-from .decorators import route
-from .utils import get_gravatar
-
-
-COUNTERS = {
-    'artists': 23,
-    'albums': 75,
-    'tracks': 823,
-    'plays': 4506,
-    'favorites': 200
-}
-
-
-@route('/')
-class Index(View):
-    async def get(self):
-        return json({'hello': 'world'})
-
-
-@route('/counters')
-class Counters(View):
-    async def get(self):
-        return json(COUNTERS)
+from playlog import gravatar
+from playlog.config import USER_EMAIL, USER_NAME
+from playlog.decorators import route
+from playlog.views import View
 
 
 @route('/overview')
 class Overview(View):
     async def get(self):
-        return json({
+        return self.json({
             'current_streak': {
                 'days': 19,
                 'plays': 678,
@@ -54,7 +32,7 @@ class Overview(View):
                 'end_date': '2017-06-25T00:00:00'
             },
             'user': {
-                'avatar_src': get_gravatar(USER_EMAIL, size=64),
+                'avatar_src': gravatar.get_url(USER_EMAIL, size=64),
                 'name': USER_NAME,
                 'listening_since': '2012'
             },
@@ -63,7 +41,13 @@ class Overview(View):
                 'album': 'Faces Of Insanity',
                 'title': 'Epikrisis I - Altered State Of Consciousness'
             },
-            'counters': COUNTERS,
+            'counters': {
+                'artists': 23,
+                'albums': 75,
+                'tracks': 823,
+                'plays': 4506,
+                'favorites': 200
+            },
             'years': [
                 {'label': '2012', 'value': 13250},
                 {'label': '2013', 'value': 14232},
