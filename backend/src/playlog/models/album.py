@@ -1,4 +1,5 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table
+from sqlalchemy.sql import func, select
 
 from playlog.models import metadata
 
@@ -16,3 +17,7 @@ album = Table(
 
 async def count_total(conn):
     return await conn.scalar(album.count())
+
+
+async def count_new(conn, since):
+    return await conn.scalar(select([func.count()]).where(album.c.first_play >= since))

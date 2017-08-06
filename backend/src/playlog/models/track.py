@@ -22,3 +22,7 @@ async def count_total(conn):
 
 async def count_favorite(conn):
     return await conn.scalar(select([func.count()]).where(track.c.is_favorite == true()))
+
+
+async def count_new(conn, since):
+    return await conn.scalar(select([func.count()]).where(track.c.first_play >= since))
