@@ -36,3 +36,7 @@ async def get_recent(conn):
         .select_from(play.join(track).join(album).join(artist))
     )
     return await result.fetchall()
+
+
+async def get_listening_since(conn):
+    return await conn.scalar(select([play.c.date]).order_by(play.c.date.asc()).limit(1))
