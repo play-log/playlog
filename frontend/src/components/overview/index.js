@@ -93,7 +93,7 @@ const Overview = ({
                             value: biggestDay.plays
                         }
                     ],
-                    footer: biggestDay.date
+                    footer: biggestDay.day
                 }} />
             </div>
             <div className="overview-sidebar-item">
@@ -195,7 +195,7 @@ const dataSelector = createSelector(
                 item.period = `${startDate} — ${endDate}`;
             });
 
-            biggestDay.date = formatDate(biggestDay.date);
+            biggestDay.day = formatDate(biggestDay.day);
 
             data.payload.recentTracks = groupTracks(recentTracks);
 

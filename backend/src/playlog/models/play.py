@@ -42,6 +42,13 @@ async def get_listening_since(conn):
     return await conn.scalar(select([play.c.date]).order_by(play.c.date.asc()).limit(1))
 
 
+async def get_biggest_day(conn):
+    day = func.date_trunc('DAY', play.c.date).label('day')
+    plays = func.count().label('plays')
+    result = await conn.execute(select([day, plays]).group_by(day).order_by(plays.desc()).limit(1))
+    return await result.fetchone()
+
+
 async def count_per_year(conn):
     year = func.date_part('YEAR', play.c.date).label('year')
     plays = func.count().label('plays')

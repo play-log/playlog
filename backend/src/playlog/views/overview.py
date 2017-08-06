@@ -36,10 +36,7 @@ class Overview(View):
                     'start_date': '2017-05-01T00:00:00',
                     'end_date': '2017-05-30T00:00:00'
                 },
-                'biggest_day': {
-                    'plays': 132,
-                    'date': '2017-05-30T00:00:00'
-                },
+                'biggest_day': await play.get_biggest_day(conn),
                 'recently_added': await get_recently_added(conn),
                 'user': {
                     'avatar_src': gravatar.get_url(USER_EMAIL, size=64),
