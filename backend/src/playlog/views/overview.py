@@ -58,13 +58,6 @@ class Overview(View):
                     'plays': await play.count_total(conn),
                     'favorites': await track.count_favorite(conn)
                 },
-                'years': [
-                    {'label': '2012', 'value': 13250},
-                    {'label': '2013', 'value': 14232},
-                    {'label': '2014', 'value': 17230},
-                    {'label': '2015', 'value': 22351},
-                    {'label': '2016', 'value': 21347},
-                    {'label': '2017', 'value': 8346},
-                ],
+                'years': await play.count_per_year(conn),
                 'recent_tracks': await play.get_recent(conn)
             })

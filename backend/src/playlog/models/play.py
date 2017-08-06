@@ -1,5 +1,5 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Table
-from sqlalchemy.sql import select
+from sqlalchemy.sql import func, select
 
 from playlog.models import metadata
 from playlog.models.artist import artist
@@ -40,3 +40,10 @@ async def get_recent(conn):
 
 async def get_listening_since(conn):
     return await conn.scalar(select([play.c.date]).order_by(play.c.date.asc()).limit(1))
+
+
+async def count_per_year(conn):
+    year = func.date_part('YEAR', play.c.date).label('year')
+    plays = func.count().label('plays')
+    result = await conn.execute(select([year, plays]).group_by(year).order_by(year))
+    return await result.fetchall()

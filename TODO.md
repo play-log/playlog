@@ -27,7 +27,7 @@
         - [ ] `longest_streak`
         - [ ] `biggest_day`
         - [ ] `nowplay`
-        - [ ] `years`
+        - [x] `years`
 
 ## Misc
 

@@ -185,7 +185,8 @@ const dataSelector = createSelector(
                 currentStreak,
                 longestStreak,
                 recentTracks,
-                recentlyAdded
+                recentlyAdded,
+                years
             } = data.payload;
 
             [currentStreak, longestStreak, recentlyAdded].forEach(item => {
@@ -197,6 +198,8 @@ const dataSelector = createSelector(
             biggestDay.date = formatDate(biggestDay.date);
 
             data.payload.recentTracks = groupTracks(recentTracks);
+
+            data.payload.years = years.map(item => ({label: item.year, value: item.plays}));
         }
         return data;
     }
