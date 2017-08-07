@@ -23,7 +23,7 @@
 - [ ] Implement necessary resources for frontend
     - [x] `/api/counters`
     - [ ] `/api/overview`
-        - [ ] `current_streak`
+        - [x] `current_streak`
         - [x] `longest_streak`
         - [x] `biggest_day`
         - [ ] `nowplay`

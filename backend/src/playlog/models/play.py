@@ -82,3 +82,33 @@ async def get_longest_streak(conn):
         ) as plays FROM longest_streak;
     """)
     return await result.fetchone()
+
+
+async def get_current_streak(conn):
+    result = await conn.execute("""
+        WITH RECURSIVE days AS (
+            SELECT date_trunc('day', date) AS day FROM play GROUP BY day ORDER BY day DESC
+        ), pairs AS (
+            SELECT
+                day AS end_date,
+                lag(day) OVER (ORDER BY day) AS start_date
+            FROM days
+        ), r AS (
+            SELECT date_trunc('day', now()) AS start_date, date_trunc('day', now()) AS end_date
+            UNION
+            SELECT b.start_date, b.end_date FROM r a JOIN pairs b ON b.end_date = a.start_date
+            WHERE b.end_date - b.start_date <= '1 day'::interval
+        ), current_interval AS (
+            SELECT min(start_date) as start_date, max(end_date) as end_date FROM r
+        ) SELECT
+            start_date,
+            end_date,
+            (extract(epoch from (end_date - start_date)) / 86400) as days,
+            (
+                SELECT COUNT(*) FROM play
+                WHERE date >= start_date
+                AND date < end_date + '1 day'::interval
+            ) as plays
+        FROM current_interval;
+    """)
+    return await result.fetchone()

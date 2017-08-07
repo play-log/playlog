@@ -24,12 +24,7 @@ class Overview(View):
     async def get(self):
         async with self.db as conn:
             return self.json({
-                'current_streak': {
-                    'days': 19,
-                    'plays': 678,
-                    'start_date': '2017-06-05T00:00:00',
-                    'end_date': '2017-06-24T00:00:00'
-                },
+                'current_streak': await play.get_current_streak(conn),
                 'longest_streak': await play.get_longest_streak(conn),
                 'biggest_day': await play.get_biggest_day(conn),
                 'recently_added': await get_recently_added(conn),
