@@ -30,12 +30,7 @@ class Overview(View):
                     'start_date': '2017-06-05T00:00:00',
                     'end_date': '2017-06-24T00:00:00'
                 },
-                'longest_streak': {
-                    'days': 30,
-                    'plays': 1563,
-                    'start_date': '2017-05-01T00:00:00',
-                    'end_date': '2017-05-30T00:00:00'
-                },
+                'longest_streak': await play.get_longest_streak(conn),
                 'biggest_day': await play.get_biggest_day(conn),
                 'recently_added': await get_recently_added(conn),
                 'user': {

@@ -54,3 +54,31 @@ async def count_per_year(conn):
     plays = func.count().label('plays')
     result = await conn.execute(select([year, plays]).group_by(year).order_by(year))
     return await result.fetchall()
+
+
+async def get_longest_streak(conn):
+    result = await conn.execute("""
+        WITH RECURSIVE days AS (
+            SELECT date_trunc('day', date) AS day FROM play GROUP BY day
+        ), pairs AS (
+            SELECT
+                day AS end_date,
+                lag(day) OVER (ORDER BY day) AS start_date
+            FROM days
+        ), intervals AS (
+            SELECT start_date, end_date FROM pairs
+            WHERE (end_date - start_date) = '1 day'::interval
+        ), streaks AS (
+            SELECT start_date, end_date, 1 as days FROM intervals
+            UNION
+            SELECT a.start_date, b.end_date, b.days + 1 as days FROM intervals a
+            JOIN streaks b ON a.end_date = b.start_date
+        ), longest_streak AS (
+            SELECT * FROM streaks ORDER BY days DESC LIMIT 1
+        ) SELECT *, (
+            SELECT COUNT(*) FROM play
+            WHERE date >= longest_streak.start_date
+            AND date < longest_streak.end_date + '1 day'::interval
+        ) as plays FROM longest_streak;
+    """)
+    return await result.fetchone()

@@ -24,7 +24,7 @@
     - [x] `/api/counters`
     - [ ] `/api/overview`
         - [ ] `current_streak`
-        - [ ] `longest_streak`
+        - [x] `longest_streak`
         - [x] `biggest_day`
         - [ ] `nowplay`
         - [x] `years`
