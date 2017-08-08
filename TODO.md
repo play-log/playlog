@@ -2,13 +2,6 @@
 
 ## Frontend
 
-- [x] Setup environment
-- [x] Homepage
-
-- [x] fetch polyfill
-- [x] moment.js
-- [x] redux selectors
-
 - [ ] Artists index
 - [ ] Albums index
 - [ ] Tracks index
@@ -20,16 +13,10 @@
 ## Backend
 
 - [ ] Livereload
-- [ ] Implement necessary resources for frontend
-    - [x] `/api/counters`
+- [ ] Resources
     - [ ] `/api/overview`
-        - [x] `current_streak`
-        - [x] `longest_streak`
-        - [x] `biggest_day`
         - [ ] `nowplay`
-        - [x] `years`
 
-## Misc
+## Other
 
 - [ ] Startup development script (cd backend && docker-compose up -d; cd ../frontend && npm start)
-- [x] Change ports (range 5050-5060)
