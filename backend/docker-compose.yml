@@ -5,6 +5,7 @@ services:
     image: playlog
     depends_on:
       - postgres
+      - redis
     ports:
       - '5051:8080'
     environment:
@@ -12,6 +13,7 @@ services:
       PLAYLOG_HOST: 0.0.0.0
       PLAYLOG_PORT: 8080
       PLAYLOG_SA_URL: postgresql://postgres:1234@postgres/postgres
+      PLAYLOG_REDIS_URL: redis:6379
       PLAYLOG_USER_NAME: Ross Nomann
       PLAYLOG_USER_EMAIL: rossnomann@protonmail.com
     volumes:
@@ -26,3 +28,8 @@ services:
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
     container_name: playlog_postgres
+  redis:
+    image: redis:4.0
+    ports:
+      - '5053:6379'
+    container_name: playlog_redis

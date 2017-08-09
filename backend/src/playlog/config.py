@@ -15,6 +15,7 @@ HOST = getenv('HOST')
 PORT = int(getenv('PORT'))
 
 SA_URL = getenv('SA_URL')
+REDIS_URL = getenv('REDIS_URL').split(':')
 
 USER_NAME = getenv('USER_NAME')
 USER_EMAIL = getenv('USER_EMAIL')

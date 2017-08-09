@@ -10,4 +10,8 @@ class View(BaseView):
     def db(self):
         return self.request.app['db'].acquire()
 
+    @property
+    def redis(self):
+        return self.request.app['redis']
+
     json = staticmethod(partial(json_response, dumps=json_dumps))
