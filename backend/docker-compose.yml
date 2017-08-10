@@ -16,6 +16,8 @@ services:
       PLAYLOG_REDIS_URL: redis:6379
       PLAYLOG_USER_NAME: Ross Nomann
       PLAYLOG_USER_EMAIL: rossnomann@protonmail.com
+      PLAYLOG_SUBMISSIONS_USER: rossnomann
+      PLAYLOG_SUBMISSIONS_PASSWORD_HASH: 81dc9bdb52d04dc20036dbd8313ed055 # 1234
     volumes:
       - ./:/app
     container_name: playlog_backend

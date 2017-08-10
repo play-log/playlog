@@ -1,7 +1,7 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Table
 from sqlalchemy.sql import func, select
 
-from playlog.models import metadata
+from playlog.models import metadata, utils
 from playlog.models.artist import artist
 from playlog.models.album import album
 from playlog.models.track import track
@@ -16,6 +16,17 @@ play = Table(
     Column('track_id', ForeignKey('track.id', ondelete='CASCADE'), primary_key=True),
     Column('date', DateTime(), primary_key=True)
 )
+
+
+async def create(conn, track_id, date):
+    await utils.create(conn, play, {
+        'track_id': track_id,
+        'date': date
+    }, scalar=False)
+
+
+async def is_date_exists(conn, date):
+    return await conn.scalar(select([func.count()]).where(play.c.date == date)) > 0
 
 
 async def count_total(conn):

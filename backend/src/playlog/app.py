@@ -7,6 +7,9 @@ from aioredis import create_redis
 import playlog
 
 from playlog import config, logging
+from playlog.middlewares import MIDDLEWARES
+from playlog.nowplay import Nowplay
+from playlog.session import Session
 
 
 logging.setup()
@@ -15,6 +18,8 @@ logging.setup()
 async def on_startup(app):
     app['db'] = await sa.create_engine(config.SA_URL)
     app['redis'] = await create_redis(config.REDIS_URL)
+    app['nowplay'] = Nowplay(app['redis'])
+    app['session'] = Session(app['redis'])
 
 
 async def on_cleanup(app):
@@ -26,7 +31,7 @@ async def on_cleanup(app):
 
 
 def run():
-    app = web.Application()
+    app = web.Application(middlewares=MIDDLEWARES)
     app.on_startup.append(on_startup)
     app.on_cleanup.append(on_cleanup)
     scanner = venusian.Scanner(router=app.router)

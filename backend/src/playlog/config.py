@@ -19,3 +19,8 @@ REDIS_URL = getenv('REDIS_URL').split(':')
 
 USER_NAME = getenv('USER_NAME')
 USER_EMAIL = getenv('USER_EMAIL')
+
+SUBMISSIONS = {
+    'username': getenv('SUBMISSIONS_USER'),
+    'password_hash': getenv('SUBMISSIONS_PASSWORD_HASH')
+}
