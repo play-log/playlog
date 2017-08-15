@@ -33,11 +33,7 @@ class Overview(View):
                     'name': USER_NAME,
                     'listening_since': (await play.get_listening_since(conn)).year
                 },
-                'nowplay': {
-                    'artist': 'Epitimia',
-                    'album': 'Faces Of Insanity',
-                    'title': 'Epikrisis I - Altered State Of Consciousness'
-                },
+                'nowplay': await self.nowplay.get(),
                 'counters': {
                     'artists': await artist.count_total(conn),
                     'albums': await album.count_total(conn),

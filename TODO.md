@@ -14,8 +14,6 @@
 
 - [ ] Livereload
 - [ ] Resources
-    - [ ] `/api/overview`
-        - [ ] `nowplay`
 
 ## Other
 
