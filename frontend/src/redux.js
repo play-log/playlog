@@ -1,4 +1,4 @@
-import camelCaseKeys from 'camelcase-keys';
+import humps from 'humps';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from 'redux-thunk';
 
@@ -33,7 +33,7 @@ function generate(config) {
             return fetch(url).then(rep => rep.json()).then(
                 (payload) => dispatch({
                     type: actionTypes.success,
-                    payload: camelCaseKeys(payload, {deep: true})
+                    payload: humps.camelizeKeys(payload, {deep: true})
                 }),
                 (payload) => dispatch({
                     type: actionTypes.failed,

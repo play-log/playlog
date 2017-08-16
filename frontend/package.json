@@ -2,8 +2,8 @@
   "name": "playlog",
   "private": true,
   "dependencies": {
-    "camelcase-keys": "^4.1.0",
     "chart.js": "^2.6.0",
+    "humps": "^2.0.1",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
