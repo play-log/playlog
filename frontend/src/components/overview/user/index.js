@@ -16,7 +16,7 @@ const User = ({avatarSrc, name, listeningSince}) => (
 User.propTypes = {
     avatarSrc: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    listeningSince: PropTypes.string.isRequired
+    listeningSince: PropTypes.number.isRequired
 };
 
 export default User;

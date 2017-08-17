@@ -142,7 +142,7 @@ Overview.propTypes = {
     counters: PropTypes.object.isRequired,
     currentStreak: PropTypes.object.isRequired,
     longestStreak: PropTypes.object.isRequired,
-    nowplay: PropTypes.object.isRequired,
+    nowplay: PropTypes.object,
     recentTracks: PropTypes.array.isRequired,
     recentlyAdded: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
@@ -199,7 +199,10 @@ const dataSelector = createSelector(
 
             data.payload.recentTracks = groupTracks(recentTracks);
 
-            data.payload.years = years.map(item => ({label: item.year, value: item.plays}));
+            data.payload.years = years.map(item => ({
+                label: item.year.toString(),
+                value: item.plays
+            }));
         }
         return data;
     }
