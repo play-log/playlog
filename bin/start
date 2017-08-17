@@ -1,0 +1,16 @@
+#/usr/bin/env bash
+
+function cleanup {
+    sleep 2
+    clear
+}
+
+trap cleanup EXIT
+
+cd backend && docker-compose up &
+BACKEND=$!
+
+cd frontend && npm start &
+FRONTEND=$!
+
+wait $BACKEND $FRONTEND

@@ -14,7 +14,3 @@
 
 - [ ] Livereload
 - [ ] Resources
-
-## Other
-
-- [ ] Startup development script (cd backend && docker-compose up -d; cd ../frontend && npm start)
