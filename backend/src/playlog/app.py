@@ -1,3 +1,4 @@
+import aioreloader
 import venusian
 
 from aiohttp import web
@@ -36,4 +37,6 @@ def run():
     app.on_cleanup.append(on_cleanup)
     scanner = venusian.Scanner(router=app.router)
     scanner.scan(playlog)
+    if config.ENVIRONMENT == 'development':
+        aioreloader.start()
     web.run_app(app, host=config.HOST, port=config.PORT)

@@ -1,7 +1,5 @@
 # TODO
 
-## Frontend
-
 - [ ] Artists index
 - [ ] Albums index
 - [ ] Tracks index
@@ -9,8 +7,3 @@
 - [ ] Artist page
 - [ ] Album page
 - [ ] Track page
-
-## Backend
-
-- [ ] Livereload
-- [ ] Resources
