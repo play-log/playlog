@@ -1,3 +1,21 @@
+.app-content {
+    margin: 0 auto;
+    max-width: 65%;
+}
+
+@media screen and (max-width: 1600px) {
+    .app-content {
+        max-width: 80%;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .app-content {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
 .app-footer {
     border-top: 1px solid #e0e0e0;
     font-size: 12px;

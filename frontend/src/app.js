@@ -14,10 +14,12 @@ class App extends React.Component {
                 <BrowserRouter>
                     <div>
                         <Route path="/:path" component={Navigation} />
-                        <Switch>
-                            <Route exact path="/" component={Overview} />
-                            <Route component={NotFound}/>
-                        </Switch>
+                        <div className="app-content">
+                            <Switch>
+                                <Route exact path="/" component={Overview} />
+                                <Route component={NotFound}/>
+                            </Switch>
+                        </div>
                     </div>
                 </BrowserRouter>
                 <div className="app-footer">
