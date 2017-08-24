@@ -1,0 +1,22 @@
+.shared-date-input-label {
+    color: #333333;
+    display: block;
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: 700;
+    text-transform: lowercase;
+    margin: 2px 0 4px 0;
+}
+
+.shared-date-input-field {
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    padding: 7px;
+    width: 100%;
+}
+
+.shared-date-input-field__error {
+    border-color: #ff4400;
+}

@@ -3,4 +3,5 @@ aiohttp == 2.2.3
 aiopg == 0.13.0
 aioredis == 0.3.3
 alembic == 0.9.3
+schema == 0.6.6
 venusian == 1.1.0

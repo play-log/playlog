@@ -2,14 +2,14 @@ import humps from 'humps';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from 'redux-thunk';
 
+import {buildURL} from './utils';
+
 function generate(config) {
     let actions = {},
         reducers = {};
 
     Object.entries(config).forEach(item => {
-        const key = item[0];
-
-        let url = item[1];
+        const [key, maybeUrl] = item;
 
         const actionTypes = {
             start: `${key}_START`,
@@ -24,13 +24,16 @@ function generate(config) {
         };
 
         actions[`${key}Request`] = (...query) => dispatch => {
-            if (typeof url === 'function') {
-                url = url(...query);
-            }
+            let url = typeof maybeUrl === 'function' ? maybeUrl(...query) : maybeUrl;
 
             dispatch({type: actionTypes.start});
 
-            return fetch(url).then(rep => rep.json()).then(
+            return fetch(url).then(rep => {
+                const json = rep.json();
+                return rep.status === 200 ? json : json.then(err => {
+                    throw err;
+                });
+            }).then(
                 (payload) => dispatch({
                     type: actionTypes.success,
                     payload: humps.camelizeKeys(payload, {deep: true})
@@ -73,6 +76,7 @@ function generate(config) {
 }
 
 const {actions, reducers} = generate({
+    artists: params => buildURL('/api/artists', params),
     counters: '/api/counters',
     overview: '/api/overview'
 });

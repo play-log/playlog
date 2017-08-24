@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
+import Artists from './components/artists';
 import Navigation from './components/navigation';
 import NotFound from './components/not-found';
 import Overview from './components/overview';
@@ -17,6 +18,7 @@ class App extends React.Component {
                         <div className="app-content">
                             <Switch>
                                 <Route exact path="/" component={Overview} />
+                                <Route exact path="/artists" component={Artists} />
                                 <Route component={NotFound}/>
                             </Switch>
                         </div>

@@ -1,0 +1,37 @@
+.shared-pagination {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.shared-pagination-item {
+    background: #f0f0f0;
+    border: 1px solid #d0d0d0;
+    color: #717171;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 30px;
+    margin: 5px 15px 0 0;
+    padding: 0;
+    transition: all ease 200ms;
+    text-align: center;
+    vertical-align: middle;
+    width: 30px;
+}
+
+.shared-pagination-item__active, .shared-pagination-item__noop {
+    cursor: default;
+}
+
+.shared-pagination-item__active, .shared-pagination-item__noop, .shared-pagination-item:hover {
+    background: #fefefe;
+}
+
+.shared-pagination-item__active, .shared-pagination-item:active {
+    font-weight: 700;
+}
+
+.shared-pagination-item__noop {
+    font-weight: 300;
+}
