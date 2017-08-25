@@ -4,8 +4,10 @@ import React from 'react';
 
 import './index.css';
 
-const DATE_FORMAT = 'DD.MM.YYYY';
-const DATETIME_REGEX = /^[\d]{2}\.[\d]{2}\.[\d]{4}$/;
+const DATE_FORMAT = 'YYYY-MM-DD';
+const DATE_REGEX = /^[\d]{4}-[\d]{2}-[\d]{2}$/;
+const YEAR_REGEX = /^[\d]{4}$/;
+const YEAR_MONTH_REGEX = /^[\d]{4}-[\d]{2}$/;
 
 class DateInput extends React.Component {
     constructor(props) {
@@ -43,19 +45,34 @@ class DateInput extends React.Component {
     handleChange(event) {
         let dateString = event.target.value,
             dateObject = null;
-        if (dateString.length > 0 && DATETIME_REGEX.test(dateString)) {
-            dateObject = moment(dateString, DATE_FORMAT);
-            if (!dateObject.isValid()) {
-                dateObject = null;
-            } else {
-                dateObject = dateObject.utc();
+
+        if (dateString.length > 0) {
+            if (dateString.length > this.state.dateString.length) {
+                if (YEAR_REGEX.test(dateString)) {
+                    dateString += '-';
+                }
+                if (YEAR_MONTH_REGEX.test(dateString)) {
+                    dateString += '-';
+                }
+            }
+
+            if (DATE_REGEX.test(dateString)) {
+                dateObject = moment(dateString, DATE_FORMAT);
+                if (!dateObject.isValid()) {
+                    dateObject = null;
+                } else {
+                    dateObject = dateObject.utc();
+                }
             }
         }
+
         this.setState({dateString, dateObject}, () => {
-            if (this.state.dateObject) {
-                this.props.onChange(this.state.dateObject.format('YYYY-MM-DD'));
-            } else if (this.state.dateString.length === 0) {
-                this.props.onChange('');
+            let {dateString, dateObject} = this.state,
+                {onChange} = this.props;
+            if (dateObject) {
+                onChange(dateObject.format('YYYY-MM-DDTHH:mm'));
+            } else if (dateString.length === 0) {
+                onChange(dateString);
             }
         });
     }

@@ -50,6 +50,11 @@ class ISODate(DateTime):
         super().__init__('%Y-%m-%d')
 
 
+class ISODateTime(DateTime):
+    def __init__(self):
+        super().__init__('%Y-%m-%dT%H:%M')
+
+
 class OneOf(object):
     def __init__(self, choices):
         self.__choices = choices

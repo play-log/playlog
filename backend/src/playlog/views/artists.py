@@ -2,7 +2,7 @@ from schema import Optional
 
 from playlog.decorators import route, with_query
 from playlog.models import artist
-from playlog.validation import Int, ISODate, Length, OneOf
+from playlog.validation import Int, ISODateTime, Length, OneOf
 from playlog.views import View
 
 
@@ -14,10 +14,10 @@ class Artists(View):
         Optional('order_direction'): OneOf(artist.ORDER_DIRECTIONS),
         Optional('order_field'): OneOf(artist.ORDER_FIELDS),
         Optional('name'): Length(min_len=1, max_len=50),
-        Optional('first_play_lt'): ISODate(),
-        Optional('first_play_gt'): ISODate(),
-        Optional('last_play_lt'): ISODate(),
-        Optional('last_play_gt'): ISODate(),
+        Optional('first_play_lt'): ISODateTime(),
+        Optional('first_play_gt'): ISODateTime(),
+        Optional('last_play_lt'): ISODateTime(),
+        Optional('last_play_gt'): ISODateTime(),
     })
     async def get(self, query):
         async with self.db as conn:
