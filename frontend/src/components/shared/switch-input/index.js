@@ -19,7 +19,7 @@ class SwitchInput extends React.Component {
     render() {
         return (
             <div>
-                <label className="shared-switch-input-label">{this.props.label}:</label>
+                <label className="shared-switch-input-label">{this.props.label}</label>
                 {this.props.options.map(option => {
                     let className = 'shared-switch-input-option';
                     if (this.state.value === option) {

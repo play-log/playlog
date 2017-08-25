@@ -16,7 +16,7 @@ class SearchInput extends React.Component {
     render() {
         return (
             <div>
-                <label className="shared-search-input-label">{this.props.label}:</label>
+                <label className="shared-search-input-label">{this.props.label}</label>
                 <input
                     className="shared-search-input-field"
                     type="text"

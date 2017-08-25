@@ -32,7 +32,7 @@ class DateInput extends React.Component {
 
         return (
             <div>
-                <label className="shared-date-input-label">{label}:</label>
+                <label className="shared-date-input-label">{label}</label>
                 <input
                     className={`shared-date-input-field${!hasError ? '' : ' shared-date-input-field__error'}`}
                     type="text"

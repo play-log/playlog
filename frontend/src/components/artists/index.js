@@ -167,30 +167,45 @@ class Artists extends React.Component {
                         <SearchInput label="name" onChange={this.handleNameChange} />
                     </div>
                     <div className="artists-query">
-                        <DateInput label="first play start" onChange={this.handleFirstPlayGtChange} />
+                        <label className="artists-query-label">first play</label>
+                        <div className="artists-query-control-group">
+                            <div className="artists-query-control-group-item">
+                                <DateInput label="since" onChange={this.handleFirstPlayGtChange} />
+                            </div>
+                            <div className="artists-query-control-group-item">
+                                <DateInput label="until" onChange={this.handleFirstPlayLtChange} />
+                            </div>
+                        </div>
                     </div>
                     <div className="artists-query">
-                        <DateInput label="first play end" onChange={this.handleFirstPlayLtChange} />
+                        <label className="artists-query-label">last play</label>
+                        <div className="artists-query-control-group">
+                            <div className="artists-query-control-group-item">
+                                <DateInput label="since" onChange={this.handleLastPlayGtChange} />
+                            </div>
+                            <div className="artists-query-control-group-item">
+                                <DateInput label="until" onChange={this.handleLastPlayLtChange} />
+                            </div>
+                        </div>
                     </div>
                     <div className="artists-query">
-                        <DateInput label="last play start" onChange={this.handleLastPlayGtChange} />
-                    </div>
-                    <div className="artists-query">
-                        <DateInput label="last play end" onChange={this.handleLastPlayLtChange} />
-                    </div>
-                    <div className="artists-query">
-                        <SwitchInput
-                            label="Order"
-                            onChange={this.handleOrderFieldChange}
-                            options={ORDER_FIELDS}
-                            initialValue={DEFAULT_ORDER_FIELD} />
-                    </div>
-                    <div className="artists-query">
-                        <SwitchInput
-                            label="Direction"
-                            onChange={this.handleOrderDirectionChange}
-                            options={ORDER_DIRECTIONS}
-                            initialValue={DEFAULT_ORDER_DIRECTION} />
+                        <label className="artists-query-label">order</label>
+                        <div className="artists-query-control-group">
+                            <div className="artists-query-control-group-item">
+                                <SwitchInput
+                                    label="field"
+                                    onChange={this.handleOrderFieldChange}
+                                    options={ORDER_FIELDS}
+                                    initialValue={DEFAULT_ORDER_FIELD} />
+                            </div>
+                            <div className="artists-query-control-group-item">
+                                <SwitchInput
+                                    label="direction"
+                                    onChange={this.handleOrderDirectionChange}
+                                    options={ORDER_DIRECTIONS}
+                                    initialValue={DEFAULT_ORDER_DIRECTION} />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="artists-content-item">
