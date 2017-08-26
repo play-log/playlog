@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Albums index
 - [ ] Tracks index
 - [ ] Plays index
 - [ ] Artist page
