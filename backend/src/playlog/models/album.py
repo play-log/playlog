@@ -10,7 +10,7 @@ from playlog.models.artist import artist
 ORDER_DIRECTIONS = ['asc', 'desc']
 DEFAULT_ORDER_DIRECTION = 'asc'
 ORDER_FIELDS = ['artist_name', 'album_name', 'first_play', 'last_play', 'plays']
-DEFAULT_ORDER_FIELD = 'name'
+DEFAULT_ORDER_FIELD = 'artist_name'
 
 
 album = Table(
@@ -68,10 +68,12 @@ async def find_many(conn, offset, limit, **kwargs):
     if 'last_play_lt' in kwargs:
         query = query.where(album.c.last_play <= kwargs['last_play_lt'])
 
-    total = await conn.scalar(query.with_only_columns([func.count(album.c.id)]))
+    from_clause = album.join(artist)
+
+    total = await conn.scalar(query.select_from(from_clause).with_only_columns([func.count(album.c.id)]))
 
     query = query.offset(offset).limit(limit).order_by(order_expr())
-    query = query.select_from(album.join(artist))
+    query = query.select_from(from_clause)
 
     result = await conn.execute(query)
     items = await result.fetchall()
