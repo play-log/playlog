@@ -79,7 +79,8 @@ const {actions, reducers} = generate({
     albums: params => buildURL('/api/albums', params),
     artists: params => buildURL('/api/artists', params),
     counters: '/api/counters',
-    overview: '/api/overview'
+    overview: '/api/overview',
+    tracks: params => buildURL('/api/tracks', params)
 });
 
 const store = createStore(
