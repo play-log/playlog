@@ -42,8 +42,11 @@ async def get_recent(conn):
     result = await conn.execute(
         select([
             artist.c.name.label('artist'),
+            artist.c.id.label('artist_id'),
             album.c.name.label('album'),
+            album.c.id.label('album_id'),
             track.c.name.label('track'),
+            play.c.track_id.label('track_id'),
             play.c.date.label('date')
         ])
         .order_by(play.c.date.desc())

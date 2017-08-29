@@ -1,3 +1,4 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {bindActionCreators} from 'redux'
@@ -5,7 +6,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
 import {actions} from '../../redux';
-import {formatDate, groupTracks} from '../../utils';
+import {DATE_FORMAT, formatDate} from '../../utils';
 
 import AlbumIcon from '../../icons/album.svg';
 import ArtistIcon from '../../icons/artist.svg';
@@ -175,6 +176,35 @@ OverviewContainer.propTypes = {
     data: PropTypes.object.isRequired,
     loadData: PropTypes.func.isRequired
 };
+
+function groupTracks(items) {
+    const result = {};
+
+    items.forEach(item => {
+        const date = moment.utc(item.date).local();
+        const key = date.clone().startOf('day').unix();
+        if (!result.hasOwnProperty(key)) {
+            result[key] = {date: date.format(DATE_FORMAT), items: []};
+        }
+        result[key].items.push({
+            artist: {
+                id: item.artistId,
+                name: item.artist
+            },
+            album: {
+                id: item.albumId,
+                name: item.album
+            },
+            track: {
+                id: item.trackId,
+                name: item.track
+            },
+            time: date.format('HH:mm')
+        });
+    });
+
+    return Object.keys(result).sort().reverse().map(key => result[key]);
+}
 
 const dataSelector = createSelector(
     state => state.overview,
