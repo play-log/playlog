@@ -10,7 +10,7 @@ from playlog.views import View
 class Artists(View):
     @with_query({
         'offset': Int(min_val=0),
-        'limit': Int(min_val=1),
+        'limit': Int(min_val=1, max_val=100),
         Optional('order_direction'): OneOf(artist.ORDER_DIRECTIONS),
         Optional('order_field'): OneOf(artist.ORDER_FIELDS),
         Optional('name'): Length(min_len=1, max_len=50),
