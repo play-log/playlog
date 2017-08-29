@@ -6,6 +6,7 @@ import Artists from './components/artists';
 import Navigation from './components/navigation';
 import NotFound from './components/not-found';
 import Overview from './components/overview';
+import Plays from './components/plays';
 import Tracks from './components/tracks';
 
 import './app.css';
@@ -23,6 +24,7 @@ class App extends React.Component {
                                 <Route exact path="/artists" component={Artists} />
                                 <Route exact path="/albums" component={Albums} />
                                 <Route exact path="/tracks" component={Tracks} />
+                                <Route exact path="/plays" component={Plays} />
                                 <Route component={NotFound}/>
                             </Switch>
                         </div>

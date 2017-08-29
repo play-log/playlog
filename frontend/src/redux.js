@@ -80,6 +80,7 @@ const {actions, reducers} = generate({
     artists: params => buildURL('/api/artists', params),
     counters: '/api/counters',
     overview: '/api/overview',
+    plays: params => buildURL('/api/plays', params),
     tracks: params => buildURL('/api/tracks', params)
 });
 

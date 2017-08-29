@@ -7,6 +7,11 @@ from playlog.models.album import album
 from playlog.models.track import track
 
 
+ORDER_DIRECTIONS = ['asc', 'desc']
+DEFAULT_ORDER_DIRECTION = 'desc'
+ORDER_FIELDS = ['artist_name', 'album_name', 'track_name', 'date']
+DEFAULT_ORDER_FIELD = 'date'
+
 RECENT_LIMIT = 15
 
 
@@ -123,3 +128,57 @@ async def get_current_streak(conn):
         FROM current_interval;
     """)
     return await result.fetchone()
+
+
+async def find_many(conn, offset, limit, **kwargs):
+    artist_name = artist.c.name.label('artist')
+    album_name = album.c.name.label('album')
+    track_name = track.c.name.label('track')
+
+    order_field = kwargs.get('order_field', DEFAULT_ORDER_FIELD)
+    if order_field == 'artist_name':
+        order_expr = artist_name
+    elif order_field == 'album_name':
+        order_expr = album_name
+    elif order_field == 'track_name':
+        order_expr = track_name
+    else:
+        order_expr = getattr(play.c, order_field)
+    order_direction = kwargs.get('order_direction', DEFAULT_ORDER_DIRECTION)
+    order_expr = getattr(order_expr, order_direction)
+
+    query = select([
+        artist_name,
+        album_name,
+        track_name,
+        artist.c.id.label('artist_id'),
+        album.c.id.label('album_id'),
+        play.c.track_id.label('track_id'),
+        play.c.date.label('date')
+    ])
+
+    if 'artist_name' in kwargs:
+        query = query.where(artist_name.ilike('%{}%'.format(kwargs['artist_name'])))
+    if 'album_name' in kwargs:
+        query = query.where(album_name.ilike('%{}%'.format(kwargs['album_name'])))
+    if 'track_name' in kwargs:
+        query = query.where(track_name.ilike('%{}%'.format(kwargs['track_name'])))
+    if 'date_gt' in kwargs:
+        query = query.where(play.c.date >= kwargs['date_gt'])
+    if 'date_lt' in kwargs:
+        query = query.where(play.c.date <= kwargs['date_lt'])
+
+    from_clause = play.join(track).join(album).join(artist)
+
+    total = await conn.scalar(
+        query.select_from(from_clause)
+             .with_only_columns([func.count(play.c.track_id)])
+    )
+
+    query = query.offset(offset).limit(limit).order_by(order_expr())
+    query = query.select_from(from_clause)
+
+    result = await conn.execute(query)
+    items = await result.fetchall()
+
+    return {'items': items, 'total': total}

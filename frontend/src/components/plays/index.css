@@ -1,0 +1,93 @@
+.plays-content {
+    display: flex;
+}
+
+.plays-content-item {
+    box-sizing: border-box;
+}
+
+.plays-content-item:nth-child(1) {
+    flex: 0 0 25%;
+    padding: 0 2%;
+}
+
+.plays-content-item:nth-child(2) {
+    flex: auto;
+    padding: 0 7% 0 2%;
+    max-width: 75%;
+}
+
+.plays-query {
+    margin: 10px 0;
+}
+
+.plays-query-label {
+    color: #333333;
+    display: block;
+    font-size: 16px;
+    font-variant: small-caps;
+    font-weight: 700;
+    text-transform: lowercase;
+    margin: 2px 0 4px 0;
+}
+
+.plays-query-control-group {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.plays-query-control-group label {
+    color: #444444;
+    font-weight: 500;
+}
+
+.plays-query-control-group-item {
+    box-sizing: border-box;
+    flex: 0 0 50%;
+}
+
+.plays-query-control-group-item:first-child {
+    padding-right: 2px;
+}
+
+.plays-query-control-group-item:last-child {
+    padding-left: 2px;
+}
+
+.plays-list-data-item {
+    border-bottom: 1px solid #e9e9e9;
+    display: flex;
+    padding: 6px;
+}
+
+.plays-list-data-item-name {
+    flex-basis: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.plays-list-data-item-name a {
+    color: #101010;
+    text-decoration: none;
+}
+
+.plays-list-data-item-name a:hover {
+    text-decoration: underline;
+}
+
+.plays-list-data-item-date {
+    flex: auto;
+    text-align: right;
+}
+
+.plays-list-total {
+    border-bottom: 1px solid #efefef;
+    font-size: 13px;
+    font-variant: small-caps;
+    font-weight: 500;
+    margin: 20px 0;
+    padding: 0 0 4px 0;
+    text-align: right;
+    text-transform: uppercase;
+}
