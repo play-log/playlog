@@ -43,7 +43,6 @@ const Navigation = ({counters}) => (
         <Link to="/albums" counter={counters.albums}>Albums</Link>
         <Link to="/tracks" counter={counters.tracks}>Tracks</Link>
         <Link to="/plays" counter={counters.plays}>Plays</Link>
-        <Link to="/favorites" counter={counters.favorites}>Favorites</Link>
     </div>
 );
 

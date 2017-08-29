@@ -33,7 +33,6 @@ def parse_submissions(data):
             logger.warn('Invalid submission timestamp (%s), skipping', submission)
             continue
         else:
-            submission['is_favorite'] = data.get('r[{}]'.format(i)) == 'L'
             submission['date'] = datetime.fromtimestamp(submission.pop('timestamp'))
             result.append(submission)
     return result
@@ -59,13 +58,13 @@ async def handle_album(conn, artist_id, name):
     return album_id
 
 
-async def handle_track(conn, album_id, name, is_favorite):
+async def handle_track(conn, album_id, name):
     data = await track.find_one(conn, album_id=album_id, name=name)
     if data:
         track_id = data['id']
-        await track.update(conn, track_id, is_favorite)
+        await track.update(conn, track_id)
     else:
-        track_id = await track.create(conn, album_id, name, is_favorite)
+        track_id = await track.create(conn, album_id, name)
     return track_id
 
 
@@ -84,6 +83,6 @@ class Submit(View):
                     continue
                 artist_id = await handle_artist(conn, item['artist'])
                 album_id = await handle_album(conn, artist_id, item['album'])
-                track_id = await handle_track(conn, album_id, item['track'], item['is_favorite'])
+                track_id = await handle_track(conn, album_id, item['track'])
                 await play.create(conn, track_id, item['date'])
         return Response(text='OK')

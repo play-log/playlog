@@ -7,7 +7,7 @@ import './index.css';
 
 const DateChart = ({data}) => (
     <div className="overview-date-chart">
-        <Chart data={data} height='220px' />
+        <Chart data={data} height='190px' />
     </div>
 );
 

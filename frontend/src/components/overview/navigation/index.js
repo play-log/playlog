@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 
 import AlbumIcon from '../../../icons/album.svg';
 import ArtistIcon from '../../../icons/artist.svg';
-import HeartIcon from '../../../icons/heart.svg';
 import PlayIcon from '../../../icons/play.svg';
 import TrackIcon from '../../../icons/track.svg';
 
@@ -14,8 +13,7 @@ const DATA = [
     {key: 'artists', icon: ArtistIcon, link: '/artists'},
     {key: 'albums', icon: AlbumIcon, link: '/albums'},
     {key: 'tracks', icon: TrackIcon, link: '/tracks'},
-    {key: 'plays', icon: PlayIcon, link: '/plays'},
-    {key: 'favorites', icon: HeartIcon, link: '/favorites'},
+    {key: 'plays', icon: PlayIcon, link: '/plays'}
 ];
 
 const Item = ({icon, title, link, counter}) => (

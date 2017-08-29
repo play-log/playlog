@@ -44,7 +44,6 @@ async def get_recent(conn):
             artist.c.name.label('artist'),
             album.c.name.label('album'),
             track.c.name.label('track'),
-            track.c.is_favorite.label('is_favorite'),
             play.c.date.label('date')
         ])
         .order_by(play.c.date.desc())

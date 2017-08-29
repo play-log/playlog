@@ -38,8 +38,7 @@ class Overview(View):
                     'artists': await artist.count_total(conn),
                     'albums': await album.count_total(conn),
                     'tracks': await track.count_total(conn),
-                    'plays': await play.count_total(conn),
-                    'favorites': await track.count_favorite(conn)
+                    'plays': await play.count_total(conn)
                 },
                 'years': await play.count_per_year(conn),
                 'recent_tracks': await play.get_recent(conn)

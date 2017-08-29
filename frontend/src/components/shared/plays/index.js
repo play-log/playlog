@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Heart from '../heart';
-
 import './index.css';
 
 const Plays = ({data}) => {
@@ -16,9 +14,6 @@ const Plays = ({data}) => {
                 <div className="shared-plays-group-list">{
                     group.items.map((item, idx) => (
                         <div key={idx} className="shared-plays-group-list-item">
-                            <span className="shared-plays-group-list-item-heart">
-                                <Heart enabled={item.isFavorite} />
-                            </span>
                             <span className="shared-plays-group-list-item-data">
                                 {item.artist} &mdash; {item.album} &mdash; {item.track}
                             </span>
@@ -38,7 +33,6 @@ Plays.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
         date: PropTypes.string.isRequired,
         items: PropTypes.arrayOf(PropTypes.shape({
-            isFavorite: PropTypes.bool.isRequired,
             artist: PropTypes.string.isRequired,
             album: PropTypes.string.isRequired,
             track: PropTypes.string.isRequired,
