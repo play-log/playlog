@@ -112,7 +112,9 @@ async def get_current_streak(conn):
                 lag(day) OVER (ORDER BY day) AS start_date
             FROM days
         ), r AS (
-            SELECT date_trunc('day', now()) AS start_date, date_trunc('day', now()) AS end_date
+            SELECT
+                date_trunc('day', now() at time zone 'utc') AS start_date,
+                date_trunc('day', now() at time zone 'utc') AS end_date
             UNION
             SELECT b.start_date, b.end_date FROM r a JOIN pairs b ON b.end_date = a.start_date
             WHERE b.end_date - b.start_date <= '1 day'::interval
