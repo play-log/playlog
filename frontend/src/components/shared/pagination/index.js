@@ -7,7 +7,7 @@ const NEIGHBOURS = 4;
 
 export const FIRST_PAGE = 1;
 export const INITIAL_OFFSET = 0;
-export const LIMIT = 10;
+export const LIMIT = 15;
 
 export class Pagination extends React.Component {
     shouldComponentUpdate(nextProps) {
