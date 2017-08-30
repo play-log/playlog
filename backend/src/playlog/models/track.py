@@ -57,7 +57,12 @@ async def find_many(conn, offset, limit, **kwargs):
     order_direction = kwargs.get('order_direction', DEFAULT_ORDER_DIRECTION)
     order_expr = getattr(order_expr, order_direction)
 
-    query = select([track, album_name, artist_name])
+    query = select([
+        artist.c.id.label('artist_id'),
+        artist_name,
+        album_name,
+        track
+    ])
 
     if 'artist_name' in kwargs:
         query = query.where(artist_name.ilike('%{}%'.format(kwargs['artist_name'])))

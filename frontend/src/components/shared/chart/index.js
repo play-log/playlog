@@ -26,7 +26,7 @@ class Chart extends React.Component {
         }
     }
     componentWillUnmount() {
-        if (!this.isEmpty()) {
+        if (this.state.chart) {
             this.state.chart.destroy();
         }
     }
@@ -71,7 +71,7 @@ Chart.propTypes = {
         label: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired
     })).isRequired,
-    type: PropTypes.oneOf(['radar', 'bar', 'doughnut', 'pie']),
+    type: PropTypes.oneOf(['radar', 'bar', 'doughnut', 'pie', 'line']),
     width: PropTypes.string,
     height: PropTypes.string
 };

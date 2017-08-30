@@ -79,7 +79,6 @@
 
 .tracks-list-item-data-name {
     border-bottom: 1px solid #f0f0f0;
-    color: #2070b0;
     margin: 0 0 2px 0;
     overflow: hidden;
     padding: 0 0 2px 0;
@@ -88,7 +87,12 @@
 }
 
 .tracks-list-item-data-name a {
+    color: #101010;
     text-decoration: none;
+}
+
+.tracks-list-item-data-name a:hover {
+    text-decoration: underline;
 }
 
 .tracks-list-item-data-period {

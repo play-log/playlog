@@ -28,7 +28,11 @@ const Item = ({id, artist, album, name, plays, firstPlay, lastPlay, playsPercent
     <div className="tracks-list-item">
         <div className="tracks-list-item-data">
             <div className="tracks-list-item-data-name">
-                <Link to={`/tracks/${id}`}>{artist} &mdash; {album} &mdash; {name}</Link>
+                <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
+                <span> &mdash; </span>
+                <Link to={`/abums/${album.id}`}>{album.name}</Link>
+                <span> &mdash; </span>
+                <Link to={`/tracks/${id}`}>{name}</Link>
             </div>
             <div className="tracks-list-item-data-period">{firstPlay} &mdash; {lastPlay}</div>
         </div>
@@ -118,8 +122,14 @@ const dataSelector = createSelector(
 
             data.payload.items = data.payload.items.map(item => ({
                 id: item.id,
-                artist: item.artist,
-                album: item.album,
+                artist: {
+                    id: item.artistId,
+                    name: item.artist
+                },
+                album: {
+                    id: item.albumId,
+                    name: item.album
+                },
                 name: item.name,
                 plays: item.plays,
                 firstPlay: formatDate(item.firstPlay),

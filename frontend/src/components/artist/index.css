@@ -1,0 +1,94 @@
+.artist {
+    margin: 0 auto;
+    max-width: 75%;
+}
+
+.artist-header {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 20px;
+}
+
+.artist-panel {
+    align-items: center;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    padding: 15px 5px;
+}
+
+.artist-panel-data, .artist-panel-chart {
+    box-sizing: border-box;
+}
+
+.artist-panel-data {
+    width: 25%;
+}
+
+.artist-panel-chart {
+    width: 75%;
+}
+
+.artist-panel-data-item {
+    align-items: center;
+    display: flex;
+    margin: 7px 0;
+}
+
+.artist-panel-data-item-icon {
+    flex: 0 0 24px;
+}
+
+.artist-panel-data-item-data {
+    flex: auto;
+    padding: 4px 14px 0 14px;
+}
+
+.artist-panel-data-item-data-label {
+    font-weight: 500;
+}
+
+.artist-panel-data-item-data-value {
+    margin: 4px 0;
+}
+
+.artist-albums {
+    padding: 0 5px;
+}
+
+.artist-albums-item {
+    align-items: center;
+    display: flex;
+    margin: 15px 0;
+}
+
+.artist-albums-item-data {
+    flex-basis: 60%;
+    max-width: 60%;
+    padding: 0 10px 0 0;
+}
+
+.artist-albums-item-data-name {
+    border-bottom: 1px solid #f0f0f0;
+    margin: 0 0 2px 0;
+    overflow: hidden;
+    padding: 0 0 2px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.artist-albums-item-data-name a {
+    color: #101010;
+    text-decoration: none;
+}
+
+.artist-albums-item-data-name a:hover {
+    text-decoration: underline;
+}
+
+.artist-albums-item-data-period {
+    font-size: 12px;
+}
+
+.artist-albums-item-bar {
+    flex: auto;
+}
