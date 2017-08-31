@@ -95,6 +95,12 @@ async def find_many(conn, offset, limit, **kwargs):
     return {'items': items, 'total': total}
 
 
+async def find_for_album(conn, album_id):
+    query = select([track]).where(track.c.album_id == album_id).order_by(track.c.plays.desc())
+    result = await conn.execute(query)
+    return await result.fetchall()
+
+
 async def update(conn, track_id):
     await utils.update(conn, track, track.c.id == track_id, {
         'plays': track.c.plays + 1,

@@ -1,7 +1,7 @@
 from schema import Optional
 
 from playlog.decorators import route, with_query
-from playlog.models import album
+from playlog.models import album, track, play
 from playlog.validation import Int, ISODateTime, Length, OneOf
 from playlog.views import View
 
@@ -23,3 +23,14 @@ class Albums(View):
     async def get(self, query):
         async with self.db as conn:
             return self.json(await album.find_many(conn, **query))
+
+
+@route('/albums/{id:\d+}')
+class Album(View):
+    async def get(self):
+        async with self.db as conn:
+            album_id = self.request.match_info['id']
+            data = dict(await album.find_one(conn, id=album_id))
+            data['tracks'] = await track.find_for_album(conn, album_id)
+            data['years'] = await play.count_per_year_for_album(conn, album_id)
+            return self.json(data)

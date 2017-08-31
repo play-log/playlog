@@ -88,6 +88,19 @@ async def count_per_year_for_artist(conn, artist_id):
     return await result.fetchall()
 
 
+async def count_per_year_for_album(conn, album_id):
+    year = func.date_part('YEAR', play.c.date).label('year')
+    plays = func.count().label('plays')
+    query = (select([year, plays]).where(album.c.id == album_id)
+                                  .group_by(year)
+                                  .order_by(year)
+                                  .select_from(
+                                      play.join(track)
+                                          .join(album)))
+    result = await conn.execute(query)
+    return await result.fetchall()
+
+
 async def get_longest_streak(conn):
     result = await conn.execute("""
         WITH RECURSIVE days AS (

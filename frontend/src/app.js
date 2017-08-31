@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
+import Album from './components/album';
 import Albums from './components/albums';
 import Artist from './components/artist';
 import Artists from './components/artists';
@@ -25,6 +26,7 @@ class App extends React.Component {
                                 <Route exact path="/artists" component={Artists} />
                                 <Route exact path="/artists/:id" component={Artist} />
                                 <Route exact path="/albums" component={Albums} />
+                                <Route exact path="/albums/:id" component={Album} />
                                 <Route exact path="/tracks" component={Tracks} />
                                 <Route exact path="/plays" component={Plays} />
                                 <Route component={NotFound}/>

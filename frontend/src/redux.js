@@ -76,6 +76,7 @@ function generate(config) {
 }
 
 const {actions, reducers} = generate({
+    album: id => `/api/albums/${id}`,
     albums: params => buildURL('/api/albums', params),
     artist: id => `/api/artists/${id}`,
     artists: params => buildURL('/api/artists', params),
