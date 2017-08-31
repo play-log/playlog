@@ -1,0 +1,102 @@
+.track {
+    margin: 0 auto;
+    max-width: 75%;
+}
+
+.track-header {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 20px;
+}
+
+.track-header a {
+    color: #101010;
+    text-decoration: none;
+}
+
+.track-header a:hover {
+    text-decoration: underline;
+}
+
+.track-panel {
+    align-items: center;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    padding: 15px 5px;
+}
+
+.track-panel-data, .track-panel-chart {
+    box-sizing: border-box;
+}
+
+.track-panel-data {
+    width: 25%;
+}
+
+.track-panel-chart {
+    width: 75%;
+}
+
+.track-panel-data-item {
+    align-items: center;
+    display: flex;
+    margin: 7px 0;
+}
+
+.track-panel-data-item-icon {
+    flex: 0 0 24px;
+}
+
+.track-panel-data-item-data {
+    flex: auto;
+    padding: 4px 14px 0 14px;
+}
+
+.track-panel-data-item-data-label {
+    font-weight: 500;
+}
+
+.track-panel-data-item-data-value {
+    margin: 4px 0;
+}
+
+.track-plays-group {
+    padding: 20px 0 0 0;
+}
+
+.track-plays-group-header {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 0 7px;
+}
+
+.track-plays-group-items-item {
+    box-shadow: 0 0 2px #8a8a8a;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    text-align: center;
+    width: 8%;
+}
+
+.track-plays-group-items-item-month {
+    background: #5d5d5d;
+    box-shadow: 2px 0 0 #5d5d5d, -2px 0 #5d5d5d;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 7px;
+}
+
+.track-plays-group-items-item-monthday {
+    background: #f0f0f0;
+    font-size: 16px;
+    padding: 7px;
+}
+
+.track-plays-group-items-item-time {
+    background: #f0f0f0;
+    border-top: 1px solid #dfdfdf;
+    font-size: 11px;
+    padding: 7px;
+}

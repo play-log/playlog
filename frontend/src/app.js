@@ -9,6 +9,7 @@ import Navigation from './components/navigation';
 import NotFound from './components/not-found';
 import Overview from './components/overview';
 import Plays from './components/plays';
+import Track from './components/track';
 import Tracks from './components/tracks';
 
 import './app.css';
@@ -28,6 +29,7 @@ class App extends React.Component {
                                 <Route exact path="/albums" component={Albums} />
                                 <Route exact path="/albums/:id" component={Album} />
                                 <Route exact path="/tracks" component={Tracks} />
+                                <Route exact path="/tracks/:id" component={Track} />
                                 <Route exact path="/plays" component={Plays} />
                                 <Route component={NotFound}/>
                             </Switch>

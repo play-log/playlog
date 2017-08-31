@@ -19,11 +19,11 @@ import SunsetIcon from '../../icons/sunset.svg';
 
 import './index.css';
 
-const Track = ({data: {name, plays, playsPercent, firstPlay, lastPlay}}) => (
+const Track = ({data: {id, name, plays, playsPercent, firstPlay, lastPlay}}) => (
     <div className="album-tracks-item">
         <div className="album-tracks-item-data">
             <div className="album-tracks-item-data-name">
-                <Link to='/tracks/1'>{name}</Link>
+                <Link to={`/tracks/${id}`}>{name}</Link>
             </div>
             <div className="album-tracks-item-data-period">
                 {firstPlay} &mdash; {lastPlay}

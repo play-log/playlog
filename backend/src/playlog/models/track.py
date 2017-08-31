@@ -38,7 +38,17 @@ async def create(conn, album_id, name):
 
 
 async def find_one(conn, **kwargs):
-    return await utils.find_one(conn, track, kwargs)
+    query = select([
+        artist.c.id.label('artist_id'),
+        artist.c.name.label('artist_name'),
+        album.c.name.label('album_name'),
+        track
+    ])
+    for key, value in kwargs.items():
+        query = query.where(getattr(track.c, key) == value)
+    query = query.select_from(track.join(album).join(artist))
+    result = await conn.execute(query)
+    return await result.fetchone()
 
 
 async def find_many(conn, offset, limit, **kwargs):
