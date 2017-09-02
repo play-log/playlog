@@ -30,7 +30,7 @@ const Item = ({id, artist, album, name, plays, firstPlay, lastPlay, playsPercent
             <div className="tracks-list-item-data-name">
                 <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
                 <span> &mdash; </span>
-                <Link to={`/abums/${album.id}`}>{album.name}</Link>
+                <Link to={`/albums/${album.id}`}>{album.name}</Link>
                 <span> &mdash; </span>
                 <Link to={`/tracks/${id}`}>{name}</Link>
             </div>
@@ -82,7 +82,7 @@ class List extends React.Component {
                             )
                         }
                         <div className="tracks-list-total">
-                            {total} item{total !== 1 ? 's' : ''} found
+                            {total} Item{total !== 1 ? 's' : ''} Found
                         </div>
                         <Pagination
                             currentPage={this.state.page}
@@ -180,49 +180,68 @@ class Tracks extends React.Component {
             <div className="tracks-content">
                 <div className="tracks-content-item">
                     <div className="tracks-query">
-                        <SearchInput label="artist" onChange={this.handleArtistNameChange} />
+                        <label className="tracks-query-label">ARTIST</label>
+                        <SearchInput onChange={this.handleArtistNameChange} />
                     </div>
                     <div className="tracks-query">
-                        <SearchInput label="album" onChange={this.handleAlbumNameChange} />
+                        <label className="tracks-query-label">ALBUM</label>
+                        <SearchInput onChange={this.handleAlbumNameChange} />
                     </div>
                     <div className="tracks-query">
-                        <SearchInput label="title" onChange={this.handleTrackNameChange} />
+                        <label className="tracks-query-label">TITLE</label>
+                        <SearchInput onChange={this.handleTrackNameChange} />
                     </div>
                     <div className="tracks-query">
-                        <label className="tracks-query-label">first play</label>
+                        <label className="tracks-query-label">FIRST PLAY</label>
                         <div className="tracks-query-control-group">
                             <div className="tracks-query-control-group-item">
-                                <DateInput label="since" onChange={this.handleFirstPlayGtChange} />
+                                <label className="tracks-query-control-group-item-label">
+                                    SINCE
+                                </label>
+                                <DateInput onChange={this.handleFirstPlayGtChange} />
                             </div>
                             <div className="tracks-query-control-group-item">
-                                <DateInput label="until" onChange={this.handleFirstPlayLtChange} />
+                                <label className="tracks-query-control-group-item-label">
+                                    UNTIL
+                                </label>
+                                <DateInput onChange={this.handleFirstPlayLtChange} />
                             </div>
                         </div>
                     </div>
                     <div className="tracks-query">
-                        <label className="tracks-query-label">last play</label>
+                        <label className="tracks-query-label">LAST PLAY</label>
                         <div className="tracks-query-control-group">
                             <div className="tracks-query-control-group-item">
-                                <DateInput label="since" onChange={this.handleLastPlayGtChange} />
+                                <label className="tracks-query-control-group-item-label">
+                                    SINCE
+                                </label>
+                                <DateInput onChange={this.handleLastPlayGtChange} />
                             </div>
                             <div className="tracks-query-control-group-item">
-                                <DateInput label="until" onChange={this.handleLastPlayLtChange} />
+                                <label className="tracks-query-control-group-item-label">
+                                    UNTIL
+                                </label>
+                                <DateInput onChange={this.handleLastPlayLtChange} />
                             </div>
                         </div>
                     </div>
                     <div className="tracks-query">
-                        <label className="tracks-query-label">order</label>
+                        <label className="tracks-query-label">ORDER</label>
                         <div className="tracks-query-control-group">
                             <div className="tracks-query-control-group-item">
+                                <label className="tracks-query-control-group-item-label">
+                                    FIELD
+                                </label>
                                 <SwitchInput
-                                    label="field"
                                     onChange={this.handleOrderFieldChange}
                                     options={ORDER_FIELDS}
                                     initialValue={DEFAULT_ORDER_FIELD} />
                             </div>
                             <div className="tracks-query-control-group-item">
+                                <label className="tracks-query-control-group-item-label">
+                                    DIRECTION
+                                </label>
                                 <SwitchInput
-                                    label="direction"
                                     onChange={this.handleOrderDirectionChange}
                                     options={ORDER_DIRECTIONS}
                                     initialValue={DEFAULT_ORDER_DIRECTION} />

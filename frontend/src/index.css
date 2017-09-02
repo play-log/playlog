@@ -1,4 +1,6 @@
 body {
+    background: #252526;
+    color: #e0e0e0;
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -6,5 +8,11 @@ body {
 }
 
 a {
-    color: #2070b0;
+    color: #87ceeb;
+    outline: none;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }

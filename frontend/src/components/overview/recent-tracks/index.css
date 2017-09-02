@@ -1,21 +1,14 @@
-.overview-recent-tracks-header {
-    font-weight: 500;
-    margin: 10px 0;
-}
-
 .overview-recent-tracks-empty {
-    color: #2d2d2d;
     font-size: 18px;
     font-variant: small-caps;
     text-transform: lowercase;
 }
 
 .overview-recent-tracks-group {
-    margin: 0 0 5px 0;
+    margin: 0 0 15px 0;
 }
 
 .overview-recent-tracks-group-title {
-    color: #000000;
     margin: 7px 0;
 }
 
@@ -35,13 +28,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.overview-recent-tracks-group-list-item-data a {
-    color: #161616;
-    text-decoration: none;
-}
-
-.overview-recent-tracks-group-list-item-data a:hover {
-    text-decoration: underline;
 }

@@ -2,6 +2,8 @@ import ChartJS from 'chart.js';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import './defaults';
+
 class Chart extends React.Component {
     constructor(props) {
         super(props);
@@ -14,10 +16,7 @@ class Chart extends React.Component {
         this.state = {
             chart: null,
             labels: labels,
-            dataset: {
-                data: data,
-                backgroundColor: '#ff4400'
-            }
+            dataset: {data: data}
         };
     }
     componentDidMount() {

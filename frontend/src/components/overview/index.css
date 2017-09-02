@@ -11,23 +11,33 @@
 }
 
 .overview-sidebar-item {
-    margin: 20px 0;
+    background: #2b2b2b;
+    border: 1px solid #343434;
+    box-shadow: 0 0 1px #202020 inset;
+    margin: 10px 0;
+    padding: 15px;
 }
 
 .overview-content {
+    background: #222222;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 0 1px #151515 inset;
     box-sizing: border-box;
     flex: auto;
-    margin: 0 20px;
+    margin: 10px 20px;
+    padding: 0 25px;
     max-width: 70%;
 }
 
 .overview-content-header {
+    color: #ff4444;
+    font-size: 16px;
     font-weight: 500;
     margin: 20px 0;
 }
 
 .overview-content-row {
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .overview-content-row-col {

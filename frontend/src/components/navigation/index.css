@@ -1,23 +1,25 @@
 .navigation {
-    border-bottom: 1px solid #e0e0e0;
+    background: #1d1d1d;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -1px 0 #101010 inset;
     display: flex;
     flex-wrap: nowrap;
     margin: 0 0 20px 0;
 }
 
 .navigation-counter {
-    background: #dddddd;
-    border-radius: 4px;
-    color: #333333;
+    background: #dbdbdb;
+    color: #000000;
     display: inline-block;
     font-size: 12px;
     font-weight: 700;
+    margin: 0 0 0 5px;
     padding: 2px 5px;
     vertical-align: middle;
 }
 
 .navigation-link {
-    color: #333333;
+    color: #f0f0f0;
     cursor: pointer;
     font-size: 18px;
     font-variant: small-caps;
@@ -29,12 +31,12 @@
 }
 
 .navigation-link:hover {
-    color: #000000;
+    color: #a0a0a0;
+    text-decoration: none;
 }
 
 .navigation-link__active {
-    border-bottom: 3px solid #ff4400;
-    color: #000000;
+    border-bottom: 3px solid #ff4444;
     cursor: default;
     padding-bottom: 17px;
 }

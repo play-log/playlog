@@ -15,13 +15,10 @@ class SearchInput extends React.Component {
     }
     render() {
         return (
-            <div>
-                <label className="shared-search-input-label">{this.props.label}</label>
-                <input
-                    className="shared-search-input-field"
-                    type="text"
-                    onChange={this.handleChange} />
-            </div>
+            <input
+                className="shared-search-input-field"
+                type="text"
+                onChange={this.handleChange} />
         );
     }
     handleChange(event) {
@@ -31,13 +28,11 @@ class SearchInput extends React.Component {
 
 SearchInput.propTypes = {
     delay: PropTypes.number,
-    label: PropTypes.string,
     onChange: PropTypes.func.isRequired
 }
 
 SearchInput.defaultProps = {
-    delay: 500,
-    label: 'Search'
+    delay: 500
 };
 
 export default SearchInput;

@@ -1,10 +1,12 @@
 .overview-nowplay-header {
+    color: #f0f0f0;
     font-weight: 500;
 }
 
 .overview-nowplay-body {
     align-items: center;
     display: flex;
+    margin: 6px 0;
 }
 
 .overview-nowplay-body-icon {
@@ -20,8 +22,7 @@
 }
 
 .overview-nowplay-footer {
-    border-top: 1px solid #f0f0f0;
-    color: #2d2d2d;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
     font-size: 12px;
     overflow: hidden;
     padding: 4px 0 0 0;
@@ -39,7 +40,7 @@
 
 .overview-nowplay-bar-item {
     animation: overview-nowplay-bar-item 0ms -1000ms linear infinite alternate running;
-    background-color: #ff4400;
+    background-color: #ff4444;
     display: block;
     height: 10px;
     position: absolute;

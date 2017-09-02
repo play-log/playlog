@@ -31,12 +31,7 @@ const RecentTracks = ({data}) => {
         ));
     }
 
-    return (
-        <div>
-            <div className="overview-recent-tracks-header">Recent Tracks</div>
-            {result}
-        </div>
-    );
+    return <div>{result}</div>;
 };
 
 RecentTracks.propTypes = {

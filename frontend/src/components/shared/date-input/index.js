@@ -20,26 +20,21 @@ class DateInput extends React.Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (
-            nextProps.label !== this.props.label ||
             nextState.dateString !== this.state.dateString ||
             nextState.dateObject !== this.state.dateObject
         )
     }
     render() {
         let {dateString, dateObject} = this.state,
-            {label} = this.props,
             hasError = dateString.length > 0 && dateObject === null;
 
         return (
-            <div>
-                <label className="shared-date-input-label">{label}</label>
-                <input
-                    className={`shared-date-input-field${!hasError ? '' : ' shared-date-input-field__error'}`}
-                    type="text"
-                    placeholder={DATE_FORMAT}
-                    onChange={this.handleChange}
-                    value={dateString} />
-            </div>
+            <input
+                className={`shared-date-input-field${!hasError ? '' : ' shared-date-input-field__error'}`}
+                type="text"
+                placeholder={DATE_FORMAT}
+                onChange={this.handleChange}
+                value={dateString} />
         );
     }
     handleChange(event) {
@@ -79,7 +74,6 @@ class DateInput extends React.Component {
 }
 
 DateInput.propTypes = {
-    label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired
 }
 

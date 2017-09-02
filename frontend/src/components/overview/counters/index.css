@@ -29,7 +29,7 @@
 }
 
 .overview-counters-footer {
-    border-top: 1px dotted #e0e0e0;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
     font-size: 12px;
     padding: 4px 0 0 0;
 }

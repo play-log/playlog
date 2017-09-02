@@ -1,5 +1,6 @@
 .shared-progress-bar {
-    background: #f0f0f0;
+    background: #191919;
+    border: 1px solid #292929;
     height: 20px;
     margin: 0 auto;
     overflow: hidden;
@@ -8,14 +9,15 @@
 }
 
 .shared-progress-bar-label {
-    background: #dddddd;
+    background: #4d4d4d;
     height: 100%;
 }
 
 .shared-progress-bar-label-value {
-    color: #000000;
+    color: #ffffff;
     display: inline-block;
     font-size: 12px;
+    font-weight: 500;
     line-height: 20px;
     margin: 0 5px;
     vertical-align: bottom;

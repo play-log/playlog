@@ -4,14 +4,16 @@
 }
 
 .artist-header {
+    color: #ff4444;
     font-size: 20px;
-    font-weight: 300;
+    font-weight: 500;
     line-height: 20px;
 }
 
 .artist-panel {
     align-items: center;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -2px 0 #161616 inset;
     display: flex;
     padding: 15px 5px;
 }
@@ -21,11 +23,11 @@
 }
 
 .artist-panel-data {
-    width: 25%;
+    width: 30%;
 }
 
 .artist-panel-chart {
-    width: 75%;
+    width: 70%;
 }
 
 .artist-panel-data-item {
@@ -48,11 +50,13 @@
 }
 
 .artist-panel-data-item-data-value {
+    color: #ababab;
     margin: 4px 0;
+    white-space: nowrap;
 }
 
 .artist-albums {
-    padding: 0 5px;
+    padding: 0 5px 10px;
 }
 
 .artist-albums-item {
@@ -68,21 +72,12 @@
 }
 
 .artist-albums-item-data-name {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     margin: 0 0 2px 0;
     overflow: hidden;
     padding: 0 0 2px 0;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.artist-albums-item-data-name a {
-    color: #101010;
-    text-decoration: none;
-}
-
-.artist-albums-item-data-name a:hover {
-    text-decoration: underline;
 }
 
 .artist-albums-item-data-period {

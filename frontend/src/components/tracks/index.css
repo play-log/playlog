@@ -7,22 +7,32 @@
 }
 
 .tracks-content-item:nth-child(1) {
+    background: #2b2b2b;
+    border: 1px solid #343434;
+    box-shadow: 0 0 1px #202020 inset;
     flex: 0 0 25%;
+    margin: 0 20px 0 0;
     padding: 0 2%;
 }
 
 .tracks-content-item:nth-child(2) {
+    background: #222222;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 0 1px #151515 inset;
     flex: auto;
     padding: 0 7% 0 2%;
     max-width: 75%;
 }
 
 .tracks-query {
-    margin: 10px 0;
+    border-bottom: 1px solid #101010;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.09);
+    margin: 10px 0 15px;
+    padding: 0 0 15px 0;
 }
 
 .tracks-query-label {
-    color: #333333;
+    color: #ff4444;
     display: block;
     font-size: 16px;
     font-variant: small-caps;
@@ -34,11 +44,6 @@
 .tracks-query-control-group {
     display: flex;
     flex-wrap: nowrap;
-}
-
-.tracks-query-control-group label {
-    color: #444444;
-    font-weight: 500;
 }
 
 .tracks-query-control-group-item {
@@ -54,15 +59,20 @@
     padding-left: 2px;
 }
 
-.tracks-list-total {
-    border-bottom: 1px solid #efefef;
-    font-size: 13px;
+.tracks-query-control-group-item-label {
+    color: #bbbbbb;
+    display: block;
+    font-size: 16px;
     font-variant: small-caps;
     font-weight: 500;
+    text-transform: lowercase;
+    margin: 2px 0 4px 0;
+}
+
+.tracks-list-total {
+    font-size: 13px;
     margin: 20px 0;
-    padding: 0 0 4px 0;
     text-align: right;
-    text-transform: uppercase;
 }
 
 .tracks-list-item {
@@ -74,25 +84,15 @@
 .tracks-list-item-data {
     flex-basis: 60%;
     max-width: 60%;
-    padding: 0 10px 0 0;
 }
 
 .tracks-list-item-data-name {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #292929;
     margin: 0 0 2px 0;
     overflow: hidden;
     padding: 0 0 2px 0;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.tracks-list-item-data-name a {
-    color: #101010;
-    text-decoration: none;
-}
-
-.tracks-list-item-data-name a:hover {
-    text-decoration: underline;
 }
 
 .tracks-list-item-data-period {

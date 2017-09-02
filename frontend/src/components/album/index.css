@@ -9,18 +9,10 @@
     line-height: 20px;
 }
 
-.album-header a {
-    color: #101010;
-    text-decoration: none;
-}
-
-.album-header a:hover {
-    text-decoration: underline;
-}
-
 .album-panel {
     align-items: center;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -2px 0 #161616 inset;
     display: flex;
     padding: 15px 5px;
 }
@@ -30,11 +22,11 @@
 }
 
 .album-panel-data {
-    width: 25%;
+    width: 30%;
 }
 
 .album-panel-chart {
-    width: 75%;
+    width: 70%;
 }
 
 .album-panel-data-item {
@@ -57,11 +49,13 @@
 }
 
 .album-panel-data-item-data-value {
+    color: #ababab;
     margin: 4px 0;
+    white-space: nowrap;
 }
 
 .album-tracks {
-    padding: 0 5px;
+    padding: 0 5px 10px;
 }
 
 .album-tracks-item {
@@ -77,21 +71,12 @@
 }
 
 .album-tracks-item-data-name {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     margin: 0 0 2px 0;
     overflow: hidden;
     padding: 0 0 2px 0;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.album-tracks-item-data-name a {
-    color: #101010;
-    text-decoration: none;
-}
-
-.album-tracks-item-data-name a:hover {
-    text-decoration: underline;
 }
 
 .album-tracks-item-data-period {

@@ -131,6 +131,7 @@ const Overview = ({
                     <DateChart data={years} />
                 </div>
             </div>
+            <div className="overview-content-header">Recent Tracks</div>
             <div className="overview-content-row">
                 <RecentTracks data={recentTracks} />
             </div>

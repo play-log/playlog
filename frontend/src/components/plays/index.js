@@ -72,7 +72,7 @@ class List extends React.Component {
                             )
                         }</div>
                         <div className="plays-list-total">
-                            {total} item{total !== 1 ? 's' : ''} found
+                            {total} Item{total !== 1 ? 's' : ''} Found
                         </div>
                         <Pagination
                             currentPage={this.state.page}
@@ -165,38 +165,51 @@ class Plays extends React.Component {
             <div className="plays-content">
                 <div className="plays-content-item">
                     <div className="plays-query">
-                        <SearchInput label="artist" onChange={this.handleArtistNameChange} />
+                        <label className="plays-query-label">ARTIST</label>
+                        <SearchInput onChange={this.handleArtistNameChange} />
                     </div>
                     <div className="plays-query">
-                        <SearchInput label="album" onChange={this.handleAlbumNameChange} />
+                        <label className="plays-query-label">ALBUM</label>
+                        <SearchInput onChange={this.handleAlbumNameChange} />
                     </div>
                     <div className="plays-query">
-                        <SearchInput label="track" onChange={this.handleTrackNameChange} />
+                        <label className="plays-query-label">TRACK</label>
+                        <SearchInput onChange={this.handleTrackNameChange} />
                     </div>
                     <div className="plays-query">
-                        <label className="plays-query-label">date</label>
+                        <label className="plays-query-label">DATE</label>
                         <div className="plays-query-control-group">
                             <div className="plays-query-control-group-item">
-                                <DateInput label="since" onChange={this.handleDateGtChange} />
+                                <label className="plays-query-control-group-item-label">
+                                    SINCE
+                                </label>
+                                <DateInput onChange={this.handleDateGtChange} />
                             </div>
                             <div className="plays-query-control-group-item">
-                                <DateInput label="until" onChange={this.handleDateLtChange} />
+                                <label className="plays-query-control-group-item-label">
+                                    UNTIL
+                                </label>
+                                <DateInput onChange={this.handleDateLtChange} />
                             </div>
                         </div>
                     </div>
                     <div className="plays-query">
-                        <label className="plays-query-label">order</label>
+                        <label className="plays-query-label">ORDER</label>
                         <div className="plays-query-control-group">
                             <div className="plays-query-control-group-item">
+                                <label className="plays-query-control-group-item-label">
+                                    FIELD
+                                </label>
                                 <SwitchInput
-                                    label="field"
                                     onChange={this.handleOrderFieldChange}
                                     options={ORDER_FIELDS}
                                     initialValue={DEFAULT_ORDER_FIELD} />
                             </div>
                             <div className="plays-query-control-group-item">
+                                <label className="plays-query-control-group-item-label">
+                                    DIRECTION
+                                </label>
                                 <SwitchInput
-                                    label="direction"
                                     onChange={this.handleOrderDirectionChange}
                                     options={ORDER_DIRECTIONS}
                                     initialValue={DEFAULT_ORDER_DIRECTION} />

@@ -11,7 +11,6 @@ class SwitchInput extends React.Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         return (
-            nextProps.label !== this.props.label ||
             nextProps.options !== this.props.options ||
             nextState.value !== this.state.value
         );
@@ -19,7 +18,6 @@ class SwitchInput extends React.Component {
     render() {
         return (
             <div>
-                <label className="shared-switch-input-label">{this.props.label}</label>
                 {this.props.options.map(option => {
                     let className = 'shared-switch-input-option';
                     if (this.state.value === option) {
@@ -43,7 +41,6 @@ class SwitchInput extends React.Component {
 
 SwitchInput.propTypes = {
     initialValue: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired
 };

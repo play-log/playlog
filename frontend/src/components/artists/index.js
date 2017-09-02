@@ -78,7 +78,7 @@ class List extends React.Component {
                             )
                         }
                         <div className="artists-list-total">
-                            {total} item{total !== 1 ? 's' : ''} found
+                            {total} Item{total !== 1 ? 's' : ''} Found
                         </div>
                         <Pagination
                             currentPage={this.state.page}
@@ -164,43 +164,60 @@ class Artists extends React.Component {
             <div className="artists-content">
                 <div className="artists-content-item">
                     <div className="artists-query">
-                        <SearchInput label="name" onChange={this.handleNameChange} />
+                    <label className="artists-query-label">NAME</label>
+                        <SearchInput onChange={this.handleNameChange} />
                     </div>
                     <div className="artists-query">
-                        <label className="artists-query-label">first play</label>
+                        <label className="artists-query-label">FIRST PLAY</label>
                         <div className="artists-query-control-group">
                             <div className="artists-query-control-group-item">
-                                <DateInput label="since" onChange={this.handleFirstPlayGtChange} />
+                                <label className="artists-query-control-group-item-label">
+                                    SINCE
+                                </label>
+                                <DateInput onChange={this.handleFirstPlayGtChange} />
                             </div>
                             <div className="artists-query-control-group-item">
-                                <DateInput label="until" onChange={this.handleFirstPlayLtChange} />
+                                <label className="artists-query-control-group-item-label">
+                                    UNTIL
+                                </label>
+                                <DateInput onChange={this.handleFirstPlayLtChange} />
                             </div>
                         </div>
                     </div>
                     <div className="artists-query">
-                        <label className="artists-query-label">last play</label>
+                        <label className="artists-query-label">Last Play</label>
                         <div className="artists-query-control-group">
                             <div className="artists-query-control-group-item">
-                                <DateInput label="since" onChange={this.handleLastPlayGtChange} />
+                                <label className="artists-query-control-group-item-label">
+                                    SINCE
+                                </label>
+                                <DateInput onChange={this.handleLastPlayGtChange} />
                             </div>
                             <div className="artists-query-control-group-item">
-                                <DateInput label="until" onChange={this.handleLastPlayLtChange} />
+                                <label className="artists-query-control-group-item-label">
+                                    UNTIL
+                                </label>
+                                <DateInput onChange={this.handleLastPlayLtChange} />
                             </div>
                         </div>
                     </div>
                     <div className="artists-query">
-                        <label className="artists-query-label">order</label>
+                        <label className="artists-query-label">ORDER</label>
                         <div className="artists-query-control-group">
                             <div className="artists-query-control-group-item">
+                                <label className="artists-query-control-group-item-label">
+                                    FIELD
+                                </label>
                                 <SwitchInput
-                                    label="field"
                                     onChange={this.handleOrderFieldChange}
                                     options={ORDER_FIELDS}
                                     initialValue={DEFAULT_ORDER_FIELD} />
                             </div>
                             <div className="artists-query-control-group-item">
+                                <label className="artists-query-control-group-item-label">
+                                    DIRECTION
+                                </label>
                                 <SwitchInput
-                                    label="direction"
                                     onChange={this.handleOrderDirectionChange}
                                     options={ORDER_DIRECTIONS}
                                     initialValue={DEFAULT_ORDER_DIRECTION} />

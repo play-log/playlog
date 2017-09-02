@@ -1,15 +1,4 @@
-.shared-switch-input-label {
-    color: #333333;
-    display: block;
-    font-size: 16px;
-    font-variant: small-caps;
-    font-weight: 700;
-    text-transform: lowercase;
-    margin: 2px 0 4px 0;
-}
-
 .shared-switch-input-option {
-    color: #222222;
     cursor: pointer;
     display: block;
     font-size: 16px;
@@ -20,6 +9,6 @@
 }
 
 .shared-switch-input-option__selected, .shared-switch-input-option:hover {
-    color: #ff4400;
+    color: #87ceeb;
     font-weight: 500;
 }

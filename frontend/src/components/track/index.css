@@ -9,18 +9,10 @@
     line-height: 20px;
 }
 
-.track-header a {
-    color: #101010;
-    text-decoration: none;
-}
-
-.track-header a:hover {
-    text-decoration: underline;
-}
-
 .track-panel {
     align-items: center;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -2px 0 #161616 inset;
     display: flex;
     padding: 15px 5px;
 }
@@ -30,11 +22,11 @@
 }
 
 .track-panel-data {
-    width: 25%;
+    width: 30%;
 }
 
 .track-panel-chart {
-    width: 75%;
+    width: 70%;
 }
 
 .track-panel-data-item {
@@ -57,7 +49,9 @@
 }
 
 .track-panel-data-item-data-value {
+    color: #ababab;
     margin: 4px 0;
+    white-space: nowrap;
 }
 
 .track-plays-group {
@@ -67,36 +61,33 @@
 .track-plays-group-header {
     font-size: 16px;
     font-weight: 500;
-    padding: 0 0 7px;
+    margin: 0 0 20px;
 }
 
 .track-plays-group-items-item {
-    box-shadow: 0 0 2px #8a8a8a;
+    background: #202020;
+    box-shadow: 0 0 2px #191919;
     box-sizing: border-box;
-    display: inline-block;
     margin: 0 8px 8px 0;
+    display: inline-block;
     text-align: center;
     width: 8%;
 }
 
 .track-plays-group-items-item-month {
-    background: #5d5d5d;
-    box-shadow: 2px 0 0 #5d5d5d, -2px 0 #5d5d5d;
-    color: white;
-    font-size: 14px;
+    background: #2d2d2d;
+    border: 1px solid #353535;
     font-weight: 500;
     padding: 7px;
 }
 
 .track-plays-group-items-item-monthday {
-    background: #f0f0f0;
     font-size: 16px;
     padding: 7px;
 }
 
 .track-plays-group-items-item-time {
-    background: #f0f0f0;
-    border-top: 1px solid #dfdfdf;
+    border-top: 1px solid #242424;
     font-size: 11px;
     padding: 7px;
 }
