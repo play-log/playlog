@@ -44,7 +44,7 @@ class Submissions(View):
         session_id = await self.session.create()
         logger.info('Handshake succeeded (Session ID: %s)', session_id)
 
-        base_url = '{}://{}/submissions'.format(self.request.scheme, self.request.host)
+        base_url = '{}/submissions'.format(config.SUBMISSIONS['base_url'])
         nowplay_url = '{}/nowplay'.format(base_url)
         submissions_url = '{}/submit'.format(base_url)
 
