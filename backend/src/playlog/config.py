@@ -22,6 +22,7 @@ USER_EMAIL = getenv('USER_EMAIL')
 
 SUBMISSIONS = {
     'base_url': getenv('SUBMISSIONS_BASE_URL'),
+    'handshake_timeout': int(getenv('SUBMISSIONS_HANDSHAKE_TIMEOUT')),
     'username': getenv('SUBMISSIONS_USER'),
     'password_hash': getenv('SUBMISSIONS_PASSWORD_HASH')
 }

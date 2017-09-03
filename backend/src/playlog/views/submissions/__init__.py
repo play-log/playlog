@@ -1,6 +1,7 @@
 import logging
 
 from hashlib import md5
+from time import time
 
 from aiohttp.web import Response
 
@@ -33,9 +34,21 @@ class Submissions(View):
             logger.warn('Handshake failed with invalid username: %s', username)
             return Response(text='BADAUTH')
 
-        expected_token = md5(config.SUBMISSIONS['password_hash'].encode('utf-8'))
         timestamp = query.get('t', '')
-        expected_token.update(timestamp.encode('utf-8'))
+        try:
+            timestamp = int(timestamp)
+        except ValueError:
+            logger.warn('Handshake failed with invalid timestamp: %s', timestamp)
+            return Response(text='FAILED Bad timestamp')
+
+        delay = abs(int(time()) - timestamp)
+        if delay > config.SUBMISSIONS['handshake_timeout']:
+            msg = 'Handshake timeout exceeded: %d > %d'
+            logger.warn(msg, delay, config.SUBMISSIONS['handshake_timeout'])
+            return Response(text='FAILED Bad timestamp')
+
+        expected_token = md5(config.SUBMISSIONS['password_hash'].encode('utf-8'))
+        expected_token.update(str(timestamp).encode('utf-8'))
         token = query.get('a')
         if token != expected_token.hexdigest():
             logger.warn('Handshake failed with invalid token: %s', token)
