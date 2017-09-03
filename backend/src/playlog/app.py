@@ -39,4 +39,4 @@ def run():
     scanner.scan(playlog)
     if config.ENVIRONMENT == 'development':
         aioreloader.start()
-    web.run_app(app, host=config.HOST, port=config.PORT)
+    web.run_app(app, host=config.SERVER_HOST, port=config.SERVER_PORT)

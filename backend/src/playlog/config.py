@@ -11,8 +11,8 @@ def getenv(key):
 
 ENVIRONMENT = getenv('ENVIRONMENT')
 
-HOST = getenv('HOST')
-PORT = int(getenv('PORT'))
+SERVER_HOST = getenv('SERVER_HOST')
+SERVER_PORT = int(getenv('SERVER_PORT'))
 
 SA_URL = getenv('SA_URL')
 REDIS_URL = getenv('REDIS_URL').split(':')
