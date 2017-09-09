@@ -17,4 +17,4 @@ class Nowplay(object):
     async def get(self):
         data = await self.redis.get(self.KEY)
         if data:
-            return json.loads(data)
+            return json.loads(data.decode('utf-8'))
