@@ -1,4 +1,5 @@
 backend/data
 backend/.env
+backend/**/*.pyc
 frontend/build
 frontend/node_modules
