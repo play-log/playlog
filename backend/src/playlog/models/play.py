@@ -57,7 +57,8 @@ async def get_recent(conn):
 
 
 async def get_listening_since(conn):
-    return await conn.scalar(select([play.c.date]).order_by(play.c.date.asc()).limit(1))
+    result = await conn.scalar(select([play.c.date]).order_by(play.c.date.asc()).limit(1))
+    return result.year if result else None
 
 
 async def get_biggest_day(conn):

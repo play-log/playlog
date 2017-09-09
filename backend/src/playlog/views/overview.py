@@ -31,7 +31,7 @@ class Overview(View):
                 'user': {
                     'avatar_src': gravatar.get_url(USER_EMAIL, size=64),
                     'name': USER_NAME,
-                    'listening_since': (await play.get_listening_since(conn)).year
+                    'listening_since': await play.get_listening_since(conn)
                 },
                 'nowplay': await self.nowplay.get(),
                 'counters': {

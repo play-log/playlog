@@ -48,55 +48,61 @@ const Overview = ({
                         <Nowplay {...nowplay} />
                     </div>
             }
-            <div className="overview-sidebar-item">
-                <Counters {...{
-                    header: 'Current Streak',
-                    data: [
-                        {
-                            icon: CalendarIcon,
-                            label: 'days',
-                            value: currentStreak.days
-                        },
-                        {
-                            icon: PlayIcon,
-                            label: 'plays',
-                            value: currentStreak.plays
-                        }
-                    ],
-                    footer: currentStreak.period
-                }} />
-            </div>
-            <div className="overview-sidebar-item">
-                <Counters {...{
-                    header: 'Longest Streak',
-                    data: [
-                        {
-                            icon: CalendarIcon,
-                            label: 'days',
-                            value: longestStreak.days
-                        },
-                        {
-                            icon: PlayIcon,
-                            label: 'plays',
-                            value: longestStreak.plays
-                        }
-                    ],
-                    footer: longestStreak.period
-                }} />
-            </div>
-            <div className="overview-sidebar-item">
-                <Counters {...{
-                    header: 'Biggest Day',
-                    data: [
-                        {
-                            icon: PlayIcon,
-                            label: 'plays',
-                            value: biggestDay.plays
-                        }
-                    ],
-                    footer: biggestDay.day
-                }} />
-            </div>
+            {
+                currentStreak && <div className="overview-sidebar-item">
+                    <Counters {...{
+                        header: 'Current Streak',
+                        data: [
+                            {
+                                icon: CalendarIcon,
+                                label: 'days',
+                                value: currentStreak.days
+                            },
+                            {
+                                icon: PlayIcon,
+                                label: 'plays',
+                                value: currentStreak.plays
+                            }
+                        ],
+                        footer: currentStreak.period
+                    }} />
+                </div>
+            }
+            {
+                longestStreak && <div className="overview-sidebar-item">
+                    <Counters {...{
+                        header: 'Longest Streak',
+                        data: [
+                            {
+                                icon: CalendarIcon,
+                                label: 'days',
+                                value: longestStreak.days
+                            },
+                            {
+                                icon: PlayIcon,
+                                label: 'plays',
+                                value: longestStreak.plays
+                            }
+                        ],
+                        footer: longestStreak.period
+                    }} />
+                </div>
+            }
+            {
+                biggestDay && <div className="overview-sidebar-item">
+                    <Counters {...{
+                        header: 'Biggest Day',
+                        data: [
+                            {
+                                icon: PlayIcon,
+                                label: 'plays',
+                                value: biggestDay.plays
+                            }
+                        ],
+                        footer: biggestDay.day
+                    }} />
+                </div>
+            }
             <div className="overview-sidebar-item">
                 <Counters {...{
                     header: 'Recently Added',
@@ -140,10 +146,10 @@ const Overview = ({
 );
 
 Overview.propTypes = {
-    biggestDay: PropTypes.object.isRequired,
+    biggestDay: PropTypes.object,
     counters: PropTypes.object.isRequired,
-    currentStreak: PropTypes.object.isRequired,
-    longestStreak: PropTypes.object.isRequired,
+    currentStreak: PropTypes.object,
+    longestStreak: PropTypes.object,
     nowplay: PropTypes.object,
     recentTracks: PropTypes.array.isRequired,
     recentlyAdded: PropTypes.object.isRequired,
@@ -221,12 +227,16 @@ const dataSelector = createSelector(
             } = data.payload;
 
             [currentStreak, longestStreak, recentlyAdded].forEach(item => {
-                const startDate = formatDate(item.startDate);
-                const endDate = formatDate(item.endDate);
-                item.period = `${startDate} — ${endDate}`;
+                if (item) {
+                    const startDate = formatDate(item.startDate);
+                    const endDate = formatDate(item.endDate);
+                    item.period = `${startDate} — ${endDate}`;
+                }
             });
 
-            biggestDay.day = formatDate(biggestDay.day);
+            if (biggestDay) {
+                biggestDay.day = formatDate(biggestDay.day);
+            }
 
             data.payload.recentTracks = groupTracks(recentTracks);
 
