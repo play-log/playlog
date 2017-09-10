@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
 
-cd backend
-docker-compose build app
+if [ "$1" = "production" ];
+then
+    if [ -z "$2" ];
+    then
+        echo "No version specified"
+        exit 1
+    fi;
+    docker build --network host -t rossnomann/playlog:$2 -f production/Dockerfile .
+else
+    cd backend
+    docker-compose build app
+fi;
