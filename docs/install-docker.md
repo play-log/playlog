@@ -14,7 +14,7 @@ Create `docker-compose.yml`:
 version: '2'
 services:
   app:
-    image: playlog:%version%
+    image: rossnomann/playlog:%version%
     ports:
       - '5000:8000'
       - '5001:8001'
