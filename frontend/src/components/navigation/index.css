@@ -1,4 +1,5 @@
 .navigation {
+    align-items: center;
     background: #1d1d1d;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 -1px 0 #101010 inset;
@@ -38,5 +39,5 @@
 .navigation-link__active {
     border-bottom: 3px solid #ff4444;
     cursor: default;
-    padding-bottom: 17px;
+    padding-bottom: 16px;
 }
