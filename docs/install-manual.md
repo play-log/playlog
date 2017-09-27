@@ -32,7 +32,7 @@ Configure backend:
 
 ```sh
 export PYTHONPATH=/path/to/playlog/backend/src:$PYTHONPATH
-export PLAYLOG_ENVIRONMENT='production'
+export PLAYLOG_DEBUG='false'
 export PLAYLOG_SERVER_HOST='127.0.0.1'
 export PLAYLOG_SERVER_PORT='8080'
 export PLAYLOG_SA_URL='postgresql://playlog:password@localhost/playlog'

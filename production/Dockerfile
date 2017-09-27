@@ -43,7 +43,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV PYTHONPATH $PYTHONPATH:/home/playlog/backend/src
 ENV PYTHONUNBUFFERED 1
-ENV PLAYLOG_ENVIRONMENT production
+ENV PLAYLOG_DEBUG false
 ENV PLAYLOG_SERVER_HOST 0.0.0.0
 ENV PLAYLOG_SERVER_PORT 8000
 

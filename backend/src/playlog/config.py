@@ -9,7 +9,14 @@ def getenv(key):
     return value
 
 
-ENVIRONMENT = getenv('ENVIRONMENT')
+DEBUG = getenv('DEBUG')
+if DEBUG not in ['false', 'true']:
+    raise ValueError(
+        'Unexpected "DEBUG" value: '
+        'expects "false" or "true", '
+        '"{}" given'.format(DEBUG)
+    )
+DEBUG = DEBUG == 'true'
 
 SERVER_HOST = getenv('SERVER_HOST')
 SERVER_PORT = int(getenv('SERVER_PORT'))
