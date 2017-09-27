@@ -2,7 +2,7 @@ from functools import partial
 
 from aiohttp.web import View as BaseView, json_response
 
-from playlog.json import dumps as json_dumps
+from playlog.lib.json import dumps as json_dumps
 
 
 class View(BaseView):

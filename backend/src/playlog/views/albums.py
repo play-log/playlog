@@ -2,7 +2,7 @@ from schema import Optional
 
 from playlog.decorators import route, with_query
 from playlog.models import album, track, play
-from playlog.validation import Int, ISODateTime, Length, OneOf
+from playlog.lib.validation import Int, ISODateTime, Length, OneOf
 from playlog.views import View
 
 
