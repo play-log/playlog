@@ -1,10 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table
 from sqlalchemy.sql import func, select
 
-from playlog.models import metadata, utils
-from playlog.models.artist import artist
+from playlog.models import album, artist
 
 
 ORDER_DIRECTIONS = ['asc', 'desc']
@@ -13,27 +11,15 @@ ORDER_FIELDS = ['artist_name', 'album_name', 'first_play', 'last_play', 'plays']
 DEFAULT_ORDER_FIELD = 'artist_name'
 
 
-album = Table(
-    'album',
-    metadata,
-    Column('id', Integer(), primary_key=True),
-    Column('artist_id', ForeignKey('artist.id', ondelete='CASCADE'), nullable=False),
-    Column('name', String(500), nullable=False),
-    Column('plays', Integer(), nullable=False),
-    Column('first_play', DateTime(), nullable=False),
-    Column('last_play', DateTime(), nullable=False)
-)
-
-
 async def create(conn, artist_id, name):
     now = datetime.utcnow()
-    return await utils.create(conn, album, {
-        'name': name,
-        'artist_id': artist_id,
-        'plays': 1,
-        'first_play': now,
-        'last_play': now
-    })
+    return await conn.scalar(album.insert().values(
+        name=name,
+        artist_id=artist_id,
+        plays=1,
+        first_play=now,
+        last_play=now
+    ))
 
 
 async def find_one(conn, **kwargs):
@@ -93,10 +79,10 @@ async def find_for_artist(conn, artist_id):
 
 
 async def update(conn, album_id):
-    await utils.update(conn, album, album.c.id == album_id, {
-        'plays': album.c.plays + 1,
-        'last_play': datetime.utcnow()
-    })
+    await conn.execute(album.update().values(
+        plays=album.c.plays + 1,
+        last_play=datetime.utcnow()
+    ).where(album.c.id == album_id))
 
 
 async def count_total(conn):

@@ -1,10 +1,6 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Table
 from sqlalchemy.sql import func, select
 
-from playlog.models import metadata, utils
-from playlog.models.artist import artist
-from playlog.models.album import album
-from playlog.models.track import track
+from playlog.models import album, artist, play, track
 
 
 ORDER_DIRECTIONS = ['asc', 'desc']
@@ -15,19 +11,8 @@ DEFAULT_ORDER_FIELD = 'date'
 RECENT_LIMIT = 15
 
 
-play = Table(
-    'play',
-    metadata,
-    Column('track_id', ForeignKey('track.id', ondelete='CASCADE'), primary_key=True),
-    Column('date', DateTime(), primary_key=True)
-)
-
-
 async def create(conn, track_id, date):
-    await utils.create(conn, play, {
-        'track_id': track_id,
-        'date': date
-    }, scalar=False)
+    await conn.execute(play.insert().values(track_id=track_id, date=date))
 
 
 async def is_date_exists(conn, date):

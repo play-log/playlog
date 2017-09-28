@@ -1,9 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Table
 from sqlalchemy.sql import func, select
 
-from playlog.models import metadata, utils
+from playlog.models import artist
 
 
 ORDER_DIRECTIONS = ['asc', 'desc']
@@ -12,29 +11,22 @@ ORDER_FIELDS = ['name', 'first_play', 'last_play', 'plays']
 DEFAULT_ORDER_FIELD = 'name'
 
 
-artist = Table(
-    'artist',
-    metadata,
-    Column('id', Integer(), primary_key=True),
-    Column('name', String(500), nullable=False),
-    Column('plays', Integer(), nullable=False),
-    Column('first_play', DateTime(), nullable=False),
-    Column('last_play', DateTime(), nullable=False)
-)
-
-
 async def create(conn, name):
     now = datetime.utcnow()
-    return await utils.create(conn, artist, {
-        'name': name,
-        'plays': 1,
-        'first_play': now,
-        'last_play': now
-    })
+    return await conn.scalar(artist.insert().values(
+        name=name,
+        plays=1,
+        first_play=now,
+        last_play=now
+    ))
 
 
 async def find_one(conn, **kwargs):
-    return await utils.find_one(conn, artist, kwargs)
+    query = select([artist])
+    for key, value in kwargs.items():
+        query = query.where(getattr(artist.c, key) == value)
+    result = await conn.execute(query)
+    return await result.fetchone()
 
 
 async def find_many(conn, offset, limit, **kwargs):
@@ -69,10 +61,10 @@ async def find_many(conn, offset, limit, **kwargs):
 
 
 async def update(conn, artist_id):
-    await utils.update(conn, artist, artist.c.id == artist_id, {
-        'plays': artist.c.plays + 1,
-        'last_play': datetime.utcnow()
-    })
+    await conn.execute(artist.update().values(
+        plays=artist.c.plays + 1,
+        last_play=datetime.utcnow()
+    ).where(artist.c.id == artist_id))
 
 
 async def count_total(conn):

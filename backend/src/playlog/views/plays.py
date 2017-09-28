@@ -1,7 +1,7 @@
 from schema import Optional
 
 from playlog.decorators import route, with_query
-from playlog.models import play
+from playlog.actions import play
 from playlog.lib.validation import Int, ISODateTime, Length, OneOf
 from playlog.views import View
 

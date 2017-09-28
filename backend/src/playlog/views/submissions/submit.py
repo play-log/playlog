@@ -5,7 +5,7 @@ from datetime import datetime
 from aiohttp.web import Response
 
 from playlog.decorators import route
-from playlog.models import artist, album, play, track
+from playlog.actions import artist, album, play, track
 from playlog.views import View
 
 

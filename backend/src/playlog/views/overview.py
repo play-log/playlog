@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from playlog.lib import gravatar
 from playlog.config import USER_EMAIL, USER_NAME
 from playlog.decorators import route
-from playlog.models import artist, album, track, play
+from playlog.actions import artist, album, track, play
 from playlog.views import View
 
 

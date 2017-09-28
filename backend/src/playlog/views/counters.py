@@ -1,5 +1,5 @@
 from playlog.decorators import route
-from playlog.models import artist, album, track, play
+from playlog.actions import artist, album, track, play
 from playlog.views import View
 
 
