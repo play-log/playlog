@@ -1,12 +1,8 @@
-from sqlalchemy.sql import func, select
+from sqlalchemy.sql import and_, func, select
 
+from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, validate
 from playlog.models import album, artist, play, track
 
-
-ORDER_DIRECTIONS = ['asc', 'desc']
-DEFAULT_ORDER_DIRECTION = 'desc'
-ORDER_FIELDS = ['artist_name', 'album_name', 'track_name', 'date']
-DEFAULT_ORDER_FIELD = 'date'
 
 RECENT_LIMIT = 15
 
@@ -157,24 +153,49 @@ async def get_current_streak(conn):
     return await result.fetchone()
 
 
-async def find_many(conn, offset, limit, **kwargs):
+@validate(
+    params={
+        'artist': Optional(Length(min_len=1, max_len=50)),
+        'album': Optional(Length(min_len=1, max_len=50)),
+        'track': Optional(Length(min_len=1, max_len=50)),
+        'date_lt': Optional(ISODateTime()),
+        'date_gt': Optional(ISODateTime()),
+        'order_field': Optional(OneOf(['artist', 'album', 'track', 'date'])),
+        'order_direction': Optional(OneOf(['asc', 'desc'])),
+        'limit': Int(min_val=1, max_val=100),
+        'offset': Int(min_val=0)
+    }
+)
+async def find_many(conn, params):
     artist_name = artist.c.name.label('artist')
     album_name = album.c.name.label('album')
     track_name = track.c.name.label('track')
 
-    order_field = kwargs.get('order_field', DEFAULT_ORDER_FIELD)
-    if order_field == 'artist_name':
-        order_expr = artist_name
-    elif order_field == 'album_name':
-        order_expr = album_name
-    elif order_field == 'track_name':
-        order_expr = track_name
-    else:
-        order_expr = getattr(play.c, order_field)
-    order_direction = kwargs.get('order_direction', DEFAULT_ORDER_DIRECTION)
-    order_expr = getattr(order_expr, order_direction)
+    filters = []
+    if 'artist' in params:
+        filters.append(artist_name.ilike('%{}%'.format(params['artist'])))
+    if 'album' in params:
+        filters.append(album_name.ilike('%{}%'.format(params['album'])))
+    if 'track' in params:
+        filters.append(track_name.ilike('%{}%'.format(params['track'])))
+    if 'date_gt' in params:
+        filters.append(play.c.date >= params['date_gt'])
+    if 'date_lt' in params:
+        filters.append(play.c.date <= params['date_lt'])
 
-    query = select([
+    order_field = params.get('order_field', 'date')
+    if order_field == 'artist':
+        order_clause = artist_name
+    elif order_field == 'album':
+        order_clause = album_name
+    elif order_field == 'track':
+        order_clause = track_name
+    else:
+        order_clause = play.c[order_field]
+    order_direction = params.get('order_direction', 'desc')
+    order_clause = getattr(order_clause, order_direction)()
+
+    stmt = select([
         artist_name,
         album_name,
         track_name,
@@ -184,28 +205,13 @@ async def find_many(conn, offset, limit, **kwargs):
         play.c.date.label('date')
     ])
 
-    if 'artist_name' in kwargs:
-        query = query.where(artist_name.ilike('%{}%'.format(kwargs['artist_name'])))
-    if 'album_name' in kwargs:
-        query = query.where(album_name.ilike('%{}%'.format(kwargs['album_name'])))
-    if 'track_name' in kwargs:
-        query = query.where(track_name.ilike('%{}%'.format(kwargs['track_name'])))
-    if 'date_gt' in kwargs:
-        query = query.where(play.c.date >= kwargs['date_gt'])
-    if 'date_lt' in kwargs:
-        query = query.where(play.c.date <= kwargs['date_lt'])
+    if filters:
+        stmt = stmt.where(and_(*filters))
 
-    from_clause = play.join(track).join(album).join(artist)
-
-    total = await conn.scalar(
-        query.select_from(from_clause)
-             .with_only_columns([func.count(play.c.track_id)])
-    )
-
-    query = query.offset(offset).limit(limit).order_by(order_expr())
-    query = query.select_from(from_clause)
-
-    result = await conn.execute(query)
+    stmt = stmt.select_from(play.join(track).join(album).join(artist))
+    total = await conn.scalar(stmt.with_only_columns([func.count(play.c.track_id)]))
+    stmt = stmt.offset(params['offset']).limit(params['limit']).order_by(order_clause)
+    result = await conn.execute(stmt)
     items = await result.fetchall()
 
     return {'items': items, 'total': total}

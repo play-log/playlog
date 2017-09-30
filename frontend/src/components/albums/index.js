@@ -18,8 +18,8 @@ import SwitchInput from '../shared/switch-input';
 
 import './index.css';
 
-const ORDER_FIELDS = ['artist_name', 'album_name', 'plays', 'first_play', 'last_play'];
-const DEFAULT_ORDER_FIELD = 'artist_name';
+const ORDER_FIELDS = ['artist', 'name', 'plays', 'first_play', 'last_play'];
+const DEFAULT_ORDER_FIELD = 'artist';
 const ORDER_DIRECTIONS = ['asc', 'desc'];
 const DEFAULT_ORDER_DIRECTION = 'asc';
 
@@ -144,8 +144,8 @@ class Albums extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            artist_name: undefined,
-            album_name: undefined,
+            artist: undefined,
+            name: undefined,
             first_play_lt: undefined,
             first_play_gt: undefined,
             last_play_lt: undefined,
@@ -158,8 +158,8 @@ class Albums extends React.Component {
             newState[key] = val.length > 0 ? val : undefined;
             this.setState(newState);
         };
-        this.handleArtistNameChange = val => this.setString('artist_name', val);
-        this.handleAlbumNameChange = val => this.setString('album_name', val);
+        this.handleArtistNameChange = val => this.setString('artist', val);
+        this.handleAlbumNameChange = val => this.setString('name', val);
         this.handleFirstPlayLtChange = val => this.setString('first_play_lt', val);
         this.handleFirstPlayGtChange = val => this.setString('first_play_gt', val);
         this.handleLastPlayLtChange = val => this.setString('last_play_lt', val);

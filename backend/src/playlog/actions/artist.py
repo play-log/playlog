@@ -1,14 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy.sql import func, select
+from sqlalchemy.sql import and_, func, select
 
+from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, validate
 from playlog.models import artist
-
-
-ORDER_DIRECTIONS = ['asc', 'desc']
-DEFAULT_ORDER_DIRECTION = 'asc'
-ORDER_FIELDS = ['name', 'first_play', 'last_play', 'plays']
-DEFAULT_ORDER_FIELD = 'name'
 
 
 async def create(conn, name):
@@ -29,32 +24,43 @@ async def find_one(conn, **kwargs):
     return await result.fetchone()
 
 
-async def find_many(conn, offset, limit, **kwargs):
-    order_field = kwargs.get('order_field', DEFAULT_ORDER_FIELD)
-    order_expr = getattr(artist.c, order_field)
-    order_direction = kwargs.get('order_direction', DEFAULT_ORDER_DIRECTION)
-    order_expr = getattr(order_expr, order_direction)
+@validate(
+    params={
+        'name': Optional(Length(min_len=1, max_len=50)),
+        'first_play_lt': Optional(ISODateTime()),
+        'first_play_gt': Optional(ISODateTime()),
+        'last_play_lt': Optional(ISODateTime()),
+        'last_play_gt': Optional(ISODateTime()),
+        'order_field': Optional(OneOf(['name', 'first_play', 'last_play', 'plays'])),
+        'order_direction': Optional(OneOf(['asc', 'desc'])),
+        'limit': Int(min_val=1, max_val=100),
+        'offset': Int(min_val=0)
+    }
+)
+async def find_many(conn, params):
+    filters = []
+    if 'name' in params:
+        filters.append(artist.c.name.ilike('%{}%'.format(params['name'])))
+    if 'first_play_gt' in params:
+        filters.append(artist.c.first_play >= params['first_play_gt'])
+    if 'first_play_lt' in params:
+        filters.append(artist.c.first_play <= params['first_play_lt'])
+    if 'last_play_gt' in params:
+        filters.append(artist.c.last_play >= params['last_play_gt'])
+    if 'last_play_lt' in params:
+        filters.append(artist.c.last_play <= params['last_play_lt'])
 
-    name = kwargs.get('name')
-    first_play_lt = kwargs.get('first_play_lt')
-    first_play_gt = kwargs.get('first_play_gt')
-    last_play_lt = kwargs.get('last_play_lt')
-    last_play_gt = kwargs.get('last_play_gt')
+    order_field = params.get('order_field', 'name')
+    order_clause = artist.c[order_field]
+    order_direction = params.get('order_direction', 'asc')
+    order_clause = getattr(order_clause, order_direction)()
 
-    query = select([artist])
-    if name:
-        query = query.where(artist.c.name.ilike('%{}%'.format(name)))
-    if first_play_gt:
-        query = query.where(artist.c.first_play >= first_play_gt)
-    if first_play_lt:
-        query = query.where(artist.c.first_play <= first_play_lt)
-    if last_play_gt:
-        query = query.where(artist.c.last_play >= last_play_gt)
-    if last_play_lt:
-        query = query.where(artist.c.last_play <= last_play_lt)
-    total = await conn.scalar(query.with_only_columns([func.count(artist.c.id)]))
-    query = query.offset(offset).limit(limit).order_by(order_expr())
-    result = await conn.execute(query)
+    stmt = select([artist])
+    if filters:
+        stmt = stmt.where(and_(*filters))
+    total = await conn.scalar(stmt.with_only_columns([func.count(artist.c.id)]))
+    stmt = stmt.offset(params['offset']).limit(params['limit']).order_by(order_clause)
+    result = await conn.execute(stmt)
     items = await result.fetchall()
 
     return {'items': items, 'total': total}

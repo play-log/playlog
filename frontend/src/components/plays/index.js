@@ -17,7 +17,7 @@ import SwitchInput from '../shared/switch-input';
 
 import './index.css';
 
-const ORDER_FIELDS = ['artist_name', 'album_name', 'track_name', 'date'];
+const ORDER_FIELDS = ['artist', 'album', 'track', 'date'];
 const DEFAULT_ORDER_FIELD = 'date';
 const ORDER_DIRECTIONS = ['asc', 'desc'];
 const DEFAULT_ORDER_DIRECTION = 'desc';
@@ -139,9 +139,9 @@ class Plays extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            artist_name: undefined,
-            album_name: undefined,
-            track_name: undefined,
+            artist: undefined,
+            album: undefined,
+            track: undefined,
             date_lt: undefined,
             date_gt: undefined,
             order_field: DEFAULT_ORDER_FIELD,
@@ -152,9 +152,9 @@ class Plays extends React.Component {
             newState[key] = val.length > 0 ? val : undefined;
             this.setState(newState);
         };
-        this.handleArtistNameChange = val => this.setString('artist_name', val);
-        this.handleAlbumNameChange = val => this.setString('album_name', val);
-        this.handleTrackNameChange = val => this.setString('track_name', val);
+        this.handleArtistNameChange = val => this.setString('artist', val);
+        this.handleAlbumNameChange = val => this.setString('album', val);
+        this.handleTrackNameChange = val => this.setString('track', val);
         this.handleDateLtChange = val => this.setString('date_lt', val);
         this.handleDateGtChange = val => this.setString('date_gt', val);
         this.handleOrderFieldChange = order_field => this.setState({order_field});

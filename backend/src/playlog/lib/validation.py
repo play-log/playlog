@@ -1,6 +1,54 @@
-from datetime import datetime
+import datetime
+import functools
+import inspect
 
-from schema import SchemaError
+import schema
+
+
+def validate(**definition):
+    definition = _swap_optional(definition)
+    keys = list(definition.keys())
+    s = schema.Schema(definition)
+
+    def decorator(coro):
+        signature = inspect.signature(coro)
+
+        @functools.wraps(coro)
+        async def wrapper(*args, **kwargs):
+            bound_args = signature.bind_partial(*args, **kwargs).arguments
+            raw = dict(filter(lambda t: t[0] in keys, bound_args.items()))
+            try:
+                validated = s.validate(raw)
+            except schema.SchemaError as exc:
+                raise ValidationError([i for i in exc.autos if i is not None]) from exc
+            bound_args.update(validated)
+            return await coro(**bound_args)
+
+        return wrapper
+
+    return decorator
+
+
+class ValidationError(Exception):
+    def __init__(self, errors):
+        self.errors = errors
+
+
+class Optional(object):
+    def __init__(self, value):
+        self.value = value
+
+
+def _swap_optional(data):
+    result = {}
+    for k, v in data.items():
+        if isinstance(v, Optional):
+            k = schema.Optional(k)
+            v = v.value
+        if isinstance(v, dict):
+            v = _swap_optional(v)
+        result[k] = v
+    return result
 
 
 class Int(object):
@@ -12,11 +60,11 @@ class Int(object):
         try:
             data = int(data)
         except ValueError:
-            raise SchemaError('%s is not an integer' % data)
+            raise schema.SchemaError('%s is not an integer' % data)
         if self.__min_val is not None and data < self.__min_val:
-            raise SchemaError('%d must be greater than %d' % (data, self.__min_val))
+            raise schema.SchemaError('%d must be greater than %d' % (data, self.__min_val))
         if self.__max_val is not None and data > self.__max_val:
-            raise SchemaError('%d must be less than %d' % (data, self.__max_val))
+            raise schema.SchemaError('%d must be less than %d' % (data, self.__max_val))
         return data
 
 
@@ -28,9 +76,9 @@ class Length(object):
     def validate(self, data):
         length = len(data)
         if self.__min_len > length:
-            raise SchemaError('Lenght must be greater than %d' % self.__min_len)
+            raise schema.SchemaError('Lenght must be greater than %d' % self.__min_len)
         if self.__max_len < length:
-            raise SchemaError('Length must be less than %d' % self.__max_len)
+            raise schema.SchemaError('Length must be less than %d' % self.__max_len)
         return data
 
 
@@ -40,9 +88,9 @@ class DateTime(object):
 
     def validate(self, data):
         try:
-            return datetime.strptime(data, self.__fmt)
+            return datetime.datetime.strptime(data, self.__fmt)
         except Exception as e:
-            raise SchemaError('%s is not a valid date' % data)
+            raise schema.SchemaError('%s is not a valid date' % data)
 
 
 class ISODate(DateTime):
@@ -61,5 +109,5 @@ class OneOf(object):
 
     def validate(self, data):
         if data not in self.__choices:
-            raise SchemaError('%s is not one of %s' % (data, self.__choices))
+            raise schema.SchemaError('%s is not one of %s' % (data, self.__choices))
         return data
