@@ -7,9 +7,9 @@ from playlog.views import View
 class Counters(View):
     async def get(self):
         async with self.db as conn:
-            return self.json({
+            return {
                 'artists': await artist.count_total(conn),
                 'albums': await album.count_total(conn),
                 'tracks': await track.count_total(conn),
                 'plays': await play.count_total(conn)
-            })
+            }

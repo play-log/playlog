@@ -4,6 +4,14 @@ import thunk from 'redux-thunk';
 
 import {buildURL} from './utils';
 
+
+const FETCH_PARAMS = {
+    headers: {
+        'Accept': 'application/json'
+    }
+};
+
+
 function generate(config) {
     let actions = {},
         reducers = {};
@@ -28,7 +36,7 @@ function generate(config) {
 
             dispatch({type: actionTypes.start});
 
-            return fetch(url).then(rep => {
+            return fetch(url, FETCH_PARAMS).then(rep => {
                 const json = rep.json();
                 return rep.status === 200 ? json : json.then(err => {
                     throw err;

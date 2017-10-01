@@ -23,7 +23,7 @@ async def get_recently_added(conn):
 class Overview(View):
     async def get(self):
         async with self.db as conn:
-            return self.json({
+            return {
                 'current_streak': await play.get_current_streak(conn),
                 'longest_streak': await play.get_longest_streak(conn),
                 'biggest_day': await play.get_biggest_day(conn),
@@ -42,4 +42,4 @@ class Overview(View):
                 },
                 'years': await play.count_per_year(conn),
                 'recent_tracks': await play.get_recent(conn)
-            })
+            }

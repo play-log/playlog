@@ -7,7 +7,7 @@ from playlog.views import View
 class Artists(View):
     async def get(self):
         async with self.db as conn:
-            return self.json(await artist.find_many(conn, dict(self.request.query)))
+            return await artist.find_many(conn, dict(self.request.query))
 
 
 @route('/artists/{id:\d+}')
@@ -18,4 +18,4 @@ class Artist(View):
             data = dict(await artist.find_one(conn, id=artist_id))
             data['albums'] = await album.find_for_artist(conn, artist_id)
             data['years'] = await play.count_per_year_for_artist(conn, artist_id)
-            return self.json(data)
+            return data

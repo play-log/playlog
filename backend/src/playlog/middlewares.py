@@ -1,7 +1,7 @@
 import logging
 
-from aiohttp.web import Response
-
+from aiohttp.web import HTTPInternalServerError, Response, json_response
+from playlog.lib.json import dumps as json_encode
 
 logger = logging.getLogger(__name__)
 
@@ -21,4 +21,18 @@ async def submissions_middleware(app, next_handler):
     return handler
 
 
-MIDDLEWARES = [submissions_middleware]
+async def response_middleware(app, next_handler):
+    async def handler(request):
+        result = await next_handler(request)
+        if not isinstance(result, Response):
+            accept = request.headers.get('accept')
+            if accept == 'application/json':
+                result = json_response(result, dumps=json_encode)
+            else:
+                logger.error('Unable to serialize response (accept=%s)', accept)
+                raise HTTPInternalServerError()
+        return result
+    return handler
+
+
+MIDDLEWARES = [submissions_middleware, response_middleware]
