@@ -7,7 +7,6 @@ from aioredis import create_redis
 import playlog.web
 
 from playlog import config, logging
-from playlog.nowplay import Nowplay
 from playlog.session import Session
 from playlog.web.framework.middlewares import error_middleware, response_middleware
 from playlog.web.submissions.middlewares import submissions_middleware
@@ -19,7 +18,6 @@ logging.setup()
 async def on_startup(app):
     app['db'] = await sa.create_engine(config.SA_URL)
     app['redis'] = await create_redis(config.REDIS_URL)
-    app['nowplay'] = Nowplay(app['redis'])
     app['session'] = Session(app['redis'])
 
 

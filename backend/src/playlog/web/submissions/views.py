@@ -7,7 +7,7 @@ from time import time
 from aiohttp.web import Response
 
 from playlog import config
-from playlog.actions import artist, album, play, track
+from playlog.actions import artist, album, nowplay, play, track
 from playlog.web.framework.decorators import autowired, route
 
 
@@ -31,7 +31,7 @@ MAX_SUBMISSIONS = 50
 
 @route.get('/submissions/')
 @autowired
-async def handshake(request, session):
+async def submissions_handshake(request, session):
     logger.info('Handshake started')
 
     query = request.query
@@ -85,7 +85,7 @@ async def handshake(request, session):
 
 @route.post('/submissions/nowplay')
 @autowired
-async def nowplay(request, nowplay):
+async def submissions_nowplay(request, redis):
     post = await request.post()
     data = {a: post.get(b, '').strip() for a, b in NOWPLAY_KEYMAP}
     try:
@@ -95,7 +95,7 @@ async def nowplay(request, nowplay):
     else:
         if all(data.values()):
             logger.info('Setting current track: %s', data)
-            await nowplay.set(**data)
+            await nowplay.set_track(redis, **data)
         else:
             logger.warn('Unable to set current track: %s', data)
     return Response(text='OK')
@@ -150,7 +150,7 @@ async def handle_track(conn, album_id, name):
 
 @route.post('/submissions/submit')
 @autowired
-async def submit(request, db):
+async def submissions_submit(request, db):
     submissions = parse_submissions(await request.post())
     for item in submissions:
         if await play.is_date_exists(db, item['date']):

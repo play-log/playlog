@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from playlog.actions import album, artist, play, track
+from playlog.actions import album, artist, nowplay, play, track
 from playlog.config import USER_EMAIL, USER_NAME
 from playlog.lib import gravatar
 from playlog.web.framework.decorators import autowired, route
@@ -19,7 +19,7 @@ async def counters(request, db):
 
 @route.get('/overview')
 @autowired
-async def overview(request, db):
+async def overview(request, db, redis):
     now = datetime.utcnow()
     month_ago = now - timedelta(days=30)
 
@@ -39,7 +39,7 @@ async def overview(request, db):
             'name': USER_NAME,
             'listening_since': await play.get_listening_since(db)
         },
-        'nowplay': await request.app['nowplay'].get(),
+        'nowplay': await nowplay.get_track(redis),
         'counters': {
             'artists': await artist.count_total(db),
             'albums': await album.count_total(db),
