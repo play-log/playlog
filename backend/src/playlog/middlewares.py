@@ -39,6 +39,8 @@ async def error_middleware(app, next_handler):
                 message = 'An error has occurred'
                 logger.exception(message)
                 result = ErrorResponse(data={'message': message}, status=500)
+            else:
+                raise exc
         return result
     return handler
 
