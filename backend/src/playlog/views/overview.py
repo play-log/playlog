@@ -4,7 +4,6 @@ from playlog.lib import gravatar
 from playlog.config import USER_EMAIL, USER_NAME
 from playlog.decorators import route
 from playlog.actions import artist, album, track, play
-from playlog.views import View
 
 
 async def get_recently_added(conn):
@@ -19,27 +18,26 @@ async def get_recently_added(conn):
     }
 
 
-@route('/overview')
-class Overview(View):
-    async def get(self):
-        async with self.db as conn:
-            return {
-                'current_streak': await play.get_current_streak(conn),
-                'longest_streak': await play.get_longest_streak(conn),
-                'biggest_day': await play.get_biggest_day(conn),
-                'recently_added': await get_recently_added(conn),
-                'user': {
-                    'avatar_src': gravatar.get_url(USER_EMAIL, size=64),
-                    'name': USER_NAME,
-                    'listening_since': await play.get_listening_since(conn)
-                },
-                'nowplay': await self.nowplay.get(),
-                'counters': {
-                    'artists': await artist.count_total(conn),
-                    'albums': await album.count_total(conn),
-                    'tracks': await track.count_total(conn),
-                    'plays': await play.count_total(conn)
-                },
-                'years': await play.count_per_year(conn),
-                'recent_tracks': await play.get_recent(conn)
-            }
+@route.get('/overview')
+async def overview(request):
+    async with request.app['db'].acquire() as conn:
+        return {
+            'current_streak': await play.get_current_streak(conn),
+            'longest_streak': await play.get_longest_streak(conn),
+            'biggest_day': await play.get_biggest_day(conn),
+            'recently_added': await get_recently_added(conn),
+            'user': {
+                'avatar_src': gravatar.get_url(USER_EMAIL, size=64),
+                'name': USER_NAME,
+                'listening_since': await play.get_listening_since(conn)
+            },
+            'nowplay': await request.app['nowplay'].get(),
+            'counters': {
+                'artists': await artist.count_total(conn),
+                'albums': await album.count_total(conn),
+                'tracks': await track.count_total(conn),
+                'plays': await play.count_total(conn)
+            },
+            'years': await play.count_per_year(conn),
+            'recent_tracks': await play.get_recent(conn)
+        }

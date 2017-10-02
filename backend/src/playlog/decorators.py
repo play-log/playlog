@@ -1,15 +1,23 @@
-import aiohttp.web
 import venusian
 
+from aiohttp import hdrs
 
-def route(path):
-    def decorator(view):
-        if not issubclass(view, aiohttp.web.View):
-            raise TypeError('Expects subclass of aiohttp.web.View')
 
+class route:
+    def __init__(self, path, method):
+        self.method = method
+        self.path = path
+
+    def __call__(self, view):
         def callback(scanner, name, ob):
-            scanner.router.add_route('*', path, view)
+            scanner.router.add_route(self.method, self.path, view)
         venusian.attach(view, callback)
         return view
 
-    return decorator
+    @classmethod
+    def get(cls, path):
+        return cls(path, hdrs.METH_GET)
+
+    @classmethod
+    def post(cls, path):
+        return cls(path, hdrs.METH_POST)
