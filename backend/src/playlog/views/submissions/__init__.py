@@ -6,7 +6,7 @@ from time import time
 from aiohttp.web import Response
 
 from playlog import config
-from playlog.decorators import route
+from playlog.decorators import autowired, route
 
 
 logger = logging.getLogger(__name__)
@@ -15,7 +15,8 @@ PROTOCOL_VERSIONS = ['1.2', '1.2.1']
 
 
 @route.get('/submissions/')
-async def submissions(request):
+@autowired
+async def submissions(request, session):
     logger.info('Handshake started')
 
     query = request.query
@@ -52,7 +53,7 @@ async def submissions(request):
         logger.warn('Handshake failed with invalid token: %s', token)
         return Response(text='BADAUTH')
 
-    session_id = await request.app['session'].create()
+    session_id = await session.create()
     logger.info('Handshake succeeded (Session ID: %s)', session_id)
 
     base_url = '{}/submissions'.format(config.SUBMISSIONS['base_url'])

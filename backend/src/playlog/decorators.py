@@ -1,3 +1,6 @@
+import functools
+import inspect
+
 import venusian
 
 from aiohttp import hdrs
@@ -21,3 +24,19 @@ class route:
     @classmethod
     def post(cls, path):
         return cls(path, hdrs.METH_POST)
+
+
+def autowired(func):
+    keys = [k for k in inspect.signature(func).parameters.keys()][1:]
+
+    @functools.wraps(func)
+    async def wrapper(request):
+        kwargs = {key: request.app[key] for key in keys}
+        if 'db' in kwargs:
+            async with request.app['db'].acquire() as conn:
+                kwargs['db'] = conn
+                result = await func(request, **kwargs)
+        else:
+            result = await func(request, **kwargs)
+        return result
+    return wrapper

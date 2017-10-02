@@ -4,7 +4,7 @@ from datetime import datetime
 
 from aiohttp.web import Response
 
-from playlog.decorators import route
+from playlog.decorators import autowired, route
 from playlog.actions import artist, album, play, track
 
 
@@ -68,19 +68,19 @@ async def handle_track(conn, album_id, name):
 
 
 @route.post('/submissions/submit')
-async def submit(request):
+@autowired
+async def submit(request, db):
     submissions = parse_submissions(await request.post())
-    async with request.app['db'].acquire() as conn:
-        for item in submissions:
-            if await play.is_date_exists(conn, item['date']):
-                logger.warn(
-                    'Unable to handle submission: '
-                    'date already exists (%s)',
-                    item['date']
-                )
-                continue
-            artist_id = await handle_artist(conn, item['artist'])
-            album_id = await handle_album(conn, artist_id, item['album'])
-            track_id = await handle_track(conn, album_id, item['track'])
-            await play.create(conn, track_id, item['date'])
+    for item in submissions:
+        if await play.is_date_exists(db, item['date']):
+            logger.warn(
+                'Unable to handle submission: '
+                'date already exists (%s)',
+                item['date']
+            )
+            continue
+        artist_id = await handle_artist(db, item['artist'])
+        album_id = await handle_album(db, artist_id, item['album'])
+        track_id = await handle_track(db, album_id, item['track'])
+        await play.create(db, track_id, item['date'])
     return Response(text='OK')

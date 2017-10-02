@@ -2,7 +2,7 @@ import logging
 
 from aiohttp.web import Response
 
-from playlog.decorators import route
+from playlog.decorators import autowired, route
 
 
 logger = logging.getLogger(__name__)
@@ -16,7 +16,8 @@ KEYMAP = [
 
 
 @route.post('/submissions/nowplay')
-async def nowplay(request):
+@autowired
+async def nowplay(request, nowplay):
     post = await request.post()
     data = {a: post.get(b, '').strip() for a, b in KEYMAP}
     try:
@@ -26,7 +27,7 @@ async def nowplay(request):
     else:
         if all(data.values()):
             logger.info('Setting current track: %s', data)
-            await request.app['nowplay'].set(**data)
+            await nowplay.set(**data)
         else:
             logger.warn('Unable to set current track: %s', data)
     return Response(text='OK')
