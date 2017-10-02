@@ -7,31 +7,34 @@ from time import time
 from aiohttp.web import Response
 
 from playlog import config
-from playlog.actions import artist, album, nowplay, play, track
+from playlog.actions import artist, album, nowplay, play, session, track
 from playlog.web.framework.decorators import autowired, route
 
 
 logger = logging.getLogger(__name__)
 
 PROTOCOL_VERSIONS = ['1.2', '1.2.1']
+
 NOWPLAY_KEYMAP = [
     ('artist', 'a'),
     ('album', 'b'),
     ('title', 't'),
     ('length', 'l')
 ]
+
 SUBMISSION_KEYMAP = [
     ('artist', 'a'),
     ('album', 'b'),
     ('track', 't'),
     ('timestamp', 'i')
 ]
+
 MAX_SUBMISSIONS = 50
 
 
 @route.get('/submissions/')
 @autowired
-async def submissions_handshake(request, session):
+async def submissions_handshake(request, redis):
     logger.info('Handshake started')
 
     query = request.query
@@ -68,19 +71,14 @@ async def submissions_handshake(request, session):
         logger.warn('Handshake failed with invalid token: %s', token)
         return Response(text='BADAUTH')
 
-    session_id = await session.create()
-    logger.info('Handshake succeeded (Session ID: %s)', session_id)
+    sid = await session.create(redis)
+    logger.info('Handshake succeeded (Session ID: %s)', sid)
 
     base_url = '{}/submissions'.format(config.SUBMISSIONS['base_url'])
     nowplay_url = '{}/nowplay'.format(base_url)
     submissions_url = '{}/submit'.format(base_url)
 
-    return Response(text='\n'.join([
-        'OK',
-        session_id,
-        nowplay_url,
-        submissions_url
-    ]))
+    return Response(text='\n'.join(['OK', sid, nowplay_url, submissions_url]))
 
 
 @route.post('/submissions/nowplay')
