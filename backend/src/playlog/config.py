@@ -1,12 +1,14 @@
 import os
 
 
-def getenv(key):
+def getenv(key, *, required=True):
     key = 'PLAYLOG_{}'.format(key.upper())
     if key not in os.environ:
-        raise KeyError('Environment variable "{}" is not set'.format(key))
+        if required:
+            raise KeyError('Environment variable "{}" is not set'.format(key))
+        return None
     value = os.environ[key]
-    if not value:
+    if required and not value:
         raise ValueError('Environment variable "{}" can not be empty'.format(key))
     return value
 
@@ -27,7 +29,7 @@ SA_URL = getenv('sa_url')
 REDIS_URL = getenv('redis_url').split(':')
 
 USER_NAME = getenv('user_name')
-USER_EMAIL = getenv('user_email')
+USER_EMAIL = getenv('user_email', required=False)
 
 SESSION_LIFETIME = int(getenv('session_lifetime'))
 

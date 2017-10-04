@@ -35,7 +35,7 @@ async def overview(request, db, redis):
             'end_date': now
         },
         'user': {
-            'avatar_src': gravatar.get_url(USER_EMAIL, size=64),
+            'avatar_src': gravatar.get_url(USER_EMAIL, size=64) if USER_EMAIL else None,
             'name': USER_NAME,
             'listening_since': await play.get_listening_since(db)
         },
