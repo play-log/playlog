@@ -6,13 +6,12 @@ from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, va
 from playlog.models import artist
 
 
-async def create(conn, name):
-    now = datetime.utcnow()
+async def create(conn, name, plays, first_play, last_play):
     return await conn.scalar(artist.insert().values(
         name=name,
-        plays=1,
-        first_play=now,
-        last_play=now
+        plays=plays,
+        first_play=first_play,
+        last_play=last_play
     ))
 
 
@@ -66,11 +65,8 @@ async def find_many(conn, params):
     return {'items': items, 'total': total}
 
 
-async def update(conn, artist_id):
-    await conn.execute(artist.update().values(
-        plays=artist.c.plays + 1,
-        last_play=datetime.utcnow()
-    ).where(artist.c.id == artist_id))
+async def update(conn, artist_id, **params):
+    await conn.execute(artist.update().values(**params).where(artist.c.id == artist_id))
 
 
 async def count_total(conn):
@@ -79,3 +75,25 @@ async def count_total(conn):
 
 async def count_new(conn, since):
     return await conn.scalar(select([func.count()]).where(artist.c.first_play >= since))
+
+
+async def submit(conn, name):
+    data = await find_one(conn, name=name)
+    now = datetime.utcnow()
+    if data:
+        artist_id = data['id']
+        await update(
+            conn=conn,
+            artist_id=artist_id,
+            plays=artist.c.plays + 1,
+            last_play=now
+        )
+    else:
+        artist_id = await create(
+            conn=conn,
+            name=name,
+            plays=1,
+            first_play=now,
+            last_play=now
+        )
+    return artist_id

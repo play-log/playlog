@@ -110,40 +110,9 @@ def parse_submissions(data):
         except ValueError:
             logger.warn('Invalid submission timestamp (%s), skipping', submission)
             continue
-        else:
-            submission['date'] = datetime.fromtimestamp(submission.pop('timestamp'))
-            result.append(submission)
+        submission['date'] = datetime.fromtimestamp(submission.pop('timestamp'))
+        result.append(submission)
     return result
-
-
-async def handle_artist(conn, name):
-    data = await artist.find_one(conn, name=name)
-    if data:
-        artist_id = data['id']
-        await artist.update(conn, artist_id)
-    else:
-        artist_id = await artist.create(conn, name)
-    return artist_id
-
-
-async def handle_album(conn, artist_id, name):
-    data = await album.find_one(conn, artist_id=artist_id, name=name)
-    if data:
-        album_id = data['id']
-        await album.update(conn, album_id)
-    else:
-        album_id = await album.create(conn, artist_id, name)
-    return album_id
-
-
-async def handle_track(conn, album_id, name):
-    data = await track.find_one(conn, album_id=album_id, name=name)
-    if data:
-        track_id = data['id']
-        await track.update(conn, track_id)
-    else:
-        track_id = await track.create(conn, album_id, name)
-    return track_id
 
 
 @route.post('/submissions/submit')
@@ -158,8 +127,8 @@ async def submissions_submit(request, db):
                 item['date']
             )
             continue
-        artist_id = await handle_artist(db, item['artist'])
-        album_id = await handle_album(db, artist_id, item['album'])
-        track_id = await handle_track(db, album_id, item['track'])
+        artist_id = await artist.submit(db, item['artist'])
+        album_id = await album.submit(db, artist_id, item['album'])
+        track_id = await track.submit(db, album_id, item['track'])
         await play.create(db, track_id, item['date'])
     return Response(text='OK')
