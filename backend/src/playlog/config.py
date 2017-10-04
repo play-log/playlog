@@ -29,6 +29,8 @@ REDIS_URL = getenv('redis_url').split(':')
 USER_NAME = getenv('user_name')
 USER_EMAIL = getenv('user_email')
 
+SESSION_LIFETIME = int(getenv('session_lifetime'))
+
 SUBMISSIONS = {
     'base_url': getenv('submissions_base_url'),
     'handshake_timeout': int(getenv('submissions_handshake_timeout')),

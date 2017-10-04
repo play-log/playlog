@@ -38,11 +38,12 @@ export PLAYLOG_SERVER_PORT='8080'
 export PLAYLOG_SA_URL='postgresql://playlog:password@localhost/playlog'
 export PLAYLOG_REDIS_URL='127.0.0.1:6379'
 export PLAYLOG_USER_NAME='John Doe'
-export PLAYLOG_SUBMISSIONS_BASE_URL=http://domain/api
-export PLAYLOG_SUBMISSIONS_HANDSHAKE_TIMEOUT=60
+export PLAYLOG_USER_EMAIL='your-email-for-gravatar'
+export PLAYLOG_SESSION_LIFETIME='86400'
+export PLAYLOG_SUBMISSIONS_BASE_URL='http://domain/api'
+export PLAYLOG_SUBMISSIONS_HANDSHAKE_TIMEOUT='60'
 export PLAYLOG_SUBMISSIONS_USER='john'
 export PLAYLOG_SUBMISSIONS_PASSWORD_HASH='md5-hash-of-password'
-export PLAYLOG_USER_EMAIL='your-email-for-gravatar'
 ```
 
 Run migrations:

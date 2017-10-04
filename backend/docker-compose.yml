@@ -16,6 +16,7 @@ services:
       PLAYLOG_REDIS_URL: redis:6379
       PLAYLOG_SUBMISSIONS_BASE_URL: http://127.0.0.1:5051
       PLAYLOG_SUBMISSIONS_HANDSHAKE_TIMEOUT: 30
+      PLAYLOG_SESSION_LIFETIME: 86400
     env_file:
       - .env
     volumes:

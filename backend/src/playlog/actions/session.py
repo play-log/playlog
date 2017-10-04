@@ -1,13 +1,14 @@
 from uuid import uuid4
 
+from playlog.config import SESSION_LIFETIME
+
 
 KEY = 'playlog:session'
-LIFETIME = 86400  # TODO: get from config
 
 
 async def create(redis):
     sid = uuid4().hex
-    await redis.setex(KEY, LIFETIME, sid)
+    await redis.setex(KEY, SESSION_LIFETIME, sid)
     return sid
 
 
