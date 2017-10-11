@@ -1,6 +1,6 @@
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, validate
+from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, Period, validate
 from playlog.models import album, artist, play, track
 
 
@@ -49,10 +49,22 @@ async def get_biggest_day(conn):
     return await result.fetchone()
 
 
-async def count_per_year(conn):
-    year = func.date_part('YEAR', play.c.date).label('year')
-    plays = func.count().label('plays')
-    result = await conn.execute(select([year, plays]).group_by(year).order_by(year))
+@validate(period=Optional(Period()))
+async def count_for_period(conn, period=None):
+    if not period:
+        label_edge = 'year'
+    else:
+        label_edge = {
+            'year': 'month',
+            'month': 'day',
+            'day': 'hour'
+        }[period['kind']]
+    label = func.date_trunc(label_edge, play.c.date).label('label')
+    stmt = select([label, func.count().label('value')])
+    if period:
+        stmt = stmt.where(func.date_trunc(period['kind'], play.c.date) == period['value'])
+    stmt = stmt.group_by(label).order_by(label)
+    result = await conn.execute(stmt)
     return await result.fetchall()
 
 

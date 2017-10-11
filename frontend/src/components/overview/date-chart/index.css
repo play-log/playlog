@@ -1,3 +1,39 @@
 .overview-date-chart {
     padding: 4px 0;
 }
+
+.overview-date-chart-header {
+    margin: 0 0 7px 6px;
+}
+
+.overview-date-chart-header::after {
+    display: table;
+    content: ' ';
+    clear: both;
+}
+
+.overview-date-chart-header-breadcrumbs {
+    float: left;
+}
+
+.overview-date-chart-header-breadcrumbs-item {
+    display: inline-block;
+    font-size: 13px;
+    font-variant: small-caps;
+    font-weight: 500;
+    margin: 0 5px 0 0;
+    text-transform: uppercase;
+    vertical-align: top;
+}
+
+.overview-date-chart-header-breadcrumbs-item__link {
+    border-bottom: 1px dotted #87ceeb;
+    color: #87ceeb;
+    cursor: pointer;
+}
+
+.overview-date-chart-header-reset {
+    color: #ff4444;
+    cursor: pointer;
+    float: right;
+}

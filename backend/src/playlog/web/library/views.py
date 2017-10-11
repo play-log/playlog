@@ -46,7 +46,6 @@ async def overview(request, db, redis):
             'tracks': await track.count_total(db),
             'plays': await play.count_total(db)
         },
-        'years': await play.count_per_year(db),
         'recent_tracks': await play.get_recent(db)
     }
 
@@ -104,3 +103,9 @@ async def find_track(request, db):
 @autowired
 async def find_plays(request, db):
     return await play.find_many(db, dict(request.query))
+
+
+@route.get('/plays/count')
+@autowired
+async def count_plays(request, db):
+    return await play.count_for_period(db, request.query.get('period'))

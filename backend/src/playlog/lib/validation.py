@@ -111,3 +111,31 @@ class OneOf(object):
         if data not in self.__choices:
             raise schema.SchemaError('%s is not one of %s' % (data, self.__choices))
         return data
+
+
+class Period(object):
+    def validate(self, data):
+        if not data:
+            return
+
+        try:
+            parts = [int(x.lstrip('0')) for x in data.split('-')]
+        except ValueError as exc:
+            raise schema.SchemaError('Invalid period: %s' % data) from exc
+
+        parts_len = len(parts)
+        if parts_len == 1:
+            kind = 'year'
+            parts += [1, 1]
+        elif parts_len == 2:
+            kind = 'month'
+            parts.append(1)
+        elif parts_len == 3:
+            kind = 'day'
+        else:
+            raise schema.SchemaError('Invalid period: %s' % data)
+
+        return {
+            'kind': kind,
+            'value': datetime.datetime(*parts)
+        }

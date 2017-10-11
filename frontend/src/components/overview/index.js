@@ -34,8 +34,7 @@ const Overview = ({
     nowplay,
     recentTracks,
     recentlyAdded,
-    user,
-    years
+    user
 }) => (
     <div className="overview">
         <div className="overview-sidebar">
@@ -134,7 +133,7 @@ const Overview = ({
                     <Navigation counters={counters} />
                 </div>
                 <div className="overview-content-row-col overview-content-row-col__three-fourths">
-                    <DateChart data={years} />
+                    <DateChart />
                 </div>
             </div>
             <div className="overview-content-header">Recent Tracks</div>
@@ -153,8 +152,7 @@ Overview.propTypes = {
     nowplay: PropTypes.object,
     recentTracks: PropTypes.array.isRequired,
     recentlyAdded: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    years: PropTypes.array.isRequired
+    user: PropTypes.object.isRequired
 };
 
 class OverviewContainer extends React.Component {
@@ -222,8 +220,7 @@ const dataSelector = createSelector(
                 currentStreak,
                 longestStreak,
                 recentTracks,
-                recentlyAdded,
-                years
+                recentlyAdded
             } = data.payload;
 
             [currentStreak, longestStreak, recentlyAdded].forEach(item => {
@@ -239,11 +236,6 @@ const dataSelector = createSelector(
             }
 
             data.payload.recentTracks = groupTracks(recentTracks);
-
-            data.payload.years = years.map(item => ({
-                label: item.year.toString(),
-                value: item.plays
-            }));
         }
         return data;
     }

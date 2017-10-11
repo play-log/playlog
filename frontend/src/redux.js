@@ -91,6 +91,7 @@ const {actions, reducers} = generate({
     counters: '/api/counters',
     overview: '/api/overview',
     plays: params => buildURL('/api/plays', params),
+    playsCount: params => buildURL('/api/plays/count', params),
     track: id => `/api/tracks/${id}`,
     tracks: params => buildURL('/api/tracks', params)
 });
