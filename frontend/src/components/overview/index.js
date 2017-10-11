@@ -14,11 +14,11 @@ import CalendarIcon from '../../icons/calendar.svg';
 import PlayIcon from '../../icons/play.svg';
 import TrackIcon from '../../icons/track.svg';
 
+import DateChart from '../shared/date-chart';
 import Error from '../shared/error';
 import Spinner from '../shared/spinner';
 
 import Counters from './counters';
-import DateChart from './date-chart';
 import Navigation from './navigation';
 import Nowplay from './nowplay';
 import RecentTracks from './recent-tracks';
@@ -133,7 +133,9 @@ const Overview = ({
                     <Navigation counters={counters} />
                 </div>
                 <div className="overview-content-row-col overview-content-row-col__three-fourths">
-                    <DateChart />
+                    <div style={{padding: '5px 0'}}>
+                        <DateChart height="190px" />
+                    </div>
                 </div>
             </div>
             <div className="overview-content-header">Recent Tracks</div>

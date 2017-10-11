@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {actions} from '../../redux';
 import {formatDateTime} from '../../utils';
 
-import Chart from '../shared/chart';
+import DateChart from '../shared/date-chart';
 import Error from '../shared/error';
 import ProgressBar from '../shared/progress-bar';
 import Spinner from '../shared/spinner';
@@ -50,11 +50,11 @@ class Artist extends React.Component {
         } else {
             if (data.success) {
                 let {
+                    id,
                     name,
                     firstPlay,
                     lastPlay,
                     plays,
-                    years,
                     albums
                 } = data.payload;
 
@@ -86,7 +86,7 @@ class Artist extends React.Component {
                                 </div>
                             </div>
                             <div className="artist-panel-chart">
-                                <Chart type="line" data={years} height='130px' />
+                                <DateChart filter={{kind: 'artist', value: id}} height="130px" type="line" />
                             </div>
                         </div>
                         <div className="artist-albums">
@@ -112,12 +112,10 @@ const dataSelector = createSelector(
     state => state.artist,
     data => {
         if (data.loaded && data.success) {
-            let {firstPlay, lastPlay, years, albums} = data.payload;
+            let {firstPlay, lastPlay, albums} = data.payload;
 
             data.payload.firstPlay = formatDateTime(firstPlay);
             data.payload.lastPlay = formatDateTime(lastPlay);
-
-            data.payload.years = years.map(({year, plays}) => ({label: year.toString(), value: plays}));
 
             const maxPlays = Math.max(...albums.map(item => item.plays));
 

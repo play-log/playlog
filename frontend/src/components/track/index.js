@@ -9,7 +9,7 @@ import {createSelector} from 'reselect';
 import {actions} from '../../redux';
 import {formatDateTime} from '../../utils';
 
-import Chart from '../shared/chart';
+import DateChart from '../shared/date-chart';
 import Error from '../shared/error';
 import Spinner from '../shared/spinner';
 
@@ -31,6 +31,7 @@ class Track extends React.Component {
         } else {
             if (data.success) {
                 let {
+                    id,
                     artistId,
                     artistName,
                     albumId,
@@ -39,8 +40,7 @@ class Track extends React.Component {
                     firstPlay,
                     lastPlay,
                     totalPlays,
-                    plays,
-                    years
+                    plays
                 } = data.payload;
                 result = (
                     <div className="track">
@@ -76,7 +76,7 @@ class Track extends React.Component {
                                 </div>
                             </div>
                             <div className="track-panel-chart">
-                                <Chart type="line" data={years} height='130px' />
+                                <DateChart filter={{kind: 'track', value: id}} height="130px" type="line" />
                             </div>
                         </div>
                         <div className="track-plays">
@@ -120,12 +120,10 @@ const dataSelector = createSelector(
     state => state.track,
     data => {
         if (data.loaded && data.success) {
-            let {firstPlay, lastPlay, years, plays} = data.payload;
+            let {firstPlay, lastPlay, plays} = data.payload;
 
             data.payload.firstPlay = formatDateTime(firstPlay);
             data.payload.lastPlay = formatDateTime(lastPlay);
-
-            data.payload.years = years.map(({year, plays}) => ({label: year.toString(), value: plays}));
 
             let groupedPlays = {}
             plays.forEach(item => {

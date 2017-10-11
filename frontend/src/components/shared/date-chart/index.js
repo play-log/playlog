@@ -7,9 +7,9 @@ import {createSelector} from 'reselect';
 
 import {actions} from '../../../redux';
 
-import Chart from '../../shared/chart';
-import Error from '../../shared/error';
-import Spinner from '../../shared/spinner';
+import Chart from '../chart';
+import Error from '../error';
+import Spinner from '../spinner';
 
 import './index.css';
 
@@ -71,9 +71,13 @@ class DateChart extends React.Component {
         if (!this.props.period || this.props.period.type !== PERIOD_TYPE.DAY) {
             onClick = this.handleClick;
         }
-        return <div className="overview-date-chart">
+        return <div className="shared-date-chart">
             {this.renderHeader()}
-            <Chart data={this.state.data} height='190px' onClick={onClick} />
+            <Chart
+                data={this.state.data}
+                height={this.props.height}
+                onClick={onClick}
+                type={this.props.type} />
         </div>
     }
     renderHeader() {
@@ -81,18 +85,18 @@ class DateChart extends React.Component {
             return null;
         }
 
-        return <div className="overview-date-chart-header">
-            <span className="overview-date-chart-header-breadcrumbs">
+        return <div className="shared-date-chart-header">
+            <span className="shared-date-chart-header-breadcrumbs">
                 {this.renderBreadcrumb(PERIOD_TYPE.YEAR)}
                 {this.renderBreadcrumb(PERIOD_TYPE.MONTH)}
                 {this.renderBreadcrumb(PERIOD_TYPE.DAY)}
             </span>
-            <span className="overview-date-chart-header-reset" onClick={this.reset}>&#x2716;</span>
+            <span className="shared-date-chart-header-reset" onClick={this.reset}>&#x2716;</span>
         </div>;
     }
     renderBreadcrumb(type) {
         let period = this.props.period,
-            baseClassName = 'overview-date-chart-header-breadcrumbs-item',
+            baseClassName = 'shared-date-chart-header-breadcrumbs-item',
             className = baseClassName,
             dateFormat,
             hasDelimiter,
@@ -168,8 +172,10 @@ class DateChart extends React.Component {
 
 DateChart.propTypes = {
     data: PropTypes.array.isRequired,
+    height: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    period: PropTypes.object
+    period: PropTypes.object,
+    type: PropTypes.string
 };
 
 
@@ -177,10 +183,18 @@ class DateChartContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {period: null};
-        this.handlePeriodChange = this.handlePeriodChange.bind(this);
+        this.loadData = period => this.props.loadData({
+            period: period ? period.query : undefined,
+            filter_kind: this.props.filter ? this.props.filter.kind : undefined,
+            filter_value: this.props.filter ? this.props.filter.value : undefined
+        });
+        this.handlePeriodChange = period => {
+            this.setState({period});
+            this.loadData(period);
+        };
     }
     componentDidMount() {
-        this.props.loadData();
+        this.loadData();
     }
     render() {
         let data = this.props.data,
@@ -191,23 +205,27 @@ class DateChartContainer extends React.Component {
             if (data.success) {
                 result = <DateChart
                     data={data.payload}
+                    height={this.props.height}
                     onChange={this.handlePeriodChange}
-                    period={this.state.period} />;
+                    period={this.state.period}
+                    type={this.props.type} />;
             } else {
                 result = <Error />;
             }
         }
         return result;
     }
-    handlePeriodChange(period) {
-        this.setState({period});
-        this.props.loadData({period: period ? period.query : undefined});
-    }
 }
 
 DateChartContainer.propTypes = {
     data: PropTypes.object.isRequired,
-    loadData: PropTypes.func.isRequired
+    loadData: PropTypes.func.isRequired,
+    filter: PropTypes.shape({
+        kind: PropTypes.oneOf(['artist', 'album', 'track']).isRequired,
+        value: PropTypes.number.isRequired
+    }),
+    height: PropTypes.string,
+    type: PropTypes.string
 };
 
 const dataSelector = createSelector(

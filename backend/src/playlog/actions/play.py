@@ -49,8 +49,13 @@ async def get_biggest_day(conn):
     return await result.fetchone()
 
 
-@validate(period=Optional(Period()))
-async def count_for_period(conn, period=None):
+@validate(params={
+    'period': Optional(Period()),
+    'filter_kind': Optional(OneOf(['artist', 'album', 'track'])),
+    'filter_value': Optional(Int())
+})
+async def count_for_period(conn, params):
+    period = params.get('period')
     if not period:
         label_edge = 'year'
     else:
@@ -64,44 +69,34 @@ async def count_for_period(conn, period=None):
     if period:
         stmt = stmt.where(func.date_trunc(period['kind'], play.c.date) == period['value'])
     stmt = stmt.group_by(label).order_by(label)
+
+    filter_kind = params.get('filter_kind')
+    if filter_kind == 'artist':
+        filter_column = artist.c.id
+        from_clause = play.join(track).join(album).join(artist)
+    elif filter_kind == 'album':
+        filter_column = album.c.id
+        from_clause = play.join(track).join(album)
+    elif filter_kind == 'track':
+        filter_column = track.c.id
+        from_clause = play.join(track)
+    else:
+        filter_column = None
+        from_clause = None
+    if filter_column is not None:
+        filter_value = params.get('filter_value')
+        if not filter_value:
+            raise ValueError(
+                'Unable to filter by {}: '
+                'value is not specified'.format(
+                    filter_column
+                )
+            )
+        stmt = stmt.where(filter_column == filter_value)
+    if from_clause is not None:
+        stmt = stmt.select_from(from_clause)
+
     result = await conn.execute(stmt)
-    return await result.fetchall()
-
-
-async def count_per_year_for_artist(conn, artist_id):
-    year = func.date_part('YEAR', play.c.date).label('year')
-    plays = func.count().label('plays')
-    query = (select([year, plays]).where(artist.c.id == artist_id)
-                                  .group_by(year)
-                                  .order_by(year)
-                                  .select_from(
-                                      play.join(track)
-                                          .join(album)
-                                          .join(artist)))
-    result = await conn.execute(query)
-    return await result.fetchall()
-
-
-async def count_per_year_for_album(conn, album_id):
-    year = func.date_part('YEAR', play.c.date).label('year')
-    plays = func.count().label('plays')
-    query = (select([year, plays]).where(album.c.id == album_id)
-                                  .group_by(year)
-                                  .order_by(year)
-                                  .select_from(
-                                      play.join(track)
-                                          .join(album)))
-    result = await conn.execute(query)
-    return await result.fetchall()
-
-
-async def count_per_year_for_track(conn, track_id):
-    year = func.date_part('YEAR', play.c.date).label('year')
-    plays = func.count().label('plays')
-    query = (select([year, plays]).where(play.c.track_id == track_id)
-                                  .group_by(year)
-                                  .order_by(year))
-    result = await conn.execute(query)
     return await result.fetchall()
 
 

@@ -62,7 +62,6 @@ async def find_artist(request, db):
     artist_id = request.match_info['id']
     data = dict(await artist.find_one(db, id=artist_id))
     data['albums'] = await album.find_for_artist(db, artist_id)
-    data['years'] = await play.count_per_year_for_artist(db, artist_id)
     return data
 
 
@@ -78,7 +77,6 @@ async def find_album(request, db):
     album_id = request.match_info['id']
     data = dict(await album.find_one(db, id=album_id))
     data['tracks'] = await track.find_for_album(db, album_id)
-    data['years'] = await play.count_per_year_for_album(db, album_id)
     return data
 
 
@@ -95,7 +93,6 @@ async def find_track(request, db):
     data = dict(await track.find_one(db, id=track_id))
     data['total_plays'] = data.pop('plays')
     data['plays'] = await play.find_for_track(db, track_id)
-    data['years'] = await play.count_per_year_for_track(db, track_id)
     return data
 
 
@@ -108,4 +105,4 @@ async def find_plays(request, db):
 @route.get('/plays/count')
 @autowired
 async def count_plays(request, db):
-    return await play.count_for_period(db, request.query.get('period'))
+    return await play.count_for_period(db, dict(request.query))
