@@ -47,8 +47,11 @@ async def response_middleware(app, next_handler):
             if accept == 'application/json':
                 if isinstance(result, ErrorResponse):
                     data, status, headers = result.data, result.status, result.headers
-                    # since this is json response we don't need this header
-                    headers.pop('content-type', None)
+                    if headers:
+                        # Passing both Content-Type header
+                        # and content_type or charset params is forbidden
+                        # (json_response already passes content_type)
+                        headers.pop('content-type', None)
                 else:
                     data, status, headers = result, HTTP_OK, None
                 result = json_response(data, status=status, headers=headers)
