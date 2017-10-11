@@ -6,8 +6,8 @@ import schema
 
 
 def validate(**definition):
-    definition = _swap_optional(definition)
     keys = list(definition.keys())
+    definition = _swap_optional(definition)
     s = schema.Schema(definition)
 
     def decorator(coro):
