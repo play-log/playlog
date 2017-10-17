@@ -1,92 +1,15 @@
-.tracks-content {
-    display: flex;
-}
-
-.tracks-content-item {
-    box-sizing: border-box;
-}
-
-.tracks-content-item:nth-child(1) {
-    background: #2b2b2b;
-    border: 1px solid #343434;
-    box-shadow: 0 0 1px #202020 inset;
-    flex: 0 0 25%;
-    margin: 0 20px 0 0;
-    padding: 0 2%;
-}
-
-.tracks-content-item:nth-child(2) {
-    background: #222222;
-    border: 1px solid #2a2a2a;
-    box-shadow: 0 0 1px #151515 inset;
-    flex: auto;
-    padding: 0 7% 0 2%;
-    max-width: 75%;
-}
-
-.tracks-query {
-    border-bottom: 1px solid #101010;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.09);
-    margin: 10px 0 15px;
-    padding: 0 0 15px 0;
-}
-
-.tracks-query-label {
-    color: #ff4444;
-    display: block;
-    font-size: 16px;
-    font-variant: small-caps;
-    font-weight: 700;
-    text-transform: lowercase;
-    margin: 2px 0 4px 0;
-}
-
-.tracks-query-control-group {
-    display: flex;
-    flex-wrap: nowrap;
-}
-
-.tracks-query-control-group-item {
-    box-sizing: border-box;
-    flex: 0 0 50%;
-}
-
-.tracks-query-control-group-item:first-child {
-    padding-right: 2px;
-}
-
-.tracks-query-control-group-item:last-child {
-    padding-left: 2px;
-}
-
-.tracks-query-control-group-item-label {
-    color: #bbbbbb;
-    display: block;
-    font-size: 16px;
-    font-variant: small-caps;
-    font-weight: 500;
-    text-transform: lowercase;
-    margin: 2px 0 4px 0;
-}
-
-.tracks-list-total {
-    font-size: 13px;
-    margin: 20px 0;
-    text-align: right;
-}
-
-.tracks-list-item {
+.tracks-item {
     align-items: center;
     display: flex;
     margin: 15px 0;
 }
 
-.tracks-list-item-data {
+.tracks-item-data {
     flex-basis: 60%;
     max-width: 60%;
 }
 
-.tracks-list-item-data-name {
+.tracks-item-data-name {
     border-bottom: 1px solid #292929;
     margin: 0 0 2px 0;
     overflow: hidden;
@@ -95,10 +18,10 @@
     white-space: nowrap;
 }
 
-.tracks-list-item-data-period {
+.tracks-item-data-period {
     font-size: 12px;
 }
 
-.tracks-list-item-bar {
+.tracks-item-bar {
     flex: auto;
 }

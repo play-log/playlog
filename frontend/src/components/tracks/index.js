@@ -1,118 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {bindActionCreators} from 'redux'
 import {createSelector} from 'reselect';
 
 import {actions} from '../../redux';
 import {formatDate} from '../../utils';
 
-import DateInput from '../shared/date-input';
-import Error from '../shared/error';
-import {Pagination, FIRST_PAGE, INITIAL_OFFSET, LIMIT} from '../shared/pagination';
+import {Catalog, createListContainer} from '../shared/catalog';
 import ProgressBar from '../shared/progress-bar';
-import SearchInput from '../shared/search-input';
-import Spinner from '../shared/spinner';
-import SwitchInput from '../shared/switch-input';
 
 import './index.css';
-
-const ORDER_FIELDS = ['artist', 'album', 'track', 'plays', 'first_play', 'last_play'];
-const DEFAULT_ORDER_FIELD = 'artist';
-const ORDER_DIRECTIONS = ['asc', 'desc'];
-const DEFAULT_ORDER_DIRECTION = 'asc';
-
-
-const Item = ({id, artist, album, name, plays, firstPlay, lastPlay, playsPercent}) => (
-    <div className="tracks-list-item">
-        <div className="tracks-list-item-data">
-            <div className="tracks-list-item-data-name">
-                <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
-                <span> &mdash; </span>
-                <Link to={`/albums/${album.id}`}>{album.name}</Link>
-                <span> &mdash; </span>
-                <Link to={`/tracks/${id}`}>{name}</Link>
-            </div>
-            <div className="tracks-list-item-data-period">{firstPlay} &mdash; {lastPlay}</div>
-        </div>
-        <div className="tracks-list-item-bar">
-            <ProgressBar percent={playsPercent}>
-                {plays}
-            </ProgressBar>
-        </div>
-    </div>
-);
-
-class List extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: FIRST_PAGE,
-            offset: INITIAL_OFFSET
-        };
-        this.loadData = this.loadData.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
-    }
-    componentDidMount() {
-        this.loadData(this.props.query);
-    }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.query !== this.props.query) {
-            this.setState({page: FIRST_PAGE, offset: INITIAL_OFFSET}, () => {
-                this.loadData(nextProps.query);
-            })
-        }
-    }
-    render() {
-        let data = this.props.data,
-            result = null;
-
-        if (!data.loaded) {
-            result = <Spinner />;
-        } else {
-            if (data.success) {
-                const total = data.payload.total;
-
-                result = (
-                    <div className="tracks-list">
-                        {
-                            data.payload.items.map(item =>
-                                <Item key={item.id} {...item} />
-                            )
-                        }
-                        <div className="tracks-list-total">
-                            {total} Item{total !== 1 ? 's' : ''} Found
-                        </div>
-                        <Pagination
-                            currentPage={this.state.page}
-                            onChange={this.handlePageChange}
-                            totalItems={data.payload.total} />
-                    </div>
-                );
-            } else {
-                result = <Error />;
-            }
-        }
-        return result;
-    }
-    handlePageChange(page, offset) {
-        this.setState({page, offset}, () => this.loadData(this.props.query));
-    }
-    loadData(query) {
-        this.props.loadData({
-            offset: this.state.offset,
-            limit: LIMIT,
-            ...query
-        });
-    }
-}
-
-List.propTypes = {
-    data: PropTypes.object.isRequired,
-    query: PropTypes.object.isRequired,
-    loadData: PropTypes.func.isRequired
-};
 
 const dataSelector = createSelector(
     state => state.tracks,
@@ -141,120 +37,78 @@ const dataSelector = createSelector(
     }
 );
 
-const ListContainer = connect(
-    state => ({data: dataSelector(state)}),
-    dispatch => ({loadData: bindActionCreators(actions.tracksRequest, dispatch)})
-)(List);
+const ListContainer = createListContainer(dataSelector, actions.tracksRequest);
 
-class Tracks extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            artist: undefined,
-            album: undefined,
-            track: undefined,
-            first_play_lt: undefined,
-            first_play_gt: undefined,
-            last_play_lt: undefined,
-            last_play_gt: undefined,
-            order_field: DEFAULT_ORDER_FIELD,
-            order_direction: DEFAULT_ORDER_DIRECTION
-        };
-        this.setString = (key, val) => {
-            let newState = {};
-            newState[key] = val.length > 0 ? val : undefined;
-            this.setState(newState);
-        };
-        this.handleArtistNameChange = val => this.setString('artist', val);
-        this.handleAlbumNameChange = val => this.setString('album', val);
-        this.handleTrackNameChange = val => this.setString('track', val);
-        this.handleFirstPlayLtChange = val => this.setString('first_play_lt', val);
-        this.handleFirstPlayGtChange = val => this.setString('first_play_gt', val);
-        this.handleLastPlayLtChange = val => this.setString('last_play_lt', val);
-        this.handleLastPlayGtChange = val => this.setString('last_play_gt', val);
-        this.handleOrderFieldChange = order_field => this.setState({order_field});
-        this.handleOrderDirectionChange = order_direction => this.setState({order_direction});
+const FILTERS = [
+    {type: 'search', name: 'artist', label: 'ARTIST'},
+    {type: 'search', name: 'album', label: 'ALBUM'},
+    {type: 'search', name: 'track', label: 'TITLE'},
+    {
+        type: 'group',
+        name: 'first_play_group',
+        label: 'FIRST PLAY',
+        items: [
+            {type: 'date', name: 'first_play_gt', label: 'SINCE'},
+            {type: 'date', name: 'first_play_lt', label: 'UNTIL'}
+        ]
+    },
+    {
+        type: 'group',
+        name: 'last_play_group',
+        label: 'LAST PLAY',
+        items: [
+            {type: 'date', name: 'last_play_gt', label: 'SINCE'},
+            {type: 'date', name: 'last_play_lt', label: 'UNTIL'}
+        ]
+    },
+    {
+        type: 'group',
+        name: 'order_group',
+        label: 'ORDER',
+        items: [
+            {
+                type: 'switch',
+                name: 'order_field',
+                label: 'FIELD',
+                options: ['artist', 'album', 'track', 'plays', 'first_play', 'last_play'],
+                initialValue: 'artist'
+            },
+            {
+                type: 'switch',
+                name: 'order_direction',
+                label: 'DIRECTION',
+                options: ['asc', 'desc'],
+                initialValue: 'asc'
+            }
+        ]
     }
-    render() {
-        return (
-            <div className="tracks-content">
-                <div className="tracks-content-item">
-                    <div className="tracks-query">
-                        <label className="tracks-query-label">ARTIST</label>
-                        <SearchInput onChange={this.handleArtistNameChange} />
-                    </div>
-                    <div className="tracks-query">
-                        <label className="tracks-query-label">ALBUM</label>
-                        <SearchInput onChange={this.handleAlbumNameChange} />
-                    </div>
-                    <div className="tracks-query">
-                        <label className="tracks-query-label">TITLE</label>
-                        <SearchInput onChange={this.handleTrackNameChange} />
-                    </div>
-                    <div className="tracks-query">
-                        <label className="tracks-query-label">FIRST PLAY</label>
-                        <div className="tracks-query-control-group">
-                            <div className="tracks-query-control-group-item">
-                                <label className="tracks-query-control-group-item-label">
-                                    SINCE
-                                </label>
-                                <DateInput onChange={this.handleFirstPlayGtChange} />
-                            </div>
-                            <div className="tracks-query-control-group-item">
-                                <label className="tracks-query-control-group-item-label">
-                                    UNTIL
-                                </label>
-                                <DateInput onChange={this.handleFirstPlayLtChange} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="tracks-query">
-                        <label className="tracks-query-label">LAST PLAY</label>
-                        <div className="tracks-query-control-group">
-                            <div className="tracks-query-control-group-item">
-                                <label className="tracks-query-control-group-item-label">
-                                    SINCE
-                                </label>
-                                <DateInput onChange={this.handleLastPlayGtChange} />
-                            </div>
-                            <div className="tracks-query-control-group-item">
-                                <label className="tracks-query-control-group-item-label">
-                                    UNTIL
-                                </label>
-                                <DateInput onChange={this.handleLastPlayLtChange} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="tracks-query">
-                        <label className="tracks-query-label">ORDER</label>
-                        <div className="tracks-query-control-group">
-                            <div className="tracks-query-control-group-item">
-                                <label className="tracks-query-control-group-item-label">
-                                    FIELD
-                                </label>
-                                <SwitchInput
-                                    onChange={this.handleOrderFieldChange}
-                                    options={ORDER_FIELDS}
-                                    initialValue={DEFAULT_ORDER_FIELD} />
-                            </div>
-                            <div className="tracks-query-control-group-item">
-                                <label className="tracks-query-control-group-item-label">
-                                    DIRECTION
-                                </label>
-                                <SwitchInput
-                                    onChange={this.handleOrderDirectionChange}
-                                    options={ORDER_DIRECTIONS}
-                                    initialValue={DEFAULT_ORDER_DIRECTION} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="tracks-content-item">
-                    <ListContainer query={this.state} />
-                </div>
+];
+
+const renderItem = ({id, artist, album, name, plays, firstPlay, lastPlay, playsPercent}) => (
+    <div key={id} className="tracks-item">
+        <div className="tracks-item-data">
+            <div className="tracks-item-data-name">
+                <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
+                <span> &mdash; </span>
+                <Link to={`/albums/${album.id}`}>{album.name}</Link>
+                <span> &mdash; </span>
+                <Link to={`/tracks/${id}`}>{name}</Link>
             </div>
-        );
-    }
-}
+            <div className="tracks-item-data-period">{firstPlay} &mdash; {lastPlay}</div>
+        </div>
+        <div className="tracks-item-bar">
+            <ProgressBar percent={playsPercent}>
+                {plays}
+            </ProgressBar>
+        </div>
+    </div>
+);
+
+const Tracks = () => (
+    <Catalog
+        container={ListContainer}
+        filters={FILTERS}
+        renderItem={renderItem} />
+);
 
 export default Tracks;
