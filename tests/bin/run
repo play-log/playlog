@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# start server
+coverage run --source playlog /app/bin/server > /tmp/playlog.log 2>&1 &
+server_pid=$!
+server_status=$?
+if [[ $server_status -ne 0 ]]; then
+    echo "Failed to start server: $server_status"
+    exit $server_status
+fi
+
+# wait for server started
+dockerize -wait tcp://127.0.0.1:8080
+dockerize_status=$?
+if [[ $dockerize_status -ne 0 ]]; then
+    echo "Server not respond"
+    exit $dockerize_status
+fi
+
+# run tests
+echo -e "\nRUNNING TESTS:"
+./bin/test
+tests_status=$?
+
+# stop server
+kill $server_pid
+
+# report
+echo -e "\nCOVERAGE REPORT:"
+coverage report -m
+echo -e "\nSERVER LOGS:"
+cat /tmp/playlog.log
+
+exit $tests_status

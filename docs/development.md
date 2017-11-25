@@ -35,10 +35,17 @@ PLAYLOG_SUBMISSIONS_PASSWORD_HASH=81dc9bdb52d04dc20036dbd8313ed055  # 1234
 
 ```
 
-Run:
+Run app:
 
 ```sh
 ./bin/start
+```
+
+Run tests:
+
+```sh
+# use --build flag to rebuild image
+./bin/test
 ```
 
 ## Contributing

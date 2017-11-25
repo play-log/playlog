@@ -1,0 +1,22 @@
+version: '2.1'
+services:
+  tests:
+    build: .
+    image: playlog_tests
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    volumes:
+      - ../backend:/app
+      - ./:/tests
+    container_name: playlog_tests
+  postgres:
+    image: postgres:9.5
+    environment:
+      POSTGRES_PASSWORD: 1234
+    container_name: playlog_tests_postgres
+  redis:
+    image: redis:4.0
+    container_name: playlog_tests_redis

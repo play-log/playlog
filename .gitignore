@@ -2,3 +2,5 @@ backend/.env
 backend/**/*.pyc
 frontend/build
 frontend/node_modules
+tests/.coverage
+tests/**/*.pyc
