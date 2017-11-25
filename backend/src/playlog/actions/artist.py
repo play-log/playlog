@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy.sql import and_, func, select
 
 from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, validate
@@ -77,23 +75,22 @@ async def count_new(conn, since):
     return await conn.scalar(select([func.count()]).where(artist.c.first_play >= since))
 
 
-async def submit(conn, name):
+async def submit(conn, name, date):
     data = await find_one(conn, name=name)
-    now = datetime.utcnow()
     if data:
         artist_id = data['id']
         await update(
             conn=conn,
             artist_id=artist_id,
             plays=artist.c.plays + 1,
-            last_play=now
+            last_play=date
         )
     else:
         artist_id = await create(
             conn=conn,
             name=name,
             plays=1,
-            first_play=now,
-            last_play=now
+            first_play=date,
+            last_play=date
         )
     return artist_id

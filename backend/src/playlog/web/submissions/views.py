@@ -127,8 +127,8 @@ async def submissions_submit(request, db):
                 item['date']
             )
             continue
-        artist_id = await artist.submit(db, item['artist'])
-        album_id = await album.submit(db, artist_id, item['album'])
-        track_id = await track.submit(db, album_id, item['track'])
+        artist_id = await artist.submit(db, item['artist'], item['date'])
+        album_id = await album.submit(db, artist_id, item['album'], item['date'])
+        track_id = await track.submit(db, album_id, item['track'], item['date'])
         await play.create(db, track_id, item['date'])
     return Response(text='OK')

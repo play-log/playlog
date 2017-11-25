@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy.sql import and_, func, select
 
 from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, validate
@@ -97,16 +95,15 @@ async def count_new(conn, since):
     return await conn.scalar(select([func.count()]).where(album.c.first_play >= since))
 
 
-async def submit(conn, artist_id, name):
+async def submit(conn, artist_id, name, date):
     data = await find_one(conn, artist_id=artist_id, name=name)
-    now = datetime.utcnow()
     if data:
         album_id = data['id']
         await update(
             conn=conn,
             album_id=album_id,
             plays=album.c.plays + 1,
-            last_play=now
+            last_play=date
         )
     else:
         album_id = await create(
@@ -114,7 +111,7 @@ async def submit(conn, artist_id, name):
             artist_id=artist_id,
             name=name,
             plays=1,
-            first_play=now,
-            last_play=now
+            first_play=date,
+            last_play=date
         )
     return album_id
