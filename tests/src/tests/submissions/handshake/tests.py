@@ -1,6 +1,6 @@
 from requests import get
 
-from . import TestCase
+from tests.submissions import TestCase
 
 
 class TestSubmissionsHandshake(TestCase):

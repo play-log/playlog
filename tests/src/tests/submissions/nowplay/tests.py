@@ -2,7 +2,7 @@ from time import sleep
 
 from requests import post
 
-from . import TestCase
+from tests.submissions import TestCase
 
 
 class TestSubmissionsNowplay(TestCase):

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from requests import post
 
-from . import TestCase
+from tests.submissions import TestCase
 
 
 class TestSubmissionSubmit(TestCase):
@@ -64,37 +64,6 @@ class TestSubmissionSubmit(TestCase):
 
     def test_submit_many_success(self):
         date = datetime(2017, 11, 25, 16, 21)
-        self.add_artists([{
-            'name':
-            'Test',
-            'first_play': date,
-            'last_play': date,
-            'plays': 1
-        }])
-        self.add_albums([{
-            'artist_id': 1,
-            'name': 'Test',
-            'first_play': date,
-            'last_play': date,
-            'plays': 1
-        }])
-        self.add_tracks([{
-            'album_id': 1,
-            'name': 'Test',
-            'first_play': date,
-            'last_play': date,
-            'plays': 1
-        }])
-        self.add_plays([{
-            'track_id': 1,
-            'date': date
-        }])
-
-        self.assertEqual(self.count_artists(), 1)
-        self.assertEqual(self.count_albums(), 1)
-        self.assertEqual(self.count_tracks(), 1)
-        self.assertEqual(self.count_plays(), 1)
-
         session_id, _, submit_url = self.perform_handshake()
         rep = post(submit_url, data={
             # Submit existing track
@@ -266,36 +235,6 @@ class TestSubmissionSubmit(TestCase):
 
     def test_submit_existing_date_failed(self):
         date = datetime(2017, 11, 25, 15, 55)
-        self.add_artists([{
-            'name':
-            'Test',
-            'first_play': date,
-            'last_play': date,
-            'plays': 1
-        }])
-        self.add_albums([{
-            'artist_id': 1,
-            'name': 'Test',
-            'first_play': date,
-            'last_play': date,
-            'plays': 1
-        }])
-        self.add_tracks([{
-            'album_id': 1,
-            'name': 'Test',
-            'first_play': date,
-            'last_play': date,
-            'plays': 1
-        }])
-        self.add_plays([{
-            'track_id': 1,
-            'date': date
-        }])
-        self.assertEqual(self.count_artists(), 1)
-        self.assertEqual(self.count_albums(), 1)
-        self.assertEqual(self.count_tracks(), 1)
-        self.assertEqual(self.count_plays(), 1)
-
         session_id, _, submit_url = self.perform_handshake()
         rep = post(submit_url, data={
             'a[0]': 'Test',

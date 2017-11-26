@@ -5,7 +5,7 @@ import unittest
 
 
 DISCOVER_START_DIR = os.path.join(os.path.dirname(__file__), '../src/tests')
-DISCOVER_PATTERN = 'test_*.py'
+DISCOVER_PATTERN = 'tests.py'
 
 
 def main():

@@ -1,9 +1,12 @@
+import inspect
 import json
+import os
 
 from unittest import TestCase as BaseTestCase
 from urllib.parse import urlencode
 
 import sqlalchemy as sa
+import yaml
 
 from redis import StrictRedis
 
@@ -20,6 +23,7 @@ class TestCase(BaseTestCase):
         models.metadata.create_all(cls.sa_engine)
         cls.sa_conn = cls.sa_engine.connect()
         cls.redis = StrictRedis(*config.REDIS_URL)
+        cls.fixtures_manager = FixturesManager(cls, cls.sa_conn, models.metadata)
 
     @classmethod
     def tearDownClass(cls):
@@ -31,9 +35,11 @@ class TestCase(BaseTestCase):
 
     def setUp(self):
         self.clean_databases()
+        self.fixtures = self.fixtures_manager.load(self._testMethodName)
 
     def tearDown(self):
         self.clean_databases()
+        self.fixtures = None
 
     def clean_databases(self):
         stmt = 'TRUNCATE TABLE {} RESTART IDENTITY'.format(','.join(models.metadata.tables))
@@ -76,18 +82,33 @@ class TestCase(BaseTestCase):
     def count_plays(self):
         return self.sa_conn.scalar(models.play.count())
 
-    def add_artists(self, items):
-        # TODO: use yaml definition instead
-        self.sa_conn.execute(models.artist.insert(), items)
 
-    def add_albums(self, items):
-        # TODO: use yaml definition instead
-        self.sa_conn.execute(models.album.insert(), items)
+class FixturesManager:
+    def __init__(self, test_case, sa_conn, sa_metadata):
+        self.__sa_conn = sa_conn
+        self.__sa_metadata = sa_metadata
+        directory = os.path.join(os.path.dirname(inspect.getfile(test_case)), 'fixtures')
+        if os.path.isdir(directory):
+            self.__files = {
+                i.replace('.yml', ''): os.path.join(directory, i)
+                for i in os.listdir(directory)
+                if i.endswith('.yml')
+            }
+        else:
+            self.__files = None
 
-    def add_tracks(self, items):
-        # TODO: use yaml definition instead
-        self.sa_conn.execute(models.track.insert(), items)
+    def load(self, key):
+        if not (self.__files and key in self.__files):
+            return
+        with open(self.__files[key]) as f:
+            data = yaml.load(f)
+        self.__fill_database(data)
+        return data
 
-    def add_plays(self, items):
-        # TODO: use yaml definition instead
-        self.sa_conn.execute(models.play.insert(), items)
+    def __fill_database(self, data):
+        with self.__sa_conn.begin():
+            for item in data.values():
+                table, fields = item
+                table = self.__sa_metadata.tables[table]
+                stmt = table.insert().values(**fields)
+                self.__sa_conn.execute(stmt)
