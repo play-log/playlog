@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from requests import post
 
+from tests import db
 from tests.submissions import TestCase
 
 
@@ -19,7 +20,7 @@ class TestSubmissionSubmit(TestCase):
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'OK')
 
-        artists = self.get_artists()
+        artists = db.fetchall('artist')
         self.assertEqual(len(artists), 1)
         artist = dict(artists[0])
         self.assertEqual(artist, {
@@ -30,7 +31,7 @@ class TestSubmissionSubmit(TestCase):
             'last_play': date
         })
 
-        albums = self.get_albums()
+        albums = db.fetchall('album')
         self.assertEqual(len(albums), 1)
         album = dict(albums[0])
         self.assertEqual(album, {
@@ -42,7 +43,7 @@ class TestSubmissionSubmit(TestCase):
             'last_play': date
         })
 
-        tracks = self.get_tracks()
+        tracks = db.fetchall('track')
         self.assertEqual(len(tracks), 1)
         track = dict(tracks[0])
         self.assertEqual(track, {
@@ -54,7 +55,7 @@ class TestSubmissionSubmit(TestCase):
             'last_play': date
         })
 
-        plays = self.get_plays()
+        plays = db.fetchall('play')
         self.assertEqual(len(plays), 1)
         play = dict(plays[0])
         self.assertEqual(play, {
@@ -92,7 +93,7 @@ class TestSubmissionSubmit(TestCase):
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'OK')
 
-        artists = self.get_artists()
+        artists = db.fetchall('artist')
         self.assertEqual(len(artists), 2)
         artist1 = dict(artists[0])
         self.assertEqual(artist1, {
@@ -111,7 +112,7 @@ class TestSubmissionSubmit(TestCase):
             'last_play': date + timedelta(minutes=40),
         })
 
-        albums = self.get_albums()
+        albums = db.fetchall('album')
         self.assertEqual(len(albums), 3)
         album1 = dict(albums[0])
         self.assertEqual(album1, {
@@ -141,7 +142,7 @@ class TestSubmissionSubmit(TestCase):
             'last_play': date + timedelta(minutes=40)
         })
 
-        tracks = self.get_tracks()
+        tracks = db.fetchall('track')
         self.assertEqual(len(tracks), 4)
         track1 = dict(tracks[0])
         self.assertEqual(track1, {
@@ -194,10 +195,10 @@ class TestSubmissionSubmit(TestCase):
         rep = post(submit_url, data=data)
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'OK')
-        self.assertEqual(self.count_artists(), 50)
-        self.assertEqual(self.count_albums(), 50)
-        self.assertEqual(self.count_tracks(), 50)
-        self.assertEqual(self.count_plays(), 50)
+        self.assertEqual(db.count('artist'), 50)
+        self.assertEqual(db.count('album'), 50)
+        self.assertEqual(db.count('track'), 50)
+        self.assertEqual(db.count('play'), 50)
 
     def test_submit_failed_without_session_id(self):
         rep = post(self.SUBMISSIONS_SUBMIT_URL, data={})
@@ -228,10 +229,10 @@ class TestSubmissionSubmit(TestCase):
             rep = post(submit_url, data={**data, 's': session_id})
             self.assertEqual(rep.status_code, 200, rep.text)
             self.assertEqual(rep.text, 'OK')
-            self.assertEqual(self.count_artists(), 0)
-            self.assertEqual(self.count_albums(), 0)
-            self.assertEqual(self.count_tracks(), 0)
-            self.assertEqual(self.count_plays(), 0)
+            self.assertEqual(db.count('artist'), 0)
+            self.assertEqual(db.count('album'), 0)
+            self.assertEqual(db.count('track'), 0)
+            self.assertEqual(db.count('play'), 0)
 
     def test_submit_existing_date_failed(self):
         date = datetime(2017, 11, 25, 15, 55)
@@ -246,14 +247,14 @@ class TestSubmissionSubmit(TestCase):
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'OK')
 
-        for key in ('artists', 'albums', 'tracks'):
-            items = getattr(self, 'get_{}'.format(key))()
+        for key in ('artist', 'album', 'track'):
+            items = db.fetchall(key)
             self.assertEqual(len(items), 1)
             item = dict(items[0])
             self.assertEqual(item['plays'], 1)
             self.assertEqual(item['first_play'], date)
             self.assertEqual(item['last_play'], date)
-        plays = self.get_plays()
+        plays = db.fetchall('play')
         self.assertEqual(len(plays), 1)
         play = dict(plays[0])
         self.assertEqual(play['track_id'], 1)

@@ -2,6 +2,7 @@ from time import sleep
 
 from requests import post
 
+from tests import get_current_track
 from tests.submissions import TestCase
 
 
@@ -18,7 +19,7 @@ class TestSubmissionsNowplay(TestCase):
         rep = post(nowplay_url, data=data)
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'OK')
-        actual_track = self.get_current_track()
+        actual_track = get_current_track()
         self.assertIsNotNone(actual_track)
         self.assertEqual(actual_track.pop('artist'), data['a'])
         self.assertEqual(actual_track.pop('album'), data['b'])
@@ -37,7 +38,7 @@ class TestSubmissionsNowplay(TestCase):
         rep = post(nowplay_url, data=data)
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'OK')
-        actual_track = self.get_current_track()
+        actual_track = get_current_track()
         self.assertIsNotNone(actual_track)
         self.assertEqual(actual_track.pop('artist'), data['a'])
         self.assertEqual(actual_track.pop('album'), data['b'])
@@ -46,20 +47,20 @@ class TestSubmissionsNowplay(TestCase):
         # Unfortunately it is necessary
         # because track should expire after 2 seconds
         sleep(2)
-        self.assertIsNone(self.get_current_track())
+        self.assertIsNone(get_current_track())
 
     def test_nowplay_failed_without_session_id(self):
         rep = post(self.SUBMISSIONS_NOWPLAY_URL, data={})
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'BADSESSION')
-        self.assertIsNone(self.get_current_track())
+        self.assertIsNone(get_current_track())
 
     def test_nowplay_failed_with_bad_session_id(self):
         _, nowplay_url, _ = self.perform_handshake()
         rep = post(nowplay_url, data={'s': 'invalid-session-id'})
         self.assertEqual(rep.status_code, 200, rep.text)
         self.assertEqual(rep.text, 'BADSESSION')
-        self.assertIsNone(self.get_current_track())
+        self.assertIsNone(get_current_track())
 
     def test_nowplay_failed_with_bad_data(self):
         session_id, nowplay_url, _ = self.perform_handshake()
@@ -79,4 +80,4 @@ class TestSubmissionsNowplay(TestCase):
             rep = post(nowplay_url, data={**data, 's': session_id})
             self.assertEqual(rep.status_code, 200, rep.text)
             self.assertEqual(rep.text, 'OK')
-            self.assertIsNone(self.get_current_track())
+            self.assertIsNone(get_current_track())

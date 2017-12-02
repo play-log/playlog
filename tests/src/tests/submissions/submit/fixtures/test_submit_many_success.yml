@@ -1,24 +1,20 @@
-artist:
-  - artist
-  - name: Test
-    first_play: 2017-11-25T16:21
-    last_play: 2017-11-25T16:21
-    plays: 1
-album:
-  - album
-  - artist_id: 1
+- artist:
     name: Test
     first_play: 2017-11-25T16:21
     last_play: 2017-11-25T16:21
     plays: 1
-track:
-  - track
-  - album_id: 1
+- album:
+    artist_id: 1
     name: Test
     first_play: 2017-11-25T16:21
     last_play: 2017-11-25T16:21
     plays: 1
-play:
-  - play
-  - track_id: 1
+- track:
+    album_id: 1
+    name: Test
+    first_play: 2017-11-25T16:21
+    last_play: 2017-11-25T16:21
+    plays: 1
+- play:
+    track_id: 1
     date: 2017-11-25T16:21

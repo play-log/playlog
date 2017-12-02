@@ -3,7 +3,7 @@ from time import time
 
 from requests import get
 
-from tests import TestCase as BaseTestCase
+from tests import TestCase as BaseTestCase, get_session_id
 
 
 class TestCase(BaseTestCase):
@@ -26,7 +26,7 @@ class TestCase(BaseTestCase):
         self.assertEqual(len(parts), 4, rep.text)
         status, session_id, nowplay_url, submit_url = parts
         self.assertEqual(status, 'OK')
-        self.assertEqual(session_id, self.get_session_id())
+        self.assertEqual(session_id, get_session_id())
         self.assertEqual(nowplay_url, self.SUBMISSIONS_NOWPLAY_URL)
         self.assertEqual(submit_url, self.SUBMISSIONS_SUBMIT_URL)
         return session_id, nowplay_url, submit_url
