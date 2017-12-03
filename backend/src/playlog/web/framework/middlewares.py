@@ -1,6 +1,6 @@
 import logging
 
-from aiohttp.web import HTTPException, HTTPInternalServerError, Response
+from aiohttp.web import HTTPException, HTTPBadRequest, Response
 
 from playlog.lib.validation import ValidationError
 from playlog.web.framework.status import HTTP_BAD_REQUEST, HTTP_OK, HTTP_INTERNAL_SERVER_ERROR
@@ -43,8 +43,8 @@ async def response_middleware(app, next_handler):
     async def handler(request):
         result = await next_handler(request)
         if not isinstance(result, Response):
-            accept = request.headers.get('accept')
-            if accept == 'application/json':
+            accept = request.headers.get('accept', 'application/json')
+            if accept in ('application/json', '*/*'):
                 if isinstance(result, ErrorResponse):
                     data, status, headers = result.data, result.status, result.headers
                     if headers:
@@ -57,6 +57,6 @@ async def response_middleware(app, next_handler):
                 result = json_response(data, status=status, headers=headers)
             else:
                 logger.error('Unable to serialize response (accept=%s)', accept)
-                raise HTTPInternalServerError()
+                raise HTTPBadRequest()
         return result
     return handler
