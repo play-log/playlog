@@ -33,6 +33,7 @@ class Alchemy:
     def load(self, filepath):
         with open(filepath) as f:
             data = yaml.load(f)
+        self.data = {}
         self._fill_data(data)
 
     def clean(self):

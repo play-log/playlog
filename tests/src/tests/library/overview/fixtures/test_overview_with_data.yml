@@ -1,0 +1,209 @@
+- artist:
+    first_play: '2017-01-02T10:10:49.266031'
+    last_play: '2017-01-04T11:29:13.497261'
+    name: Analepsy
+    plays: 46
+- album:
+    artist_id: 1
+    first_play: '2017-01-02T10:10:49.266031'
+    last_play: '2017-01-04T11:29:13.497261'
+    name: Atrocities From Beyond
+    plays: 46
+- track:
+    album_id: 1
+    first_play: '2017-01-02T10:10:49.266031'
+    last_play: '2017-01-04T00:30:13.801911'
+    name: Apocalyptic Premonition
+    plays: 5
+- track:
+    album_id: 1
+    first_play: '2017-01-03T21:28:13.534769'
+    last_play: '2017-01-04T03:30:13.962872'
+    name: Rifts To Abhorrence
+    plays: 7
+- track:
+    album_id: 1
+    first_play: '2017-01-03T22:29:14.013657'
+    last_play: '2017-01-04T00:30:13.465640'
+    name: The Vermin Devourer
+    plays: 3
+- track:
+    album_id: 1
+    first_play: '2017-01-03T23:29:13.613433'
+    last_play: '2017-01-04T00:28:13.823189'
+    name: Witnesses Of Extinction
+    plays: 2
+- track:
+    album_id: 1
+    first_play: '2017-01-04T00:28:13.733051'
+    last_play: '2017-01-04T07:28:14.112046'
+    name: Ferocious Aftermath (Featuring Sergio Afonso)
+    plays: 8
+- track:
+    album_id: 1
+    first_play: '2017-01-04T01:29:14.057383'
+    last_play: '2017-01-04T07:29:14.077525'
+    name: Engorged Absorption
+    plays: 7
+- track:
+    album_id: 1
+    first_play: '2017-01-04T02:28:13.831975'
+    last_play: '2017-01-04T02:28:13.831975'
+    name: Eons In Vacuum
+    plays: 1
+- track:
+    album_id: 1
+    first_play: '2017-01-04T03:28:13.943723'
+    last_play: '2017-01-04T05:29:13.736572'
+    name: Depths Of Agony (Instrumental)
+    plays: 3
+- track:
+    album_id: 1
+    first_play: '2017-01-04T04:28:14.069693'
+    last_play: '2017-01-04T06:30:14.007268'
+    name: Atrocity Deeds (Featuring Larry Wang)
+    plays: 3
+- track:
+    album_id: 1
+    first_play: '2017-01-04T05:28:13.692549'
+    last_play: '2017-01-04T11:29:13.497261'
+    name: Omen Of Return (Instrumental)
+    plays: 7
+- play:
+    date: '2017-01-02T10:10:49.266031'
+    track_id: 1
+- play:
+    date: '2017-01-03T21:29:13.720421'
+    track_id: 1
+- play:
+    date: '2017-01-03T22:28:13.624171'
+    track_id: 1
+- play:
+    date: '2017-01-03T23:28:13.803075'
+    track_id: 1
+- play:
+    date: '2017-01-04T00:30:13.801911'
+    track_id: 1
+- play:
+    date: '2017-01-03T21:28:13.534769'
+    track_id: 2
+- play:
+    date: '2017-01-03T22:28:13.657264'
+    track_id: 2
+- play:
+    date: '2017-01-03T23:30:13.741417'
+    track_id: 2
+- play:
+    date: '2017-01-04T00:30:13.936311'
+    track_id: 2
+- play:
+    date: '2017-01-04T01:28:13.752405'
+    track_id: 2
+- play:
+    date: '2017-01-04T02:28:13.468247'
+    track_id: 2
+- play:
+    date: '2017-01-04T03:30:13.962872'
+    track_id: 2
+- play:
+    date: '2017-01-03T22:29:14.013657'
+    track_id: 3
+- play:
+    date: '2017-01-03T23:29:13.815177'
+    track_id: 3
+- play:
+    date: '2017-01-04T00:30:13.465640'
+    track_id: 3
+- play:
+    date: '2017-01-03T23:29:13.613433'
+    track_id: 4
+- play:
+    date: '2017-01-04T00:28:13.823189'
+    track_id: 4
+- play:
+    date: '2017-01-04T00:28:13.733051'
+    track_id: 5
+- play:
+    date: '2017-01-04T01:28:13.522210'
+    track_id: 5
+- play:
+    date: '2017-01-04T02:29:14.087728'
+    track_id: 5
+- play:
+    date: '2017-01-04T03:28:13.992299'
+    track_id: 5
+- play:
+    date: '2017-01-04T04:30:14.100820'
+    track_id: 5
+- play:
+    date: '2017-01-04T05:28:13.445464'
+    track_id: 5
+- play:
+    date: '2017-01-04T06:29:13.774101'
+    track_id: 5
+- play:
+    date: '2017-01-04T07:28:14.112046'
+    track_id: 5
+- play:
+    date: '2017-01-04T01:29:14.057383'
+    track_id: 6
+- play:
+    date: '2017-01-04T02:30:14.009873'
+    track_id: 6
+- play:
+    date: '2017-01-04T03:29:13.550359'
+    track_id: 6
+- play:
+    date: '2017-01-04T04:28:14.109284'
+    track_id: 6
+- play:
+    date: '2017-01-04T05:30:14.093445'
+    track_id: 6
+- play:
+    date: '2017-01-04T06:28:14.129171'
+    track_id: 6
+- play:
+    date: '2017-01-04T07:29:14.077525'
+    track_id: 6
+- play:
+    date: '2017-01-04T02:28:13.831975'
+    track_id: 7
+- play:
+    date: '2017-01-04T03:28:13.943723'
+    track_id: 8
+- play:
+    date: '2017-01-04T04:30:13.785778'
+    track_id: 8
+- play:
+    date: '2017-01-04T05:29:13.736572'
+    track_id: 8
+- play:
+    date: '2017-01-04T04:28:14.069693'
+    track_id: 9
+- play:
+    date: '2017-01-04T05:29:13.651389'
+    track_id: 9
+- play:
+    date: '2017-01-04T06:30:14.007268'
+    track_id: 9
+- play:
+    date: '2017-01-04T05:28:13.692549'
+    track_id: 10
+- play:
+    date: '2017-01-04T06:28:13.673614'
+    track_id: 10
+- play:
+    date: '2017-01-04T07:28:13.832995'
+    track_id: 10
+- play:
+    date: '2017-01-04T08:28:13.435869'
+    track_id: 10
+- play:
+    date: '2017-01-04T09:30:13.948995'
+    track_id: 10
+- play:
+    date: '2017-01-04T10:30:13.744018'
+    track_id: 10
+- play:
+    date: '2017-01-04T11:29:13.497261'
+    track_id: 10

@@ -50,3 +50,7 @@ def get_session_id():
 def get_current_track():
     data = redis.get('playlog:nowplay')
     return json.loads(data.decode('utf-8')) if data else None
+
+
+def set_current_track(**kwargs):
+    redis.set('playlog:nowplay', json.dumps(kwargs))
