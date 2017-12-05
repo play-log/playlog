@@ -80,7 +80,10 @@ async def find_albums(request, db):
 @autowired
 async def find_album(request, db):
     album_id = request.match_info['id']
-    data = dict(await album.find_one(db, id=album_id))
+    data = await album.find_one(db, id=album_id)
+    if not data:
+        raise HTTPNotFound()
+    data = dict(data)
     data['tracks'] = await track.find_for_album(db, album_id)
     return data
 
