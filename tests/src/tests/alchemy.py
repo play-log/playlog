@@ -61,6 +61,7 @@ class Alchemy:
                     pk = tuple(pk)
                 else:
                     pk = pk[0]
+                    fields[pks[0].name] = pk
                 if table_name not in self.data:
                     self.data[table_name] = {}
                 self.data[table_name][pk] = fields

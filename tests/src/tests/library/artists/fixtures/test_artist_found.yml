@@ -1,0 +1,77 @@
+- artist:
+    name: 'Immolation'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Dawn Of Possession'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Here In After'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Failures For Gods'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Close To A World Below'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Unholy Cult'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Harnessing Ruin'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Hope And Horror'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Shadows In The Light'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Majesty And Decay'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Providence'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Kingdom Of Conspiracy'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-09-30T00:00'
+    plays: 1
+- album:
+    artist_id: 1
+    name: 'Atonement'
+    first_play: '2017-09-30T00:00'
+    last_play: '2017-10-30T00:00'
+    plays: 26
