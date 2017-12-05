@@ -62,9 +62,9 @@ class Int(object):
         except ValueError:
             raise schema.SchemaError('%s is not an integer' % data)
         if self.__min_val is not None and data < self.__min_val:
-            raise schema.SchemaError('%d must be greater than %d' % (data, self.__min_val))
+            raise schema.SchemaError('%d is less than %d' % (data, self.__min_val))
         if self.__max_val is not None and data > self.__max_val:
-            raise schema.SchemaError('%d must be less than %d' % (data, self.__max_val))
+            raise schema.SchemaError('%d is greater than %d' % (data, self.__max_val))
         return data
 
 
@@ -76,7 +76,7 @@ class Length(object):
     def validate(self, data):
         length = len(data)
         if self.__min_len > length:
-            raise schema.SchemaError('Lenght must be greater than %d' % self.__min_len)
+            raise schema.SchemaError('Length must be greater than %d' % self.__min_len)
         if self.__max_len < length:
             raise schema.SchemaError('Length must be less than %d' % self.__max_len)
         return data
