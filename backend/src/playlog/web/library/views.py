@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from aiohttp.web_exceptions import HTTPNotFound
+
 from playlog.actions import album, artist, nowplay, play, track
 from playlog.config import USER_EMAIL, USER_NAME
 from playlog.lib import gravatar
@@ -60,7 +62,10 @@ async def find_artists(request, db):
 @autowired
 async def find_artist(request, db):
     artist_id = request.match_info['id']
-    data = dict(await artist.find_one(db, id=artist_id))
+    data = await artist.find_one(db, id=artist_id)
+    if not data:
+        raise HTTPNotFound()
+    data = dict(data)
     data['albums'] = await album.find_for_artist(db, artist_id)
     return data
 
