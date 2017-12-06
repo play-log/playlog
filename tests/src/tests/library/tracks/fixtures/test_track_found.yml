@@ -1,0 +1,23 @@
+- artist:
+    name: Ulcerate
+    first_play: '2013-05-19T16:24:00'
+    last_play: '2017-08-31T23:04:00'
+    plays: 2351
+- album:
+    artist_id: 1
+    name: Shrines Of Paralysis
+    first_play: '2016-10-24T10:32:00'
+    last_play: '2017-08-31T15:16:00'
+    plays: 442
+- track:
+    album_id: 1
+    name: Extinguished Light
+    first_play: '2016-10-24T11:23:00'
+    last_play: '2017-08-31T15:07:00'
+    plays: 70
+- play:
+    track_id: 1
+    date: '2016-10-24T11:23:00'
+- play:
+    track_id: 1
+    date: '2017-08-31T15:07:00'
