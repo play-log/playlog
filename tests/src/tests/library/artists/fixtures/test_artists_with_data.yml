@@ -70,8 +70,8 @@
     plays: 1
 - artist:
     name: 'Archspire'
-    first_play: '2013-05-24T13:15'
-    last_play: '2017-11-14T14:15'
+    first_play: '2013-05-24T13:15:00'
+    last_play: '2017-11-14T14:15:00'
     plays: 233
 - artist:
     name: 'Asphalt Graves'

@@ -13,17 +13,16 @@ class TestArtists(TestCase):
         return self.get_list(expected_status=400, **params)
 
     def test_artists_with_data(self):
-        # Offset, Limit
         total = len(db.data['artist'])
-        data = self.get_list(offset=0, limit=10)
-        self.assertEqual(len(data['items']), 10)
-        self.assertEqual(data['total'], total)
-        self.assertEqual(data['items'][0], db.data['artist'][1])
-        self.assertEqual(data['items'][-1], db.data['artist'][10])
-        data = self.get_list(offset=10, limit=1)
-        self.assertEqual(len(data['items']), 1)
-        self.assertEqual(data['items'][0], db.data['artist'][11])
-        self.assertEqual(data['total'], total)
+
+        # Offset, Limit
+        limit = 10
+        for page in range(5):
+            data = self.get_list(offset=abs(page * limit - limit), limit=limit)
+            self.assertEqual(len(data['items']), 10)
+            self.assertEqual(data['total'], total)
+            for item in data['items']:
+                self.assertEqual(item, db.data['artist'][item['id']])
 
         # Filter by name
         data = self.get_list(name='Ul', offset=0, limit=100)
@@ -68,10 +67,10 @@ class TestArtists(TestCase):
             self.assertGreaterEqual(c['plays'], n['plays'])
 
     def test_artists_without_data(self):
-        rep = get(self.url('artists', offset=0, limit=10))
-        self.assertEqual(rep.status_code, 200, rep.text)
-        data = rep.json()
-        self.assertEqual(data, {'items': [], 'total': 0})
+        self.assertEqual(
+            self.get_list(offset=0, limit=100),
+            {'items': [], 'total': 0}
+        )
 
     def test_artists_invalid_params(self):
         for params, message in [
