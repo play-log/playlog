@@ -98,7 +98,10 @@ async def find_tracks(request, db):
 @autowired
 async def find_track(request, db):
     track_id = request.match_info['id']
-    data = dict(await track.find_one(db, id=track_id))
+    data = await track.find_one(db, id=track_id)
+    if not data:
+        raise HTTPNotFound()
+    data = dict(data)
     data['total_plays'] = data.pop('plays')
     data['plays'] = await play.find_for_track(db, track_id)
     return data
