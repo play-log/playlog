@@ -1,0 +1,58 @@
+- artist:
+    name: 'Decapitated'
+    first_play: '2014-01-21T10:26:00'
+    last_play: '2017-12-05T21:44:00'
+    plays: 958
+- artist:
+    name: 'Amputated'
+    first_play: '2012-12-05T17:01'
+    last_play: '2012-12-05T17:22'
+    plays: 8
+- album:
+    artist_id: 1
+    name: 'Anticult'
+    first_play: '2017-07-06T15:08:00'
+    last_play: '2017-12-05T18:34:00'
+    plays: 120
+- album:
+    artist_id: 1
+    name: 'Blood Mantra'
+    first_play: '2014-12-15T06:54:00'
+    last_play: '2017-11-23T17:16:00'
+    plays: 144
+- album:
+    artist_id: 1
+    name: 'Carnival Is Forever'
+    first_play: '2014-02-08T09:50:00'
+    last_play: '2017-11-23T22:50:00'
+    plays: 176
+- album:
+    artist_id: 1
+    name: 'Nihility'
+    first_play: '2014-02-09T00:22:00'
+    last_play: '2017-12-05T21:22:00'
+    plays: 120
+- album:
+    artist_id: 1
+    name: 'Organic Hallucinosis'
+    first_play: '2014-01-24T15:08:00'
+    last_play: '2017-12-05T15:38:00'
+    plays: 119
+- album:
+    artist_id: 1
+    name: 'The Negation'
+    first_play: '2014-01-21T10:26:00'
+    last_play: '2017-12-05T21:44:00'
+    plays: 123
+- album:
+    artist_id: 1
+    name: 'Winds Of Creation'
+    first_play: '2014-02-09T13:37:00'
+    last_play: '2017-12-04T12:29:00'
+    plays: 144
+- album:
+    artist_id: 2
+    name: 'Wading Through Rancid Offal'
+    first_play: '2012-12-05T17:01:00'
+    last_play: '2012-12-05T17:22:00'
+    plays: 8
