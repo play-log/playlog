@@ -135,7 +135,12 @@ class Period(object):
         else:
             raise schema.SchemaError('Invalid period: %s' % data)
 
+        try:
+            value = datetime.datetime(*parts)
+        except ValueError:
+            raise schema.SchemaError('Invalid period: %s' % data)
+
         return {
             'kind': kind,
-            'value': datetime.datetime(*parts)
+            'value': value
         }
