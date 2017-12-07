@@ -86,6 +86,26 @@ class TestTracks(TestCase):
         for c, n in zip(data['items'], data['items'][1:]):
             self.assertGreaterEqual(c['plays'], n['plays'])
 
+        # Order by track
+        items = self.get_list(
+            order_field='track',
+            order_direction='desc',
+            offset=0,
+            limit=100
+        )['items']
+        self.assertEqual(items[0]['name'], 'Yield To Naught')
+        self.assertEqual(items[-1]['name'], 'Abrogation')
+
+        # Order by album
+        items = self.get_list(
+            order_field='album',
+            order_direction='asc',
+            offset=0,
+            limit=100
+        )['items']
+        self.assertEqual(items[0]['album'], 'Einsamkeit')
+        self.assertEqual(items[-1]['album'], 'Shrines Of Paralysis')
+
     def test_tracks_without_data(self):
         self.assertEqual(
             self.get_list(offset=0, limit=100),
