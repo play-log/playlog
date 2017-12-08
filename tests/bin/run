@@ -28,9 +28,9 @@ tests_status=$?
 kill $server_pid
 
 # report
-echo -e "\nCOVERAGE REPORT:"
-coverage report -m
 echo -e "\nSERVER LOGS:"
 cat /tmp/playlog.log
+echo -e "\nCOVERAGE REPORT:"
+coverage report -m
 
 exit $tests_status
