@@ -1,7 +1,9 @@
 #!/bin/bash
 
+coverage erase
+
 # start server
-coverage run --source playlog /app/bin/server > /tmp/playlog.log 2>&1 &
+coverage run -a --source playlog /app/bin/server > /tmp/playlog.log 2>&1 &
 server_pid=$!
 server_status=$?
 if [[ $server_status -ne 0 ]]; then
@@ -19,7 +21,7 @@ fi
 
 # run tests
 echo -e "\nRUNNING TESTS:"
-./bin/test
+coverage run -a --source playlog ./bin/test
 tests_status=$?
 
 # stop server
