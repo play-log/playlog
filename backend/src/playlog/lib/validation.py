@@ -82,25 +82,12 @@ class Length(object):
         return data
 
 
-class DateTime(object):
-    def __init__(self, fmt):
-        self.__fmt = fmt
-
+class ISODateTime(object):
     def validate(self, data):
         try:
-            return datetime.datetime.strptime(data, self.__fmt)
+            return datetime.datetime.strptime(data, '%Y-%m-%dT%H:%M')
         except Exception as e:
             raise schema.SchemaError('%s is not a valid date' % data)
-
-
-class ISODate(DateTime):
-    def __init__(self):
-        super().__init__('%Y-%m-%d')
-
-
-class ISODateTime(DateTime):
-    def __init__(self):
-        super().__init__('%Y-%m-%dT%H:%M')
 
 
 class OneOf(object):
