@@ -29,7 +29,9 @@ async def error_middleware(app, next_handler):
                 )
             else:
                 if exc.empty_body:
-                    raise exc
+                    # currently we dont use exceptions without body
+                    # so don't cover this line for a while
+                    raise exc  # pragma: no cover
                 result = ErrorResponse(
                     data={'message': exc.reason},
                     status=exc.status,

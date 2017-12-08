@@ -88,6 +88,13 @@ class TestPlays(TestCase):
             {'label': '2017-01-01T00:00:00', 'value': 31}
         ])
 
+    def assert_count_empty_period(self):
+        self.assertEqual(self.get_count(period=''), [
+            {'label': '2012-01-01T00:00:00', 'value': 1},
+            {'label': '2016-01-01T00:00:00', 'value': 1},
+            {'label': '2017-01-01T00:00:00', 'value': 31}
+        ])
+
     def assert_month_count(self):
         self.assertEqual(self.get_count(period=2017), [
             {'label': '2017-02-01T00:00:00', 'value': 1},
@@ -142,6 +149,7 @@ class TestPlays(TestCase):
         self.assert_order_works()
 
         self.assert_default_count()
+        self.assert_count_empty_period()
         self.assert_month_count()
         self.assert_day_count()
         self.assert_hour_count()
@@ -158,6 +166,7 @@ class TestPlays(TestCase):
             ({'extra': 'param'}, "Wrong keys 'extra' in {'extra': 'param'}"),
             ({'period': 'x'}, 'Invalid period: x'),
             ({'period': '0-0-0-0-0-0'}, 'Invalid period: 0-0-0-0-0-0'),
+            ({'period': '1-1-1-1-1-1'}, 'Invalid period: 1-1-1-1-1-1'),
             ({'period': '2012-0100-0110'}, 'Invalid period: 2012-0100-0110'),
             ({'filter_kind': '__dict__'}, "__dict__ is not one of ['artist', 'album', 'track']"),
             ({'filter_value': 'x'}, 'x is not an integer'),
