@@ -21,7 +21,7 @@ fi
 
 # run tests
 echo -e "\nRUNNING TESTS:"
-coverage run -a --source playlog ./bin/test
+coverage run -a --source playlog /usr/local/bin/pytest src/tests
 tests_status=$?
 
 # stop server
