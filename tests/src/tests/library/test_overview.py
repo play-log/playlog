@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 from tests.client import get
-from tests.fixtures import fixture
+from tests.fixtures import fixture, refresh_db
 
 
 def get_data():
@@ -13,6 +13,7 @@ USER_NAME = 'Fabien Potencier'
 
 
 def test_without_data():
+    refresh_db()
     today = date.today().isoformat()
     month_ago = (date.today() - timedelta(days=30)).isoformat()
 
@@ -126,6 +127,7 @@ def test_with_data():
 
 
 def test_with_nowplay(set_current_track):
+    refresh_db()
     track = {
         'artist': 'Analepsy',
         'album': 'Atrocities From Beyond',
