@@ -1,4 +1,5 @@
 sudo: required
+language: generic
 services:
   - docker
 addons:
@@ -13,5 +14,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 script:
+  - touch backend/.env
   - bin/build
   - bin/test --build
