@@ -16,6 +16,8 @@ dockerize -wait tcp://127.0.0.1:8080
 dockerize_status=$?
 if [[ $dockerize_status -ne 0 ]]; then
     echo "Server not respond"
+    echo -e "\nSERVER LOGS:"
+    cat /tmp/playlog.log
     exit $dockerize_status
 fi
 
