@@ -2,6 +2,9 @@
 
 coverage erase
 
+# Wait for postgres and redis
+dockerize -wait tcp://postgres:5432 tcp://redis:6379
+
 # start server
 coverage run -a --source playlog /app/bin/server > /tmp/playlog.log 2>&1 &
 server_pid=$!
