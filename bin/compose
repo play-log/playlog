@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+cd backend
+if [ -f docker-compose.overrides.yml ]; then
+    docker-compose -f docker-compose.yml -f docker-compose.overrides.yml -p playlog "$@"
+else
+    docker-compose -p playlog "$@"
+fi

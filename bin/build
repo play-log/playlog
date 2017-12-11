@@ -9,6 +9,5 @@ then
     fi;
     docker build --network host -t rossnomann/playlog:$2 -f production/Dockerfile .
 else
-    cd backend
-    docker-compose build app
+    ./bin/compose build app
 fi;

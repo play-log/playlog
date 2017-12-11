@@ -7,7 +7,7 @@ function cleanup {
 
 trap cleanup EXIT
 
-cd backend && docker-compose up &
+./bin/compose up &
 BACKEND=$!
 
 cd frontend && npm start &
