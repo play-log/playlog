@@ -17,7 +17,10 @@ async def error_middleware(app, next_handler):
         except Exception as exc:
             if isinstance(exc, ValidationError):
                 result = ErrorResponse(
-                    data=exc.errors,
+                    data={
+                        'message': 'Validation error',
+                        'errors': exc.errors
+                    },
                     status=HTTP_BAD_REQUEST
                 )
             elif not isinstance(exc, HTTPException):

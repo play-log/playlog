@@ -154,4 +154,4 @@ def test_empty_db():
     ({'offset': 0, 'limit': 0}, '0 is less than 1'),
 ])
 def test_invalid_params(params, message):
-    assert message in get_list(expected_status=400, **params)
+    assert message in get_list(expected_status=400, **params)['errors']

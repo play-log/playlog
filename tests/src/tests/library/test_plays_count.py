@@ -76,11 +76,11 @@ def test_count(params, data):
     ({'filter_kind': '__dict__'}, "__dict__ is not one of ['artist', 'album', 'track']"),
     ({'filter_value': 'x'}, 'x is not an integer'),
     # TODO: should return 400
-    ({'filter_kind': 'artist'}, (500, 'message'))
+    ({'filter_kind': 'artist'}, (500, 'An error has occurred'))
 ])
 def test_invalid_params(params, message):
     if len(message) == 2:
         status, message = message
+        assert message == get_count(expected_status=status, **params)['message']
     else:
-        status = 400
-    assert message in get_count(expected_status=status, **params)
+        assert message in get_count(expected_status=400, **params)['errors']
