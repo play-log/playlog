@@ -6,5 +6,5 @@ if [[ -z $(docker images playlog_tests -q) || $1 == '--build' ]]; then
     docker-compose build tests
 fi;
 
-docker-compose run --rm tests
+docker-compose -p playlog_tests run --rm tests
 exit $?
