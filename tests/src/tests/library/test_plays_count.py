@@ -67,20 +67,22 @@ def test_count(params, data):
     assert get_count(**params) == data
 
 
-@pytest.mark.parametrize('params,message', [
-    ({'extra': 'param'}, "Wrong keys 'extra' in {'extra': 'param'}"),
-    ({'period': 'x'}, 'Invalid period: x'),
-    ({'period': '0-0-0-0-0-0'}, 'Invalid period: 0-0-0-0-0-0'),
-    ({'period': '1-1-1-1-1-1'}, 'Invalid period: 1-1-1-1-1-1'),
-    ({'period': '2012-0100-0110'}, 'Invalid period: 2012-0100-0110'),
-    ({'filter_kind': '__dict__'}, "__dict__ is not one of ['artist', 'album', 'track']"),
-    ({'filter_value': 'x'}, 'x is not an integer'),
+@pytest.mark.parametrize('params,errors', [
+    ({'extra': 'param'}, {'extra': 'Rogue field'}),
+    ({'period': 'x'}, {'period': ['Invalid period: x']}),
+    ({'period': '0-0-0-0-0-0'}, {'period': ['Invalid period: 0-0-0-0-0-0']}),
+    ({'period': '1-1-1-1-1-1'}, {'period': ['Invalid period: 1-1-1-1-1-1']}),
+    ({'period': '2012-0100-0110'}, {'period': ['Invalid period: 2012-0100-0110']}),
+    ({'filter_kind': '__dict__'}, {
+        'filter_kind': ["Value must be one of ['artist', 'album', 'track']."]
+    }),
+    ({'filter_value': 'x'}, {'filter_value': ["Value 'x' is not int."]}),
     # TODO: should return 400
     ({'filter_kind': 'artist'}, (500, 'An error has occurred'))
 ])
-def test_invalid_params(params, message):
-    if len(message) == 2:
-        status, message = message
+def test_invalid_params(params, errors):
+    if len(errors) == 2:
+        status, message = errors
         assert message == get_count(expected_status=status, **params)['message']
     else:
-        assert message in get_count(expected_status=400, **params)['errors']
+        assert errors == get_count(expected_status=400, **params)['errors']

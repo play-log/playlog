@@ -1,6 +1,7 @@
+from schematics.types import IntType, StringType, UTCDateTimeType
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, Period, validate
+from playlog.lib.validation import PeriodType, validate
 from playlog.models import album, artist, play, track
 
 
@@ -49,11 +50,11 @@ async def get_biggest_day(conn):
     return await result.fetchone()
 
 
-@validate(params={
-    'period': Optional(Period()),
-    'filter_kind': Optional(OneOf(['artist', 'album', 'track'])),
-    'filter_value': Optional(Int())
-})
+@validate.params(
+    period=PeriodType(),
+    filter_kind=StringType(choices=['artist', 'album', 'track']),
+    filter_value=IntType()
+)
 async def count_for_period(conn, params):
     period = params.get('period')
     if not period:
@@ -160,18 +161,16 @@ async def get_current_streak(conn):
     return await result.fetchone()
 
 
-@validate(
-    params={
-        'artist': Optional(Length(min_len=1, max_len=50)),
-        'album': Optional(Length(min_len=1, max_len=50)),
-        'track': Optional(Length(min_len=1, max_len=50)),
-        'date_lt': Optional(ISODateTime()),
-        'date_gt': Optional(ISODateTime()),
-        'order_field': Optional(OneOf(['artist', 'album', 'track', 'date'])),
-        'order_direction': Optional(OneOf(['asc', 'desc'])),
-        'limit': Int(min_val=1, max_val=100),
-        'offset': Int(min_val=0)
-    }
+@validate.params(
+    artist=StringType(min_length=1, max_length=50),
+    album=StringType(min_length=1, max_length=50),
+    track=StringType(min_length=1, max_length=50),
+    date_lt=UTCDateTimeType(),
+    date_gt=UTCDateTimeType(),
+    order_field=StringType(choices=['artist', 'album', 'track', 'date']),
+    order_direction=StringType(choices=['asc', 'desc']),
+    limit=IntType(required=True, min_value=1, max_value=100),
+    offset=IntType(required=True, min_value=0)
 )
 async def find_many(conn, params):
     artist_name = artist.c.name.label('artist')

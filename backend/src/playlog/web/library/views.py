@@ -55,7 +55,7 @@ async def overview(request, db, redis):
 @route.get('/artists')
 @autowired
 async def find_artists(request, db):
-    return await artist.find_many(db, dict(request.query))
+    return await artist.find_many(db, request.query)
 
 
 @route.get('/artists/{id:\d+}')
@@ -73,7 +73,7 @@ async def find_artist(request, db):
 @route.get('/albums')
 @autowired
 async def find_albums(request, db):
-    return await album.find_many(db, dict(request.query))
+    return await album.find_many(db, request.query)
 
 
 @route.get('/albums/{id:\d+}')
@@ -91,7 +91,7 @@ async def find_album(request, db):
 @route.get('/tracks')
 @autowired
 async def find_tracks(request, db):
-    return await track.find_many(db, dict(request.query))
+    return await track.find_many(db, request.query)
 
 
 @route.get('/tracks/{id:\d+}')
@@ -110,10 +110,10 @@ async def find_track(request, db):
 @route.get('/plays')
 @autowired
 async def find_plays(request, db):
-    return await play.find_many(db, dict(request.query))
+    return await play.find_many(db, request.query)
 
 
 @route.get('/plays/count')
 @autowired
 async def count_plays(request, db):
-    return await play.count_for_period(db, dict(request.query))
+    return await play.count_for_period(db, request.query)

@@ -1,6 +1,7 @@
+from schematics.types import IntType, StringType, UTCDateTimeType
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import Int, ISODateTime, Length, OneOf, Optional, validate
+from playlog.lib.validation import validate
 from playlog.models import artist
 
 
@@ -21,18 +22,16 @@ async def find_one(conn, **kwargs):
     return await result.fetchone()
 
 
-@validate(
-    params={
-        'name': Optional(Length(min_len=1, max_len=50)),
-        'first_play_lt': Optional(ISODateTime()),
-        'first_play_gt': Optional(ISODateTime()),
-        'last_play_lt': Optional(ISODateTime()),
-        'last_play_gt': Optional(ISODateTime()),
-        'order_field': Optional(OneOf(['name', 'first_play', 'last_play', 'plays'])),
-        'order_direction': Optional(OneOf(['asc', 'desc'])),
-        'limit': Int(min_val=1, max_val=100),
-        'offset': Int(min_val=0)
-    }
+@validate.params(
+    name=StringType(min_length=1, max_length=50),
+    first_play_lt=UTCDateTimeType(),
+    first_play_gt=UTCDateTimeType(),
+    last_play_lt=UTCDateTimeType(),
+    last_play_gt=UTCDateTimeType(),
+    order_field=StringType(choices=['name', 'first_play', 'last_play', 'plays']),
+    order_direction=StringType(choices=['asc', 'desc']),
+    limit=IntType(required=True, min_value=1, max_value=100),
+    offset=IntType(required=True, min_value=0)
 )
 async def find_many(conn, params):
     filters = []

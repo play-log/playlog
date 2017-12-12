@@ -106,52 +106,60 @@ def test_tracks():
     assert items[-1]['album'] == 'Shrines Of Paralysis'
 
 
-
 def test_empty_db():
     assert get_list(offset=0, limit=100) == {'items': [], 'total': 0}
 
 
-@pytest.mark.parametrize('params,message', [
+@pytest.mark.parametrize('params,errors', [
     # Missing required
-    ({}, "Missing keys: 'limit', 'offset'"),
+    ({}, {'limit': ['This field is required.'], 'offset': ['This field is required.']}),
     # Got extra
-    ({'extra': 'param', 'offset': 0, 'limit': 1}, (
-        "Wrong keys 'extra' in "
-        "{'extra': 'param', 'offset': '0', 'limit': '1'}"
-    )),
+    ({'extra': 'param', 'offset': 0, 'limit': 1}, {'extra': 'Rogue field'}),
     # Too small artist
-    ({'artist': '', 'offset': 0, 'limit': 1}, 'Length must be greater than 1'),
+    ({'artist': '', 'offset': 0, 'limit': 1}, {'artist': ['String value is too short.']}),
     # Too big artist
-    ({'artist': 'a' * 51, 'offset': 0, 'limit': 1}, 'Length must be less than 50'),
+    ({'artist': 'a' * 51, 'offset': 0, 'limit': 1}, {'artist': ['String value is too long.']}),
     # Too small album
-    ({'album': '', 'offset': 0, 'limit': 1}, 'Length must be greater than 1'),
+    ({'album': '', 'offset': 0, 'limit': 1}, {'album': ['String value is too short.']}),
     # Too big album
-    ({'album': 'a' * 51, 'offset': 0, 'limit': 1}, 'Length must be less than 50'),
+    ({'album': 'a' * 51, 'offset': 0, 'limit': 1}, {'album': ['String value is too long.']}),
     # Too small track
-    ({'track': '', 'offset': 0, 'limit': 1}, 'Length must be greater than 1'),
+    ({'track': '', 'offset': 0, 'limit': 1}, {'track': ['String value is too short.']}),
     # Too big track
-    ({'track': 'a' * 51, 'offset': 0, 'limit': 1}, 'Length must be less than 50'),
+    ({'track': 'a' * 51, 'offset': 0, 'limit': 1}, {'track': ['String value is too long.']}),
     # first_play_lt is not a date
-    ({'first_play_lt': 'w', 'offset': 0, 'limit': 1}, 'w is not a valid date'),
+    ({'first_play_lt': 'w', 'offset': 0, 'limit': 1}, {
+        'first_play_lt': ['Could not parse w. Should be ISO 8601 or timestamp.']
+    }),
     # first_play_gt is not a date
-    ({'first_play_gt': 'x', 'offset': 0, 'limit': 1}, 'x is not a valid date'),
+    ({'first_play_gt': 'x', 'offset': 0, 'limit': 1},  {
+        'first_play_gt': ['Could not parse x. Should be ISO 8601 or timestamp.']
+    }),
     # last_play_lt is not a date
-    ({'last_play_lt': 'y', 'offset': 0, 'limit': 1}, 'y is not a valid date'),
+    ({'last_play_lt': 'y', 'offset': 0, 'limit': 1}, {'last_play_lt': [
+        'Could not parse y. Should be ISO 8601 or timestamp.']
+    }),
     # last_play_gt is not a date
-    ({'last_play_gt': 'z', 'offset': 0, 'limit': 1}, 'z is not a valid date'),
+    ({'last_play_gt': 'z', 'offset': 0, 'limit': 1}, {
+        'last_play_gt': ['Could not parse z. Should be ISO 8601 or timestamp.']
+    }),
     # order_field is not allowed
-    ({'order_field': '__dict__', 'offset': 0, 'limit': 1}, (
-        "__dict__ is not one of "
-        "['artist', 'album', 'track', 'first_play', 'last_play', 'plays']"
-    )),
+    ({'order_field': '__dict__', 'offset': 0, 'limit': 1}, {
+        'order_field': [
+            "Value must be one of "
+            "['artist', 'album', 'track', 'first_play', 'last_play', 'plays']."
+        ]
+    }),
     # order_direction is not allowed
-    ({'order_direction': 'backward', 'offset': 0, 'limit': 1}, (
-        "backward is not one of ['asc', 'desc']"
-    )),
+    ({'order_direction': 'backward', 'offset': 0, 'limit': 1}, {
+        'order_direction': [
+            "Value must be one of ['asc', 'desc']."
+        ]
+    }),
     # too big limit
-    ({'offset': 0, 'limit': 1000}, '1000 is greater than 100'),
+    ({'offset': 0, 'limit': 1000}, {'limit': ['Int value should be less than or equal to 100.']}),
     # too small limit
-    ({'offset': 0, 'limit': 0}, '0 is less than 1'),
+    ({'offset': 0, 'limit': 0}, {'limit': ['Int value should be greater than or equal to 1.']}),
 ])
-def test_invalid_params(params, message):
-    assert message in get_list(expected_status=400, **params)['errors']
+def test_invalid_params(params, errors):
+    assert errors == get_list(expected_status=400, **params)['errors']
