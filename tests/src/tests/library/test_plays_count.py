@@ -77,12 +77,7 @@ def test_count(params, data):
         'filter_kind': ["Value must be one of ['artist', 'album', 'track']."]
     }),
     ({'filter_value': 'x'}, {'filter_value': ["Value 'x' is not int."]}),
-    # TODO: should return 400
-    ({'filter_kind': 'artist'}, (500, 'An error has occurred'))
+    ({'filter_kind': 'artist'}, {'filter_value': ['This field is required.']})
 ])
 def test_invalid_params(params, errors):
-    if len(errors) == 2:
-        status, message = errors
-        assert message == get_count(expected_status=status, **params)['message']
-    else:
-        assert errors == get_count(expected_status=400, **params)['errors']
+    assert errors == get_count(expected_status=400, **params)['errors']

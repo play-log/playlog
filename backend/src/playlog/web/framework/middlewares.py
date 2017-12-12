@@ -23,7 +23,7 @@ async def error_middleware(app, next_handler):
                     },
                     status=HTTP_BAD_REQUEST
                 )
-            elif not isinstance(exc, HTTPException):
+            elif not isinstance(exc, HTTPException):  # pragma: no cover
                 message = 'An error has occurred'
                 logger.exception(message)
                 result = ErrorResponse(

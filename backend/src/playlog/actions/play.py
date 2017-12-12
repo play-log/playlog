@@ -1,7 +1,7 @@
 from schematics.types import IntType, StringType, UTCDateTimeType
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import PeriodType, validate
+from playlog.lib.validation import PeriodType, ValidationError, validate
 from playlog.models import album, artist, play, track
 
 
@@ -87,12 +87,7 @@ async def count_for_period(conn, params):
     if filter_column is not None:
         filter_value = params.get('filter_value')
         if not filter_value:
-            raise ValueError(
-                'Unable to filter by {}: '
-                'value is not specified'.format(
-                    filter_column
-                )
-            )
+            raise ValidationError({'filter_value': ['This field is required.']})
         stmt = stmt.where(filter_column == filter_value)
     if from_clause is not None:
         stmt = stmt.select_from(from_clause)
