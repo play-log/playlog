@@ -50,12 +50,7 @@ def test_artists():
     assert items[0]['name'] == 'Archspire'
 
     # Order by plays
-    data = get_list(
-        order_field='plays',
-        order_direction='desc',
-        offset=0,
-        limit=5
-    )
+    data = get_list(order='-plays', offset=0, limit=5)
     items = data['items']
     assert len(items) == 5
     assert data['total'] == 102
@@ -92,13 +87,9 @@ def test_empty_db():
     ({'last_play_gt': 'z', 'offset': 0, 'limit': 1}, {
         'last_play_gt': ['Could not parse z. Should be ISO 8601 or timestamp.']
     }),
-    # order_field is not allowed
-    ({'order_field': '__dict__', 'offset': 0, 'limit': 1}, {
-        'order_field': ["Value must be one of ['name', 'first_play', 'last_play', 'plays']."]
-    }),
-    # order_direction is not allowed
-    ({'order_direction': 'backward', 'offset': 0, 'limit': 1}, {
-        'order_direction': ["Value must be one of ['asc', 'desc']."]
+    # order is not allowed
+    ({'order': '__dict__', 'offset': 0, 'limit': 1}, {
+        'order': ["Value must be one of ('name', 'first_play', 'last_play', 'plays')."]
     }),
     # too big limit
     ({'offset': 0, 'limit': 1000}, {'limit': ['Int value should be less than or equal to 100.']}),

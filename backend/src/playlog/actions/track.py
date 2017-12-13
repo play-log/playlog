@@ -1,7 +1,7 @@
 from schematics.types import IntType, StringType, UTCDateTimeType
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import validate
+from playlog.lib.validation import OrderType, validate
 from playlog.models import album, artist, track
 
 
@@ -37,11 +37,7 @@ async def find_one(conn, **kwargs):
     first_play_gt=UTCDateTimeType(),
     last_play_lt=UTCDateTimeType(),
     last_play_gt=UTCDateTimeType(),
-    order_field=StringType(choices=[
-        'artist', 'album', 'track',
-        'first_play', 'last_play', 'plays'
-    ]),
-    order_direction=StringType(choices=['asc', 'desc']),
+    order=OrderType('artist', 'album', 'track', 'first_play', 'last_play', 'plays'),
     limit=IntType(required=True, min_value=1, max_value=100),
     offset=IntType(required=True, min_value=0)
 )
@@ -65,7 +61,9 @@ async def find_many(conn, params):
     if 'last_play_lt' in params:
         filters.append(track.c.last_play <= params['last_play_lt'])
 
-    order_field = params.get('order_field', 'artist')
+    order = params.get('order')
+    order_field = order['column'] if order else 'artist'
+    order_direction = order['direction'] if order else 'asc'
     if order_field == 'artist':
         order_clause = artist_name
     elif order_field == 'album':
@@ -74,7 +72,6 @@ async def find_many(conn, params):
         order_clause = track.c.name
     else:
         order_clause = track.c[order_field]
-    order_direction = params.get('order_direction', 'asc')
     order_clause = getattr(order_clause, order_direction)()
 
     stmt = select([artist.c.id.label('artist_id'), artist_name, album_name, track])

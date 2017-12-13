@@ -73,12 +73,7 @@ def test_tracks():
     assert items[0]['name'] == 'There Are No Saviours'
 
     # Order by plays
-    data = get_list(
-        order_field='plays',
-        order_direction='desc',
-        offset=0,
-        limit=5
-    )
+    data = get_list(order='-plays', offset=0, limit=5)
     items = data['items']
     assert len(items) == 5
     assert data['total'] == 9
@@ -86,22 +81,12 @@ def test_tracks():
         assert c['plays'] >= n['plays']
 
     # Order by track
-    items = get_list(
-        order_field='track',
-        order_direction='desc',
-        offset=0,
-        limit=100
-    )['items']
+    items = get_list(order='-track', offset=0, limit=100)['items']
     assert items[0]['name'] == 'Yield To Naught'
     assert items[-1]['name'] == 'Abrogation'
 
     # Order by album
-    items = get_list(
-        order_field='album',
-        order_direction='asc',
-        offset=0,
-        limit=100
-    )['items']
+    items = get_list(order='album', offset=0, limit=100)['items']
     assert items[0]['album'] == 'Einsamkeit'
     assert items[-1]['album'] == 'Shrines Of Paralysis'
 
@@ -143,17 +128,11 @@ def test_empty_db():
     ({'last_play_gt': 'z', 'offset': 0, 'limit': 1}, {
         'last_play_gt': ['Could not parse z. Should be ISO 8601 or timestamp.']
     }),
-    # order_field is not allowed
-    ({'order_field': '__dict__', 'offset': 0, 'limit': 1}, {
-        'order_field': [
+    # order is not allowed
+    ({'order': '__dict__', 'offset': 0, 'limit': 1}, {
+        'order': [
             "Value must be one of "
-            "['artist', 'album', 'track', 'first_play', 'last_play', 'plays']."
-        ]
-    }),
-    # order_direction is not allowed
-    ({'order_direction': 'backward', 'offset': 0, 'limit': 1}, {
-        'order_direction': [
-            "Value must be one of ['asc', 'desc']."
+            "('artist', 'album', 'track', 'first_play', 'last_play', 'plays')."
         ]
     }),
     # too big limit

@@ -1,7 +1,7 @@
 from schematics.types import IntType, StringType, UTCDateTimeType
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import PeriodType, ValidationError, validate
+from playlog.lib.validation import OrderType, PeriodType, ValidationError, validate
 from playlog.models import album, artist, play, track
 
 
@@ -162,8 +162,7 @@ async def get_current_streak(conn):
     track=StringType(min_length=1, max_length=50),
     date_lt=UTCDateTimeType(),
     date_gt=UTCDateTimeType(),
-    order_field=StringType(choices=['artist', 'album', 'track', 'date']),
-    order_direction=StringType(choices=['asc', 'desc']),
+    order=OrderType('artist', 'album', 'track', 'date'),
     limit=IntType(required=True, min_value=1, max_value=100),
     offset=IntType(required=True, min_value=0)
 )
@@ -184,7 +183,9 @@ async def find_many(conn, params):
     if 'date_lt' in params:
         filters.append(play.c.date <= params['date_lt'])
 
-    order_field = params.get('order_field', 'date')
+    order = params.get('order')
+    order_field = order['column'] if order else 'date'
+    order_direction = order['direction'] if order else 'desc'
     if order_field == 'artist':
         order_clause = artist_name
     elif order_field == 'album':
@@ -193,7 +194,6 @@ async def find_many(conn, params):
         order_clause = track_name
     else:
         order_clause = play.c[order_field]
-    order_direction = params.get('order_direction', 'desc')
     order_clause = getattr(order_clause, order_direction)()
 
     stmt = select([

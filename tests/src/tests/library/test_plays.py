@@ -59,16 +59,12 @@ def test_filters():
     ('date', 'Introduction', 'Extinguished Light')
 ])
 def test_order(field, first, last):
-    for direction in ['asc', 'desc']:
-        items = get_list(
-            order_field=field,
-            order_direction=direction,
-            offset=0,
-            limit=50
-        )['items']
-        msg = 'Unexpected order: field={} direction={}'.format(field, direction)
+    for invert in [False, True]:
+        order = '{}{}'.format('-' if invert else '', field)
+        items = get_list(order=order, offset=0, limit=50)['items']
+        msg = 'Unexpected order: field={} invert={}'.format(field, invert)
         cmp_field = 'track' if field == 'date' else field
-        if direction == 'desc':
+        if invert:
             first, last = last, first
         assert items[0][cmp_field] == first, msg
         assert items[-1][cmp_field] == last, msg
@@ -103,16 +99,12 @@ def test_empty_db():
     ({'date_gt': 'x', 'offset': 0, 'limit': 1},  {
         'date_gt': ['Could not parse x. Should be ISO 8601 or timestamp.']
     }),
-    # order_field is not allowed
-    ({'order_field': '__dict__', 'offset': 0, 'limit': 1}, {
-        'order_field': [
+    # order is not allowed
+    ({'order': '__dict__', 'offset': 0, 'limit': 1}, {
+        'order': [
             "Value must be one of "
-            "['artist', 'album', 'track', 'date']."
+            "('artist', 'album', 'track', 'date')."
         ]
-    }),
-    # order_direction is not allowed
-    ({'order_direction': 'backward', 'offset': 0, 'limit': 1}, {
-        'order_direction': ["Value must be one of ['asc', 'desc']."]
     }),
     # too big limit
     ({'offset': 0, 'limit': 1000}, {'limit': ['Int value should be less than or equal to 100.']}),

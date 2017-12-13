@@ -39,6 +39,25 @@ class ValidationError(Exception):
         self.errors = errors
 
 
+class OrderType(BaseType):
+    def __init__(self, *columns):
+        super().__init__(choices=columns)
+
+    def to_native(self, value, context=None):
+        if len(value) >= 2 and value[0] == '-':
+            direction = 'desc'
+            value = value[1:]
+        else:
+            direction = 'asc'
+        return {
+            'direction': direction,
+            'column': value
+        }
+
+    def validate_choices(self, value, context):
+        return super().validate_choices(value=value['column'], context=context)
+
+
 class PeriodType(BaseType):
     def to_native(self, value, context=None):
         if not value:

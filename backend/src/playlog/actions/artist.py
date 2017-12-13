@@ -1,7 +1,7 @@
 from schematics.types import IntType, StringType, UTCDateTimeType
 from sqlalchemy.sql import and_, func, select
 
-from playlog.lib.validation import validate
+from playlog.lib.validation import OrderType, validate
 from playlog.models import artist
 
 
@@ -28,8 +28,7 @@ async def find_one(conn, **kwargs):
     first_play_gt=UTCDateTimeType(),
     last_play_lt=UTCDateTimeType(),
     last_play_gt=UTCDateTimeType(),
-    order_field=StringType(choices=['name', 'first_play', 'last_play', 'plays']),
-    order_direction=StringType(choices=['asc', 'desc']),
+    order=OrderType('name', 'first_play', 'last_play', 'plays'),
     limit=IntType(required=True, min_value=1, max_value=100),
     offset=IntType(required=True, min_value=0)
 )
@@ -46,10 +45,11 @@ async def find_many(conn, params):
     if 'last_play_lt' in params:
         filters.append(artist.c.last_play <= params['last_play_lt'])
 
-    order_field = params.get('order_field', 'name')
-    order_clause = artist.c[order_field]
-    order_direction = params.get('order_direction', 'asc')
-    order_clause = getattr(order_clause, order_direction)()
+    order = params.get('order')
+    if order:
+        order_clause = getattr(artist.c[order['column']], order.get('direction', 'asc'))()
+    else:
+        order_clause = artist.c.name.asc()
 
     stmt = select([artist])
     if filters:
