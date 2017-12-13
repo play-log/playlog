@@ -25,7 +25,7 @@ class validate(metaclass=Meta):
             bound_args = signature.bind(*args, **kwargs).arguments
             try:
                 schema = self.schema_factory(bound_args.get(self.arg))
-                schema.validate()
+                schema.validate(convert=False)
             except DataError as exc:
                 raise ValidationError(exc.to_primitive()) from exc
             bound_args[self.arg] = {k: v for k, v in schema.items() if v is not None}
@@ -43,9 +43,6 @@ class PeriodType(BaseType):
     def to_native(self, value, context=None):
         if not value:
             return
-
-        if isinstance(value, dict):
-            return value
 
         try:
             parts = [int(x.lstrip('0')) for x in value.split('-')]
