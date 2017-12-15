@@ -9,7 +9,7 @@ from playlog.config import REDIS_URL
 
 @pytest.fixture
 def redis():
-    conn = StrictRedis(*REDIS_URL)
+    conn = StrictRedis.from_url(REDIS_URL)
     try:
         yield conn
     finally:

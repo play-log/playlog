@@ -8,12 +8,12 @@ KEY = 'playlog:session'
 
 async def create(redis):
     sid = uuid4().hex
-    await redis.setex(KEY, SESSION_LIFETIME, sid)
+    await redis.execute('setex', KEY, SESSION_LIFETIME, sid)
     return sid
 
 
 async def get(redis):
-    sid = await redis.get(KEY)
+    sid = await redis.execute('get', KEY)
     if sid:
         sid = sid.decode('utf-8')
     return sid

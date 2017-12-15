@@ -20,7 +20,7 @@ services:
       - '5001:8001'
     environment:
       PLAYLOG_SA_URL: postgresql://user:password@127.0.0.1/database
-      PLAYLOG_REDIS_URL: 127.0.0.1:6379
+      PLAYLOG_REDIS_URL: redis://127.0.0.1:6379
       PLAYLOG_SUBMISSIONS_BASE_URL: 'http://%your-domain%'
       PLAYLOG_SUBMISSIONS_HANDSHAKE_TIMEOUT: 30
       PLAYLOG_USER_NAME: '%your_name%'

@@ -2,7 +2,7 @@ import venusian
 
 from aiohttp import web
 from aiopg import sa
-from aioredis import create_redis
+from aioredis import create_pool as create_redis
 
 import playlog.web
 

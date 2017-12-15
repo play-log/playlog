@@ -5,7 +5,7 @@ KEY = 'playlog:nowplay'
 
 
 async def set_track(redis, artist, album, title, length):
-    await redis.setex(KEY, length, json.dumps({
+    await redis.execute('setex', KEY, length, json.dumps({
         'artist': artist,
         'album': album,
         'title': title
@@ -13,6 +13,6 @@ async def set_track(redis, artist, album, title, length):
 
 
 async def get_track(redis):
-    data = await redis.get(KEY)
+    data = await redis.execute('get', KEY)
     if data:
         return json.loads(data.decode('utf-8'))
