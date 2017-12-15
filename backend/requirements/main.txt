@@ -1,7 +1,7 @@
-SQLAlchemy == 1.1.14
-aiohttp == 2.2.5
+SQLAlchemy == 1.1.15
+aiohttp == 2.3.6
 aiopg == 0.13.1
 aioredis == 1.0.0
-alembic == 0.9.5
+alembic == 0.9.6
 schematics == 2.0.1
 venusian == 1.1.0
