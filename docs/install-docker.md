@@ -11,7 +11,7 @@ Make sure that you have installed:
 Create `docker-compose.yml`:
 
 ```yaml
-version: '2'
+version: '3.4'
 services:
   app:
     image: rossnomann/playlog:%version%
