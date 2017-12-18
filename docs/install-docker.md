@@ -6,7 +6,7 @@ Make sure that you have installed:
 - docker-compose
 - PostgreSQL
 - Redis
-- NGINX
+- NGINX (or any other server on your choice)
 
 Create `docker-compose.yml`:
 
@@ -15,9 +15,6 @@ version: '3.4'
 services:
   app:
     image: rossnomann/playlog:%version%
-    ports:
-      - '5000:8000'
-      - '5001:8001'
     environment:
       PLAYLOG_SA_URL: postgresql://user:password@127.0.0.1/database
       PLAYLOG_REDIS_URL: redis://127.0.0.1:6379
@@ -27,27 +24,33 @@ services:
       PLAYLOG_USER_EMAIL: '%your_email%'
       PLAYLOG_SUBMISSIONS_USER: '%your-login%'
       PLAYLOG_SUBMISSIONS_PASSWORD_HASH: '%md5_hash_of_password%'
+    network_mode: host
     container_name: playlog
 
 ```
 
 Run `docker-compose up` and `docker exec playlog ./backend/bin/alembic migrate head`
 
+Available ports:
+
+- 8000 - API
+- 8001 - Frontend
+
 NGINX config:
 
 ```nginx
 server {
     listen 80;
-    server_name playlog.localhost.com;
+    server_name %your-domain%;
 
     location / {
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://127.0.0.1:5001;
+        proxy_pass http://127.0.0.1:8001;
     }
 
     location /api/ {
         proxy_set_header        X-Real-IP $remote_addr;
-        proxy_pass              http://127.0.0.1:5000/;
+        proxy_pass              http://127.0.0.1:8000/;
     }
 }
 
