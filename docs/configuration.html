@@ -2,11 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Introduction - Playlog</title>
+        <title>Configuration - Playlog</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <base href="">
 
         <link rel="stylesheet" href="book.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -62,7 +63,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./introduction.html" class="active"><strong>1.</strong> Introduction</a></li><li><a href="./install/index.html"><strong>2.</strong> Installation</a></li><li><ul class="section"><li><a href="./install/docker.html"><strong>2.1.</strong> Docker</a></li><li><a href="./install/manual.html"><strong>2.2.</strong> Manual</a></li></ul></li><li><a href="./configuration.html"><strong>3.</strong> Configuration</a></li><li><a href="./development.html"><strong>4.</strong> Development</a></li><li><a href="./todo.html"><strong>5.</strong> TODO</a></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./install/index.html"><strong>2.</strong> Installation</a></li><li><ul class="section"><li><a href="./install/docker.html"><strong>2.1.</strong> Docker</a></li><li><a href="./install/manual.html"><strong>2.2.</strong> Manual</a></li></ul></li><li><a href="./configuration.html" class="active"><strong>3.</strong> Configuration</a></li><li><a href="./development.html"><strong>4.</strong> Development</a></li><li><a href="./todo.html"><strong>5.</strong> TODO</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -85,27 +86,28 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="./introduction.html#introduction" id="introduction"><h1>Introduction</h1></a>
-<p><strong>Playlog</strong> is a self-hosted scrobbling<sup class="footnote-reference"><a href="./introduction.html#scrobbling">1</a></sup> server.
-It allows you to collect and view the statistics of scrobbles.
-Unlike other services (last.fm, libre.fm) playlog is intended for the sole use.
-This means you are not albe to create more than one account.
-At this moment it supports legacy <a href="http://last.fm/api/submissions">Submissions API</a>
-only. So some music players won't work.
-There are plans to create a custom API with proxies
-for Submissions and <a href="https://www.last.fm/api/scrobbling">Scrobbling API</a> support.</p>
-<p>Let's see how it looks like:</p>
-<p><a href="./screenshot.png"><img src="./screenshot.png" alt="screenshot" /></a></p>
-<p>If you are interested, go to the next section and try!</p>
-<p><sup class="footnote-reference"><a href="./introduction.html#scrobbling">1</a></sup> Scrobbling is a term invented by Last.fm to describe the logging of songs that you listen to.</p>
+                    <a class="header" href="./configuration.html#configuration" id="configuration"><h1>Configuration</h1></a>
+<a class="header" href="./configuration.html#server" id="server"><h2>Server</h2></a>
+<p>TODO: describe server configuration</p>
+<a class="header" href="./configuration.html#client" id="client"><h2>Client</h2></a>
+<p>Make sure that your player supports <a href="https://www.last.fm/api/submissions">Last.fm Submissions Protocol</a>.</p>
+<ul>
+<li>Scrobbling address: <a href="http://your-host/api/submissions">http://your-host/api/submissions</a></li>
+<li>Username: a value from <code>PLAYLOG_SUBMISSIONS_USER</code></li>
+<li>Password: a string used for <code>PLAYLOG_SUBMISSIONS_PASSWORD_HASH</code></li>
+</ul>
 
                 </div>
 
                 <!-- Mobile navigation buttons -->
                 
+                    <a rel="prev" href="./install/manual.html" class="mobile-nav-chapters previous" title="Previous chapter">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
 
                 
-                    <a rel="next" href="./install/index.html" class="mobile-nav-chapters next" title="Next chapter">
+                    <a rel="next" href="./development.html" class="mobile-nav-chapters next" title="Next chapter">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -113,9 +115,13 @@ for Submissions and <a href="https://www.last.fm/api/scrobbling">Scrobbling API<
             </div>
 
             
+                <a href="./install/manual.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
 
             
-                <a href="./install/index.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                <a href="./development.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
                     <i class="fa fa-angle-right"></i>
                 </a>
             

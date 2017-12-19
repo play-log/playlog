@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Playlog</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+        <!-- Fetch store.js from local - TODO add CDN when 2.x.x is available on cdnjs -->
+        <script src="store.js"></script>
+
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = store.get('mdbook-theme');
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = store.get('mdbook-sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./install/index.html"><strong>2.</strong> Installation</a></li><li><ul class="section"><li><a href="./install/docker.html"><strong>2.1.</strong> Docker</a></li><li><a href="./install/manual.html"><strong>2.2.</strong> Manual</a></li></ul></li><li><a href="./configuration.html"><strong>3.</strong> Configuration</a></li><li><a href="./development.html"><strong>4.</strong> Development</a></li><li><a href="./todo.html"><strong>5.</strong> TODO</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page" tabindex="-1">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars" title="Toggle sidebar"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush" title="Change theme"></i>
+                    </div>
+
+                    <h1 class="menu-title">Playlog</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html">
+                            <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="print.html#introduction" id="introduction"><h1>Introduction</h1></a>
+<p><strong>Playlog</strong> is a self-hosted scrobbling<sup class="footnote-reference"><a href="print.html#scrobbling">1</a></sup> server.
+It allows you to collect and view the statistics of scrobbles.
+Unlike other services (last.fm, libre.fm) playlog is intended for the sole use.
+This means you are not albe to create more than one account.
+At this moment it supports legacy <a href="http://last.fm/api/submissions">Submissions API</a>
+only. So some music players won't work.
+There are plans to create a custom API with proxies
+for Submissions and <a href="https://www.last.fm/api/scrobbling">Scrobbling API</a> support.</p>
+<p>Let's see how it looks like:</p>
+<p><a href="./screenshot.png"><img src="./screenshot.png" alt="screenshot" /></a></p>
+<p>If you are interested, go to the next section and try!</p>
+<p><sup class="footnote-reference"><a href="print.html#scrobbling">1</a></sup> Scrobbling is a term invented by Last.fm to describe the logging of songs that you listen to.</p>
+<a class="header" href="print.html#installation" id="installation"><h1>Installation</h1></a>
+<p>Install common requirements:</p>
+<ul>
+<li>PostgreSQL 9.5 or higher</li>
+<li>Redis (tested on 4.0 but other versions also should work)</li>
+<li>NGINX (or any other server on your choice)</li>
+</ul>
+<p>and follow to <a href="install/docker.html">docker</a>
+or <a href="install/manual.html">manual</a> installation instructions.</p>
+<a class="header" href="print.html#install-using-docker" id="install-using-docker"><h1>Install using docker</h1></a>
+<p>Make sure that you have installed:</p>
+<ul>
+<li>Docker</li>
+<li>docker-compose</li>
+</ul>
+<p>Create <code>docker-compose.yml</code>:</p>
+<pre><code class="language-yaml">version: '3.4'
+services:
+  app:
+    image: rossnomann/playlog:%version%
+    environment:
+      PLAYLOG_SA_URL: postgresql://user:password@127.0.0.1/database
+      PLAYLOG_REDIS_URL: redis://127.0.0.1:6379
+      PLAYLOG_SUBMISSIONS_BASE_URL: 'http://%your-domain%'
+      PLAYLOG_SUBMISSIONS_HANDSHAKE_TIMEOUT: 30
+      PLAYLOG_USER_NAME: '%your_name%'
+      PLAYLOG_USER_EMAIL: '%your_email%'
+      PLAYLOG_SUBMISSIONS_USER: '%your-login%'
+      PLAYLOG_SUBMISSIONS_PASSWORD_HASH: '%md5_hash_of_password%'
+    network_mode: host
+    container_name: playlog
+
+</code></pre>
+<p>Don't forget to replace <code>%version%</code> and other placeholders.
+Available versions are listed <a href="https://hub.docker.com/r/rossnomann/playlog/tags/">here</a>.</p>
+<p>Run <code>docker-compose up</code> and <code>docker exec playlog ./backend/bin/alembic migrate head</code></p>
+<p>Ports:</p>
+<ul>
+<li>8000 - API</li>
+<li>8001 - Frontend</li>
+</ul>
+<p>NGINX config example:</p>
+<pre><code class="language-nginx">server {
+    listen 80;
+    server_name %your-domain%;
+
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://127.0.0.1:8001;
+    }
+
+    location /api/ {
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_pass              http://127.0.0.1:8000/;
+    }
+}
+
+</code></pre>
+<a class="header" href="print.html#install-manually" id="install-manually"><h1>Install manually</h1></a>
+<p>Ensure that you have installed:</p>
+<ul>
+<li>Python &gt;= 3.5</li>
+<li>NodeJS</li>
+</ul>
+<p>Clone repository:</p>
+<pre><code class="language-sh">git clone https://github.com/rossnomann/playlog.git
+</code></pre>
+<p>Create and activate python virtual environment:</p>
+<pre><code class="language-sh">python3 -m venv ~/.venv/playlog
+source ~/.venv/playlog/bin/activate
+</code></pre>
+<p>Install requirements:</p>
+<pre><code class="language-sh">cd playlog/backend
+pip install -r requirements/main.txt
+</code></pre>
+<p>Configure backend:</p>
+<pre><code class="language-sh">export PYTHONPATH=/path/to/playlog/backend/src:$PYTHONPATH
+export PLAYLOG_DEBUG='false'
+export PLAYLOG_SERVER_HOST='127.0.0.1'
+export PLAYLOG_SERVER_PORT='8080'
+export PLAYLOG_SA_URL='postgresql://playlog:password@localhost/playlog'
+export PLAYLOG_REDIS_URL='redis://127.0.0.1:6379'
+export PLAYLOG_USER_NAME='John Doe'
+export PLAYLOG_USER_EMAIL='your-email-for-gravatar'
+export PLAYLOG_SESSION_LIFETIME='86400'
+export PLAYLOG_SUBMISSIONS_BASE_URL='http://domain/api'
+export PLAYLOG_SUBMISSIONS_HANDSHAKE_TIMEOUT='60'
+export PLAYLOG_SUBMISSIONS_USER='john'
+export PLAYLOG_SUBMISSIONS_PASSWORD_HASH='md5-hash-of-password'
+</code></pre>
+<p>Run migrations:</p>
+<pre><code class="language-sh">./bin/alembic migrate head
+</code></pre>
+<p>Run server:</p>
+<pre><code class="language-sh">./bin/server
+</code></pre>
+<p>Install frontend dependencies:</p>
+<pre><code class="language-sh">cd path/to/playlog/frontend
+npm install
+</code></pre>
+<p>Build frontend:</p>
+<pre><code class="language-sh">npm run build
+</code></pre>
+<p>NGINX config:</p>
+<pre><code class="language-nginx">server {
+    listen      80;
+    server_name domain;
+    root        /path/to/playlog/frontend/build;
+    error_log   /var/log/nginx/playlog.log;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    location /api/ {
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_pass              http://127.0.0.1:8080/;
+    }
+}
+
+</code></pre>
+<a class="header" href="print.html#configuration" id="configuration"><h1>Configuration</h1></a>
+<a class="header" href="print.html#server" id="server"><h2>Server</h2></a>
+<p>TODO: describe server configuration</p>
+<a class="header" href="print.html#client" id="client"><h2>Client</h2></a>
+<p>Make sure that your player supports <a href="https://www.last.fm/api/submissions">Last.fm Submissions Protocol</a>.</p>
+<ul>
+<li>Scrobbling address: <a href="http://your-host/api/submissions">http://your-host/api/submissions</a></li>
+<li>Username: a value from <code>PLAYLOG_SUBMISSIONS_USER</code></li>
+<li>Password: a string used for <code>PLAYLOG_SUBMISSIONS_PASSWORD_HASH</code></li>
+</ul>
+<a class="header" href="print.html#development" id="development"><h1>Development</h1></a>
+<p>Requirements:</p>
+<ul>
+<li>Docker</li>
+<li>docker-compose</li>
+<li>NodeJS</li>
+</ul>
+<p>Fork and clone repository:</p>
+<pre><code class="language-sh">git clone https://github.com/%username%/playlog.git
+cd playlog
+</code></pre>
+<p>Install frontend dependencies:</p>
+<pre><code class="language-sh">cd frontend &amp;&amp; npm install &amp;&amp; cd ..
+</code></pre>
+<p>Build docker image:</p>
+<pre><code class="language-sh">./bin/build
+</code></pre>
+<p>Create <code>backend/.env</code> file:</p>
+<pre><code class="language-env">PLAYLOG_USER_NAME=John Doe
+PLAYLOG_USER_EMAIL=johndoe@protonmail.com
+PLAYLOG_SUBMISSIONS_USER=john
+# Password: 1234
+PLAYLOG_SUBMISSIONS_PASSWORD_HASH=81dc9bdb52d04dc20036dbd8313ed055
+
+</code></pre>
+<p>Run app:</p>
+<pre><code class="language-sh">./bin/start
+</code></pre>
+<p>Run tests:</p>
+<pre><code class="language-sh"># use --build flag to rebuild image
+./bin/test
+</code></pre>
+<a class="header" href="print.html#contributing" id="contributing"><h2>Contributing</h2></a>
+<ul>
+<li>Create feature branch (git checkout -b some-feature).</li>
+<li>Make changes.</li>
+<li>Update README.md if it's necessary.</li>
+<li>Push (git push origin some-feature).</li>
+<li>Send a pull request.</li>
+</ul>
+<a class="header" href="print.html#todo" id="todo"><h1>TODO</h1></a>
+<ul>
+<li>New API on server.</li>
+<li>Libraries for new API</li>
+<li>Plugin for deadbeef (written in Rust).</li>
+<li>Proxies for Last.fm Submissions and Scrobbling API.</li>
+</ul>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+
+            </div>
+
+            
+
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+    <script type="text/javascript">
+        var socket = new WebSocket("ws://localhost:3001");
+        socket.onmessage = function (event) {
+            if (event.data === "reload") {
+                socket.close();
+                location.reload(true); // force reload from server (not from cache)
+            }
+        };
+
+        window.onbeforeunload = function() {
+            socket.close();
+        }
+    </script>
+
+
+        
+
+        
+
+        
+        <script>
+            $(document).ready(function() {
+                window.print();
+            })
+        </script>
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>
