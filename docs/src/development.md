@@ -49,10 +49,18 @@ Run tests:
 ./bin/test
 ```
 
+## Documentation
+
+- Install [mdBook](https://github.com/rust-lang-nursery/mdBook).
+- Create feature branch (`git checkout -b docs/%topic%`)
+- Make your changes.
+- Preview with: `bin/docs serve --open`.
+- Publish changes and send a pull request.
+
 ## Contributing
 
-- Create feature branch (git checkout -b some-feature).
+- Create feature branch (`git checkout -b feature/%topic%`).
 - Make changes.
 - Update README.md if it's necessary.
-- Push (git push origin some-feature).
+- Commit and push (git push origin `feature/%topic%`).
 - Send a pull request.
