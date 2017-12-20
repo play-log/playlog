@@ -1,6 +1,7 @@
 backend/.env
 backend/**/*.pyc
 backend/docker-compose.overrides.yml
+docs/book
 frontend/build
 frontend/node_modules
 tests/.cache
