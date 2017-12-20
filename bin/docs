@@ -2,7 +2,6 @@
 
 if [ "$1" = "publish" ];
 then
-    rm -rf book
     bin/docs build
     git checkout gh-pages
     (cd docs/book && tar -c .) | tar -xf -
