@@ -15,5 +15,9 @@ Let's see how it looks like:
 
 If you are interested, go to the next section and try!
 
+## License
+
+Playlog is licensed under [The MIT License (MIT)](https://github.com/rossnomann/playlog/blob/master/LICENSE).
+
 [^scrobbling] Scrobbling is a term invented by Last.fm to describe the logging of songs that
 you listen to.
