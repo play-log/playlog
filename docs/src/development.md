@@ -33,7 +33,17 @@ PLAYLOG_USER_EMAIL=johndoe@protonmail.com
 PLAYLOG_SUBMISSIONS_USER=john
 # Password: 1234
 PLAYLOG_SUBMISSIONS_PASSWORD_HASH=81dc9bdb52d04dc20036dbd8313ed055
+```
 
+You also can create `docker-compose.overrides.yml` in order to override some preferences:
+
+```yaml
+version: '3.4'
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1492
 ```
 
 Run app:
