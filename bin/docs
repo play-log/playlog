@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "publish" ];
+then
+    rm -rf book
+    bin/docs build
+    git checkout gh-pages
+    (cd docs/book && tar -c .) | tar -xf -
+    rm -rf docs
+    git add .
+    git commit -m 'Update docs'
+else
+    (cd docs && mdbook "$@")
+fi;
