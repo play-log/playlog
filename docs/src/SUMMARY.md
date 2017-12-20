@@ -7,5 +7,8 @@
 - [Configuration](./configuration.md)
 - [Development](./development.md)
 - [Submissions API](./submissions.md)
-- [CHANGELOG](./changelog.md)
-- [TODO](./todo.md)
+
+-------------------------------------
+
+[CHANGELOG](./changelog.md)
+[TODO](./todo.md)
