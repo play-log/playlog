@@ -4,7 +4,7 @@
 It allows you to collect and view the statistics of scrobbles.
 Unlike other services (last.fm, libre.fm) playlog is intended for the sole use.
 This means you are not albe to create more than one account.
-At this moment it supports legacy [Submissions API](http://last.fm/api/submissions)
+At this moment it supports legacy [Submissions API](submissions.html)
 only. So some music players won't work.
 There are plans to create a custom API with proxies
 for Submissions and [Scrobbling API](https://www.last.fm/api/scrobbling) support.
