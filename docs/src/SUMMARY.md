@@ -6,6 +6,7 @@
     - [Manual](./install/manual.md)
 - [Configuration](./configuration.md)
 - [Development](./development.md)
+- [Release](./release.md)
 - [Submissions API](./submissions.md)
 
 -------------------------------------
