@@ -10,7 +10,7 @@ A self-hosted scrobbling server.
 
 ## Documentation
 
-<https://play-log.github.io/playlog/>
+<https://play-log.github.io/documetation/>
 
 ## LICENSE
 
